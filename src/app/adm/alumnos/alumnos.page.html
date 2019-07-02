@@ -1,0 +1,40 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Mis Alumnos</ion-title>
+	</ion-toolbar>
+</ion-header>
+<ion-content padding>
+	<!--
+
+		<p>Nuevas Suscripciones</p>
+		<hr>
+	
+		<ion-list>
+			<ion-item class="ion-no-padding">
+				<ion-avatar item-start>
+					<img src="../../../assets/imgs/logo.png" class="img-alumnos">
+				</ion-avatar>
+				<ion-label class="label-alumnos">item.fullnamecli
+	
+				</ion-label>
+				<ion-button color="secondary" fill="outline">
+					Ver
+				</ion-button>
+			</ion-item>
+		</ion-list>
+	-->
+	<p>Mis Alumnos</p>
+	<hr>
+	<ion-list>
+		<ion-item *ngFor="let item of alumnos" class="ion-no-padding" (click)="veralumno(item)">
+			<ion-avatar item-start>
+				<img [src]="item.foto" class="img-alumnos">
+			</ion-avatar>
+			<ion-label class="label-alumnos">{{item.fullname}}
+				<p>
+					Curso: {{item.titulo}}
+				</p>
+			</ion-label>
+		</ion-item>
+	</ion-list>
+</ion-content>

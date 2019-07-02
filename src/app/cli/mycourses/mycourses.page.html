@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Cursos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+  <ion-list>
+    <div *ngFor="let item of datos; let i=index ">
+        <ion-item (click)="vermicurso()">
+            <ion-avatar item-start>
+                <img [src]="item.foto">
+              </ion-avatar>
+          <ion-label class="label-name-course">
+            {{item.titulo}}
+            <br>
+            <h5>Insctructor: {{item.instructor}}</h5>
+          </ion-label>
+        </ion-item>
+    </div>
+  </ion-list>
+</ion-content>

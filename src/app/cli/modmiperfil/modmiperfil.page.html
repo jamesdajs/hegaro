@@ -1,0 +1,103 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+  
+      <ion-title>Datos personales</ion-title>
+  
+      <ion-buttons slot="end">
+        <ion-button (click)="guardar()">
+          <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-grid>
+      <ion-list>
+        <ion-row align-items-end>
+          <ion-col col-12>
+            <form [formGroup]="myForm">
+              <ion-item>
+                <ion-label position="floating">Correo</ion-label>
+                <ion-input formControlName='correo' type="text"></ion-input>
+              </ion-item>
+              <ion-item *ngIf="myForm.get('correo').errors && myForm.get('correo').dirty">
+                <p class="msgerr" *ngIf="myForm.get('correo').hasError('correo')">Campo requerido</p>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Teléfono</ion-label>
+                <ion-input formControlName='telefono' type="tel"></ion-input>
+              </ion-item>
+  
+              <ion-item *ngIf="myForm.get('telefono').errors && myForm.get('telefono').dirty">
+                <p class="msgerr" *ngIf="myForm.get('telefono').hasError('required')">Campo requerido</p>
+                <p class="msgerr" *ngIf="myForm.get('telefono').hasError('minlength')">Mínimo de 7 digitos
+                </p>
+                <p class="msgerr" *ngIf="myForm.get('telefono').hasError('maxlength')">Máximo de 12 digitos
+                </p>
+              </ion-item>
+  
+              <ion-item>
+                <ion-label position="stacked">Fecha de nacimiento:</ion-label>
+                <ion-datetime displayFormat="DD MMMM YYYY" min="1940" cancelText=Cancelar doneText=Ok
+                  month-names="Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre"
+                  month-short-names='Ene,Feb,Mar,Abr,May,Jun,jul,Ago,Sep,Oct,Nov,Dic'
+                  formControlName="fechanac">
+                </ion-datetime>
+              </ion-item>
+              <ion-item *ngIf="myForm.get('fechanac').errors && myForm.get('fechanac').dirty">
+                <p class="msgerr" *ngIf="myForm.get('fechanac').hasError('required')">Campo
+                  requerido
+                </p>
+              </ion-item>
+  
+  
+  
+              <p class="txtmodfecha">Peso {{myForm.get("peso").value}} Kg</p>
+  
+              <ion-item>
+                <ion-range formControlName="peso" min="40" max="120" pin="true" color="primary">
+  
+                </ion-range>
+              </ion-item>
+  
+  
+              <p>Altura {{myForm.get("altura").value}} cm</p>
+  
+              <ion-item>
+                <ion-range formControlName="altura" min="120" max="220" pin="true" color="primary">
+                </ion-range>
+              </ion-item>
+            </form>
+          </ion-col>
+        </ion-row>
+        <ion-row align-items-center>
+          <ion-col col-4>
+            <p>Género</p>
+          </ion-col>
+          <ion-col col-8>
+            <form [formGroup]="myForm">
+              <ion-radio-group formControlName="genero">
+  
+                <ion-item>
+                  <ion-icon name="man" item-start></ion-icon>
+                  <ion-label>Masculino</ion-label>
+                  <ion-radio color="primary" value="h"></ion-radio>
+                </ion-item>
+  
+                <ion-item>
+                  <ion-icon name="woman" item-start></ion-icon>
+                  <ion-label>Femenino</ion-label>
+                  <ion-radio color="primary" value="m"></ion-radio>
+  
+                </ion-item>
+              </ion-radio-group>
+            </form>
+          </ion-col>
+        </ion-row>
+      </ion-list>
+    </ion-grid>
+  </ion-content>

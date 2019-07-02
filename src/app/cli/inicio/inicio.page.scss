@@ -1,0 +1,53 @@
+
+ion-card{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0 !important;
+    margin-left: 0% !important;
+    margin-right: 0% !important;
+    margin-bottom: 10px !important;
+    width: 100%;
+}
+
+.img-alumno{
+    height: 100%;
+}
+
+.label-name-post{
+    margin-left: 10px;
+}
+.item-inner{
+    padding: 0% !important
+}
+.swiper-slide {
+text-align: start !important;
+}
+
+.padding-post-detail{
+    padding-top: 0% !important;
+    padding-bottom: 0% !important;
+    overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+.padding-post-detail-title{
+    padding-top: 5px !important;
+    padding-bottom: 5px !important
+}
+
+.ver-post{
+    color: black !important;
+    padding-left: 5px
+}
+
+ion-label{
+    font-size: 15px !important;
+    color: rgb(116, 116, 116) !important;
+}
+ion-card-title{
+    font-size: 22px !important
+}
+img{
+    width: 100%;
+}
+

@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mis horarios</ion-title>
+    <ion-buttons slot="end">
+        <ion-button fill="clear" slot="end" (click)=guardar()>
+          <ion-icon name="md-checkmark"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <ion-list *ngFor="let h of horario" no-lines>
+      <ion-list-header>
+        {{dias[h.nombre]}}
+      </ion-list-header>
+      <div *ngFor="let p of h.horas; let i = index">
+        <ion-row no-padding>
+          <ion-col no-padding>
+            <ion-item>
+              <ion-label>Cantidad</ion-label>
+              <ion-select [(ngModel)]="p.cantidad">
+                <ion-select-option *ngFor="let c of cantidad" [value]="c.name">{{c.name}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col no-padding>
+            <ion-item>
+              <ion-datetime displayFormat="HH:mm " pickerFormat="HH mm " [(ngModel)]="p.inicio" cancelText="Cancelar"
+                doneText="Ok">
+              </ion-datetime>
+            </ion-item>
+          </ion-col>
+          <ion-col no-padding>
+            <ion-item>
+              <ion-datetime displayFormat="HH:mm " pickerFormat="HH mm " [(ngModel)]="p.fin" cancelText="Cancelar"
+                doneText="Ok">
+              </ion-datetime>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-row>
+        <ion-col>
+            <ion-button size="small" shape="round" (click)="quitarhoras(h.horas)"> 
+              <ion-icon name="md-remove"></ion-icon>
+            </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="small"  shape="round" (click)="aumentarhoras(h.horas)">
+            <ion-icon name="md-add"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+  
+
+
+
+  <!--<ion-grid >
+    <ion-row>
+        <ion-col class="ion-no-padding">
+            <div>
+              <ion-item class="ion-no-padding">
+                <ion-datetime displayFormat="HH:mm " pickerFormat="HH mm " ngModel="00:00" cancelText="Cancelar" doneText="Ok" class="ion-no-padding">
+                </ion-datetime>
+                <ion-datetime displayFormat="HH:mm " pickerFormat="HH mm " ngModel="00:00" cancelText="Cancelar" doneText="Ok" class="ion-no-margin">
+                  </ion-datetime>
+              </ion-item>
+            </div>
+          </ion-col>
+      <ion-col *ngFor="let h of dias">
+        <div>
+          {{h}}
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let h of horario">
+      <ion-col class="ion-no-padding">
+        <div>
+          <ion-item class="ion-no-padding">
+            <ion-datetime displayFormat="HH:mm " pickerFormat="HH mm " [(ngModel)]="h.inicio" cancelText="Cancelar" doneText="Ok" class="ion-no-padding">
+            </ion-datetime>
+            <ion-datetime displayFormat="HH:mm " pickerFormat="HH mm " [(ngModel)]="h.fin" cancelText="Cancelar" doneText="Ok" class="ion-no-margin">
+              </ion-datetime>
+          </ion-item>
+        </div>
+      </ion-col>
+          <ion-col  onclick="selectedDay()" *ngFor="let d of h.dias">
+              <div>
+               
+              </div>
+            </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-row>
+    <ion-col size="6" class="col-abm">
+      <ion-fab (click)="quitarhoras()">
+        <ion-fab-button>
+          <ion-icon name="md-remove"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-col>
+    <ion-col size="6" class="col-abm">
+      <ion-fab horizontal="end" (click)="aumentarhoras()">
+        <ion-fab-button>
+          <ion-icon name="md-add"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-col>
+
+  </ion-row>
+-->
+</ion-content>

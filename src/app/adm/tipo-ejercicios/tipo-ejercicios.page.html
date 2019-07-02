@@ -1,0 +1,48 @@
+<ion-header>
+	<ion-toolbar class="ion-no-border" >
+		<ion-title>Tipo Ejercicios</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="crear()">
+				<ion-icon slot="icon-only" name="add"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list #lista>
+		<div *ngFor="let ejer of tipoejer">
+			<ion-item color="light" (click)="verejercicios(ejer)">
+				<ion-label>Ejercicios para {{ejer.nombre}}</ion-label>
+				<ion-button fill="clear">
+					<ion-icon slot="icon-only" name="ios-arrow-forward"></ion-icon>
+				</ion-button>
+
+			</ion-item>
+		</div>
+		<ion-item-divider>
+			<ion-label>Tipo de ejercicios creados</ion-label>
+		</ion-item-divider>
+
+		<ion-item-sliding  *ngFor="let item of tipos ; let i=index" >
+			<ion-item color="light"  (click)="verejercicios(item)">
+				<ion-label>{{item.nombre}}</ion-label>
+				<ion-button fill="clear">
+					<ion-icon slot="icon-only" name="ios-arrow-forward"></ion-icon>
+				</ion-button>
+			</ion-item>
+	
+			<ion-item-options side="end">
+				<ion-item-option  (click)="modificar(item)">
+					<ion-icon name="paper"> </ion-icon>
+					
+				</ion-item-option>
+				<ion-item-option (click)="eliminar(item,i)">   
+					<ion-icon name="trash" ></ion-icon>
+					
+				</ion-item-option>
+			</ion-item-options>
+		</ion-item-sliding>
+	</ion-list>
+</ion-content>
+

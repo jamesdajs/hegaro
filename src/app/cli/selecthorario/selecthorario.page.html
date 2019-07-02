@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title>Selecciona tu horario</ion-title>
+   
+    <ion-button fill="clear" slot="end" (click)=presentAlertConfirm()>
+      <ion-icon name="md-checkmark"></ion-icon>
+    </ion-button>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<ion-title>Titulo del curso</ion-title>
+  <ion-list *ngFor="let h of horario" no-lines>
+      <ion-list-header>
+        <ion-label>{{dias[h.nombre]}}</ion-label>
+      </ion-list-header>
+    <ion-radio-group [(ngModel)]="h.selec">
+        <ion-item class="ion-no-padding" *ngFor="let p of h.horas;">
+            <ion-radio mode="ios" slot="start" color="primary" [value]="p.id"></ion-radio>
+            <ion-label >{{p.inicio}} - {{p.fin}} </ion-label>
+            <ion-label slot="end">Nro Alumnos {{p.cantidad}} </ion-label>
+        </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>

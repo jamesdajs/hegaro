@@ -1,0 +1,88 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+          </ion-buttons>
+        <ion-title>Mis Cursos</ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button fill="clear" (click)=presentToastWithOptions()>
+              <ion-icon slot="start" name="information-circle"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+      </ion-toolbar>
+      <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
+        <ion-segment-button value="first">
+            <ion-icon name="ios-list"></ion-icon>
+          </ion-segment-button>
+          <ion-segment-button value="second">
+              <ion-icon name="ios-apps"></ion-icon>
+          </ion-segment-button>
+        </ion-segment>
+</ion-header>
+
+<ion-content no-padding>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearcurso()">
+        <ion-fab-button><ion-icon  name="add"></ion-icon></ion-fab-button>
+      </ion-fab>
+    <ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
+        <ion-slide value="first" id="myFixZone"> 
+
+                <ion-card *ngFor="let item of cursos; let i=index">
+                    <ion-item>
+                      <ion-avatar item-start>
+                        <img class="img-alumno" [src]="item.foto">
+                      </ion-avatar>
+                      <ion-label class="label-name-post">{{item.fullname}}</ion-label>
+                      <ion-button fill="clear" (click)="opciones()">
+                          <ion-icon name="md-more"></ion-icon>
+                      </ion-button>
+                    </ion-item>
+                    <div class="ion-no-padding">
+                      <ion-slides pager >
+                          <ion-slide class="ion-no-padding" *ngIf="item.fotos.length==0; else blockelse">
+                              <img src="../../../assets/imgs/defecto.jpeg" width="100%">
+                            </ion-slide>
+                            <ng-template #blockelse>
+                                <ion-slide class="ion-no-padding" *ngFor="let foto of item.fotos">
+                                    <img [src]="foto.url" width="100%">
+                                  </ion-slide>
+                              </ng-template>
+                      </ion-slides>
+                    </div>
+                    <ion-card-header class="padding-post-detail-title">
+                      <ion-card-title>{{item.titulo}}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content class="padding-post-detail">
+                      {{item.descripcion}}
+                    
+                    <ion-item class="ion-no-padding">
+                      <ion-label>Duración {{item.hora}} horas {{item.semanas}} Semanas</ion-label>
+                      <ion-label class="costo-post">Costo {{item.costo}} {{item.tipomoneda}} </ion-label>
+                    </ion-item>
+                    </ion-card-content>
+                </ion-card>
+        </ion-slide>
+        <ion-slide value="second">
+         <div class="div-content">
+            <ion-grid class="ion-no-padding">
+                <ion-row >
+                    <ion-col size="4" *ngFor="let item of cursos; let i=index">
+                      <div>
+                          <ion-slides pager  >
+                              <ion-slide class="ion-no-padding" *ngIf="item.fotos.length==0; else blockelse">
+                                  <img src="../../../assets/imgs/defecto.jpeg" width="100%">
+                                </ion-slide>
+                                <ng-template #blockelse>
+                                    <ion-slide class="ion-no-padding" *ngFor="let foto of item.fotos">
+                                        <img [src]="foto.url" width="100%">
+                                      </ion-slide>
+                                  </ng-template>
+                          </ion-slides>
+                      </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+         </div>
+        </ion-slide>  
+      </ion-slides>
+</ion-content>

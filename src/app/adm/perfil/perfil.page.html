@@ -1,0 +1,79 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-title>perfil</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+	<ion-card-content *ngFor="let dato of datos">
+		<ion-item class="ion-no-padding">
+			<ion-avatar item-start>
+				<img [src]="dato.foto" class="foto" />
+			</ion-avatar>
+
+			<ion-label class="label-my-name">{{dato.fullname}}</ion-label>
+
+			<ion-button *ngIf="!verdatos; else ocultar" fill="outline" size='small' color="normal"
+				(click)="verdatos=!verdatos">Ver</ion-button>
+			<ng-template #ocultar>
+				<ion-button fill="outline" size='small' color="normal" (click)="verdatos=!verdatos">Ocultar
+				</ion-button>
+			</ng-template>
+		</ion-item>
+		<ion-grid *ngIf="verdatos">
+			<ion-row>
+				<ion-col col-5>Fecha de nacimiento: </ion-col>
+
+				<ion-col col-7>{{dato.fechanac}}</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-5>Género</ion-col>
+				<ion-col col-7>{{genero}}</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-5>Peso:{{dato.peso}} kg</ion-col>
+				<ion-col col-7>Altura: {{dato.altura}} cm</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-5>Teléfono: </ion-col>
+				<ion-col col-7>{{dato.telefono}}</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col col-5>Email: </ion-col>
+				<ion-col col-7>{{dato.correo}}</ion-col>
+
+			</ion-row>
+		</ion-grid>
+	</ion-card-content>
+
+	<ion-card *ngIf="datos.length==0" class="ion-text-center">
+		<ion-spinner name="lines"></ion-spinner>
+	</ion-card>
+
+	<ion-list>
+
+        <ion-item (click)="modperfil()">
+            <ion-label>Editar mis datos</ion-label>
+            <ion-icon slot="end" name="md-create"></ion-icon>
+				</ion-item>
+				<ion-item (click)="mishorarios()">
+            <ion-icon slot="end" name="md-calendar"></ion-icon>
+          	<ion-label>Mis horarios</ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-icon slot="end" name="md-card"></ion-icon>
+          <ion-label>Metodos de pago</ion-label>
+        </ion-item>
+        <ion-item (click)="changeAlumno()">
+            <ion-icon slot="end" name="md-git-compare"></ion-icon>
+          <ion-label>Cambiar a Alumno</ion-label>
+        </ion-item>
+        <ion-item (click)="presentAlertConfirm()">
+            <ion-icon slot="end" name="md-log-out"></ion-icon>
+          <ion-label>Cerrar sesion</ion-label>
+        </ion-item>
+      </ion-list>
+
+</ion-content>

@@ -1,0 +1,19 @@
+
+img{
+    width: 50%;
+} 
+.div-title{
+    position: absolute;
+    top:   10%;
+    margin:auto;
+    width: 100%;
+    text-align: center;
+}
+ion-content {
+    --background: url('../../assets/imgs/fondo1.png') no-repeat 100% 100%;
+}
+.div-btn{
+    position: absolute;
+    bottom:   10px;
+    text-align: center 
+}

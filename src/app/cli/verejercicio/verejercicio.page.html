@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title>{{ejercicio.nombre}}</ion-title>
+    <ion-button fill="clear" (click)="opciones()" slot="end">
+            <ion-icon name="md-list-box"></ion-icon>
+        </ion-button>
+    <ion-button fill="clear" (click)="opciones()" slot="end">
+        <ion-icon name="md-checkmark"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+    <ion-slides pager class="ion-no-padding">
+        <ion-slide>
+            <img src="../../../assets/imgs/defecto.jpeg" width="100%">
+        </ion-slide>
+        <ion-slide>
+            <img src="../../../assets/imgs/defecto2.jpeg" width="100%">
+        </ion-slide>
+    </ion-slides>
+    <ion-card-header >
+        <ion-card-title>Tipo: {{ejerciio.tipo}}</ion-card-title>
+    </ion-card-header>
+    
+    <ion-card-content >
+        Instrucciones: {{ejercicio.instrucciones}}
+    </ion-card-content>
+
+        <ion-grid class="ion-padding">
+                <ion-row>
+                  <ion-col size="2" size-sm class="ion-align-self-center">
+                    <div>
+                      Set
+                    </div>
+                  </ion-col>
+                  <ion-col size="3" size-sm>
+                    <div>
+                      Peso
+                    </div>
+                  </ion-col>
+                  <ion-col size="2" size-sm>
+                    <div>
+                      Repet.
+                    </div>
+                  </ion-col>
+                  <ion-col size="3" size-sm>
+                    <div>
+                      Tiempo
+                    </div>
+                  </ion-col>
+                  <ion-col size="2" size-sm>
+                        <div>
+                          
+                        </div>
+                      </ion-col>
+                </ion-row>
+                <ion-row>
+                        <ion-col size="2" size-sm class="ion-align-self-center">
+                          <div>
+                            1
+                          </div>
+                        </ion-col>
+                        <ion-col size="3" size-sm>
+                          <div>
+                            50 kg
+                          </div>
+                        </ion-col>
+                        <ion-col size="2" size-sm>
+                          <div>
+                            3
+                          </div>
+                        </ion-col>
+                        <ion-col size="3" size-sm>
+                          <div>
+                            10
+                          </div>
+                        </ion-col>
+                        <ion-col size="2" size-sm>
+                              <div>
+                                <ion-checkbox></ion-checkbox>
+                              </div>
+                            </ion-col>
+                      </ion-row>
+        </ion-grid>
+
+</ion-content>

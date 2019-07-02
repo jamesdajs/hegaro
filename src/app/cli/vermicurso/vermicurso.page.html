@@ -1,0 +1,95 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+          </ion-buttons>
+        <ion-title>Zumba</ion-title>
+      </ion-toolbar>
+      <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
+        <ion-segment-button value="first">
+            Mis datos
+          </ion-segment-button>
+          <ion-segment-button value="second">
+              Mis Rutinas
+          </ion-segment-button>
+          <ion-segment-button value="third">
+              Dieta
+          </ion-segment-button>
+        </ion-segment>
+</ion-header>
+
+<ion-content no-padding>
+    <ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
+        <ion-slide value="first" class="ion-no-padding"> 
+            <ion-list >
+                <ion-item >
+                  <ion-label class="foto-perfil">
+                    Datos inicio de Curso
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Peso:</ion-label>
+                  <ion-label slot="end">datos.peso kg</ion-label>
+                </ion-item>
+               
+                <ion-item>
+                  <ion-label>Altura:</ion-label>
+                  <ion-label slot="end">datos.altura cm</ion-label>
+                </ion-item>
+              </ion-list>
+        </ion-slide>
+        <ion-slide value="second" class="ion-no-padding">
+          <ion-list id='sidenav'>
+              <div *ngFor='let r of rutinas'>
+                  <ion-item (click)="menuItemHandler(r)">
+                    <ion-label >{{r.nombre}}
+                      <p>
+                          {{r.descripcion}}
+                      </p>
+                    </ion-label>
+                    <ion-button fill="clear">
+                        <ion-icon slot="icon-only" name="ios-arrow-down"></ion-icon>
+                      </ion-button>
+                  </ion-item>
+                  <ion-item-group submenu [class.visible]="r.estadohidden">
+                      <ion-item submenu-item *ngFor='let ejer of r.ejercicios' (click)="verejercicio(ejer)">
+                          <ion-thumbnail slot="start">
+                              <img *ngIf='ejer.miniatura;else elseBlockimg' [src]="ejer.miniatura" />
+                              <ng-template #elseBlockimg>
+                                <img src="assets/imgs/defecto.jpeg" />
+                              </ng-template>
+                            </ion-thumbnail>
+                            <ion-label>
+                              {{ejer.nombre}}
+                              <p>
+                                {{ejer.descripcion}}
+                              </p>
+                            </ion-label>
+                            <ion-button fill="clear">
+                              <ion-icon slot="icon-only" name="ios-arrow-forward"></ion-icon>
+                            </ion-button>
+                      </ion-item>
+                    </ion-item-group>
+              </div>
+          </ion-list>
+        </ion-slide> 
+        <ion-slide value="third">
+            <ion-list id="sidenav">
+                <ion-item (click)="menuItemHandler()"> 
+                  Titulo Dieta 
+                  <ion-icon slot="end" name="md-arrow-dropright"></ion-icon>
+                </ion-item>
+                <ion-item-group submenu [class.visible]="showSubmenu">
+                  <ion-item submenu-item>
+     
+                    <ion-label class="label-ejercicios">
+                      Alimentos
+                      <br>
+                      <h5>Descripción</h5>
+                    </ion-label>
+                  </ion-item>
+                </ion-item-group>
+              </ion-list>
+          </ion-slide>  
+      </ion-slides>
+</ion-content>

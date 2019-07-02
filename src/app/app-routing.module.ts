@@ -1,13 +1,18 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { AuthGuardService } from './services/auth-guard.service';
+import { AuthguardadmService } from './services/authguardadm.service';
 
 const routes: Routes = [
-  { path: '', loadChildren: './tabs/tabs.module#TabsPageModule' }
-];
+  { path: '', loadChildren: './login/login.module#LoginPageModule' },
+  { path: 'adm', loadChildren: './adm/tabs/tabs.module#TabsPageModule',canActivate:[AuthguardadmService] },
+  { path: 'cli', loadChildren: './cli/tabs/tabs.module#TabsPageModule', canActivate: [AuthGuardService] }
+]
+
+
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
+

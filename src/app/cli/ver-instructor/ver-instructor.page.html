@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-item class="ion-no-padding" lines="none">
+        <ion-avatar>
+            <img class="img-alumno" [src]="datos.foto">
+          </ion-avatar>
+      <ion-label class="name-instructor">{{datos.fullname}}</ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+
+    <ion-card color="carts" class="ion-no-margin" >
+        <ion-card-content >
+            <ion-button *ngIf="!verdatos; else ocultar" fill="clear" size='small' color="normal"
+              (click)="verdatos=!verdatos">Ver datos instructor</ion-button>
+            <ng-template #ocultar>
+              <ion-button fill="clear" size='small' color="normal" (click)="verdatos=!verdatos">Ocultar
+              </ion-button>
+            </ng-template>
+          <ion-grid *ngIf="verdatos">
+            <ion-row>
+              <ion-col col-5>Fecha de nacimiento</ion-col>
+              <ion-col col-7> {{datos.fechanac}} </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-5>Género</ion-col>
+              <ion-col col-7> {{genero}} </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-5>Peso: {{datos.peso}} kg</ion-col>
+              <ion-col col-7>Altura: {{datos.altura}} cm</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-5>Teléfono</ion-col>
+              <ion-col col-7> {{datos.telefono}} </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-5>Email</ion-col>
+              <ion-col col-7> {{datos.correo}} </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    
+    <ion-card-header>
+      <ion-card-subtitle>Cursos del instructor</ion-card-subtitle>
+    </ion-card-header>
+    <div *ngFor="let item of cursos; let i=index ">
+        <ion-card class="ion-no-margin"> 
+            <div>
+            <ion-slides pager class="ion-no-padding">
+                <ion-slide class="ion-no-padding">
+                    <img src="../../../assets/imgs/defecto.jpeg" width="100%">
+                </ion-slide>
+            </ion-slides>
+          </div>
+          
+          <ion-card-header class="padding-post-detail-title">
+            <ion-card-title>{{item.titulo}}</ion-card-title>
+          </ion-card-header>
+          
+          <ion-card-content class="padding-post-detail">
+            {{item.descripcion}}
+          <ion-item class="ion-no-padding">
+            <ion-label>Duración {{item.hora}} hrs. {{item.semanas}} Semanas</ion-label>
+            <ion-label class="costo-post">Costo {{item.costo}} {{item.tipomoneda}}</ion-label>
+          </ion-item>
+          <ion-item class="ion-no-padding">
+            <ion-label class="costo-post" (click)="vercurso(item)" slot="end">
+              Ver detalle
+            </ion-label> 
+          </ion-item>
+        </ion-card-content>
+        </ion-card> 
+    </div>
+    
+</ion-content>

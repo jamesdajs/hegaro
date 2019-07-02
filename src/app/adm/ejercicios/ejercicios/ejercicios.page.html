@@ -1,0 +1,58 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title> nombre</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="crear()">
+				<ion-icon slot="icon-only" name="add"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list #lista>
+		<div>
+			<ion-item-sliding *ngFor="let item of ejercicios; let i=index ">
+
+				<ion-item color="light" (click)="verDetalleEjercicio(item)">
+					<ion-thumbnail slot="start">
+						<img *ngIf='item.miniatura;else elseBlockimg' [src]="item.miniatura" />
+						<ng-template #elseBlockimg>
+							<img src="assets/imgs/defecto.jpeg" />
+						</ng-template>
+					</ion-thumbnail>
+					<ion-label>
+						{{item.nombre}}
+						<p>
+							{{item.descripcion}}
+						</p>
+					</ion-label>
+					<ion-button fill="clear">
+						<ion-icon slot="icon-only" name="ios-arrow-forward"></ion-icon>
+					</ion-button>
+				</ion-item>
+				<ion-item-options side="end">
+					<ion-item-option (click)="modificar(item)">
+						<ion-icon name="paper"> </ion-icon>
+
+					</ion-item-option>
+					<ion-item-option (click)="eliminar(item,i)">
+						<ion-icon name="trash"> </ion-icon>
+
+					</ion-item-option>
+				</ion-item-options>
+			</ion-item-sliding>
+		</div>
+		<ng-template #elseBlock>
+			<ion-item color="carts">
+				<ion-label>
+
+					<h2>No tiene ningun ejercicio</h2>
+				</ion-label>
+			</ion-item>
+		</ng-template>
+	</ion-list>
+</ion-content>

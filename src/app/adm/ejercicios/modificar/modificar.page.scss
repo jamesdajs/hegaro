@@ -1,0 +1,40 @@
+
+.selecionados{
+    width: 75px;
+    height: 75px;
+}
+.add{
+    background-color: #d3d3d3;
+    font-size: 2.5em;
+    padding: 15px 0 0 2px
+}
+.ionscroll .itemsel{
+    display: inline-block;
+    vertical-align:top;
+    margin: 5px 0 0 10px;
+    position: relative;
+    text-align: center;
+    max-width: 80px;
+    width: 80px;
+    //color: white;
+}
+.ionscroll p{
+    margin: 0;
+    white-space: normal;
+}
+p{
+    margin: 10px 0 ;
+    padding: 0 10px;
+}
+.botong{
+    padding: 5px 15px;
+}
+.ionscroll{
+    background-color: #f3f3f3;
+    white-space: nowrap;
+    height: 85px;
+    margin-top: 15px;
+  }
+  .ionscroll {
+    overflow: scroll
+  }

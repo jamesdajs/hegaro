@@ -1,0 +1,55 @@
+ion-list{
+    width: 100% !important;
+}
+.foto-perfil{
+    text-align: center;
+}
+.foto-content{
+    margin: 0 auto;
+}
+
+#sidenav {
+    ion-item-group[submenu] {
+      overflow: hidden;
+      display: block;
+      height: 0;
+      transition: height .3s linear;
+      &.visible {
+          height: inherit;
+          // this is just sample value, calculate how much space you need for your menu items
+      }
+    }
+  }
+
+ .img-ejercicios{
+    height: 100% !important;
+ }
+ .label-ejercicios{
+     margin-left: 10px ;
+ }
+ .img-foto-usu{
+     width: 20px !important;
+     height: 20px !important;
+ }
+ ion-slide,ion-slides{
+     height: 100% !important;
+ }
+ ion-fab-button[data-desc] {
+	position: relative;
+  }
+  
+  ion-fab-button[data-desc]::after {
+	position: absolute;
+	content: attr(data-desc);
+	z-index: 1;
+	right: 55px;
+	bottom: 8px;
+	background-color: var(--ion-color-primary);
+	padding: 5px;
+	border-radius: 5px;
+	color: white;
+	box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
+  }
+.swiper-slide{
+    display: block;
+}

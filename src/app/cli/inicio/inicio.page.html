@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar" (ionClear)="clearFilter()" (ionCancel)="onCancel()" animated showCancelButton cancelButtonText="Cancel" (ionInput)="getItems($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding>
+  <ion-list *ngIf="cursos.length===0">
+    <ion-item *ngFor="let i of [1,1,1,1,1,1,1,1,1,1] " >
+      <ion-label>
+          <ion-skeleton-text width="40%"></ion-skeleton-text>
+          <ion-skeleton-text width="80%"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="cursos.length > 0">
+      <div *ngFor="let item of cursos; let i=index ">
+          <ion-card>
+            <ion-item>
+              <ion-avatar item-start (click)="verInstructor(item.idusuarios)">
+                <img class="img-alumno" [src]="item.foto">
+              </ion-avatar>
+              <ion-label class="label-name-post" (click)="verInstructor(item.idusuarios)"> {{item.fullname}} </ion-label>
+              <ion-button fill="clear" (click)="shareWithOptions(item)">
+                <ion-icon name="md-share"></ion-icon>
+              </ion-button>
+            </ion-item>
+      
+            <div>
+              <ion-slides pager class="ion-no-padding">
+                <ion-slide class="ion-no-padding" *ngIf="item.fotos.length==0; else blockelse">
+                  <img src="../../../assets/imgs/defecto.jpeg" width="100%">
+                </ion-slide>
+                <ng-template #blockelse>
+                    <ion-slide class="ion-no-padding" *ngFor="let foto of item.fotos">
+                        <img [src]="foto.url" width="100%">
+                      </ion-slide>
+                  </ng-template>
+              </ion-slides>
+            </div>
+            <div (click)="vercurso(item)">
+              <ion-item  color="comprar">
+                <ion-label class="ver-post"  slot="start">
+                  Ver
+                </ion-label>
+                <ion-icon slot="end" name="md-arrow-dropright"></ion-icon>
+              </ion-item>
+              <ion-card-header class="padding-post-detail-title">
+                <ion-card-title>{{item.titulo}}</ion-card-title>
+              </ion-card-header>
+        
+              <ion-card-content class="padding-post-detail">
+                {{item.descripcion}}
+                <ion-item class="ion-no-padding">
+                  <ion-label>{{item.costo}} {{item.tipomoneda}} por {{item.hora}} hs. {{item.semanas}} Semanas</ion-label>
+                </ion-item>
+              </ion-card-content>
+            </div>
+            
+          </ion-card>
+        </div>
+    </div>
+</ion-content>

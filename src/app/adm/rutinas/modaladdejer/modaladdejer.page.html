@@ -1,0 +1,68 @@
+<ion-header no-border>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-button (click)="salir()">
+			  <ion-icon slot="icon-only" name="close"></ion-icon>
+			</ion-button>
+		  </ion-buttons>
+		<ion-title>modaladdejer</ion-title>
+		<ion-buttons slot="end">
+				<ion-button (click)="salir()">
+				  <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+				</ion-button>
+			  </ion-buttons>
+	</ion-toolbar>
+	<div scrollX="true" class="ionscroll">
+		<div class="itemsel" *ngFor="let item of ejerselec; let o = index;">
+			<div class="cerrar">
+				<ion-icon name="close-circle-outline" (click)="borrarselecionado(o,item)">
+
+				</ion-icon>
+			</div>
+			<img class="selecionados" *ngIf="item.miniatura; else elseBlock" [src]="item.miniatura" />
+			<ng-template #elseBlock>
+				<img class="selecionados" src="../../assets/imgs/defecto.jpeg" />
+			</ng-template>
+			<div>
+				<p>{{item.nombre}}</p>
+
+			</div>
+
+		</div>
+	</div>
+</ion-header>
+
+<ion-content>
+
+	<ion-list>
+		<div *ngFor="let item of tipoejer">
+			<ion-item color="carts" (click)="verejercicios(item)">
+				<ion-label>{{item.nombre}} </ion-label>
+
+				<ion-button fill="clear">
+					<ion-icon color="dark" name='ios-arrow-down'></ion-icon>
+				</ion-button>
+
+			</ion-item>
+			<div *ngIf="item.estadohiide">
+				<ion-item color="listdivisor" *ngFor="let ejer of modalejer[item.idtipo_ejercicios]; let o = index;" (click)="seleccionar(ejer,o)">
+
+					<ion-avatar item-start>
+						<img *ngIf="ejer.miniatura; else elseBlock" [src]="ejer.miniatura" />
+						<ng-template #elseBlock>
+							<img src="../../assets/imgs/defecto.jpeg" />
+						</ng-template>
+					</ion-avatar>
+					
+					<ion-label>
+						<h2>{{ejer.nombre}}</h2>
+						<p>{{ejer.descripcion}}</p>
+					</ion-label>
+					<ion-checkbox color="dark" item-right [(ngModel)]="ejer.estadoadd" [disabled]='ejer.disabled'></ion-checkbox>
+
+				</ion-item>
+			</div>
+
+		</div>
+	</ion-list>
+</ion-content>

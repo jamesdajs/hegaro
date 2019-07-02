@@ -1,0 +1,68 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button></ion-back-button>
+		</ion-buttons>
+		<ion-title>Crear Ejercicio</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="guardar()">
+				<ion-icon slot="icon-only" name="checkmark"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<form [formGroup]="myForm">
+			<ion-item>
+				<ion-label position="floating">Nombre</ion-label>
+				<ion-input type="text" formControlName="nombre"></ion-input>
+			</ion-item>
+			<ion-item *ngIf="myForm.get('nombre').errors && myForm.get('nombre').dirty">
+				<p class="msgerr" *ngIf="myForm.get('nombre').hasError('required')">Campo requerido</p>
+				<p class="msgerr" *ngIf="myForm.get('nombre').hasError('maxlength')">máximo de 50 digitos</p>
+			</ion-item>
+			<ion-item>
+				<ion-label position="floating">Descripción</ion-label>
+				<ion-input type="text" formControlName="descripcion"></ion-input>
+			</ion-item>
+			<ion-item *ngIf="myForm.get('descripcion').errors && myForm.get('descripcion').dirty">
+				<p class="msgerr" *ngIf="myForm.get('descripcion').hasError('required')">Campo requerido</p>
+				<p class="msgerr" *ngIf="myForm.get('descripcion').hasError('maxlength')">máximo de 100 digitos</p>
+			</ion-item>
+			<ion-item>
+				<ion-label position="floating">Instrucciones del ejercicio</ion-label>
+				<ion-textarea type="text" formControlName="instrucciones"></ion-textarea>
+			</ion-item>
+			<ion-item *ngIf="myForm.get('instrucciones').errors && myForm.get('instrucciones').dirty">
+				<p class="msgerr" *ngIf="myForm.get('instrucciones').hasError('required')">Campo requerido</p>
+				<p class="msgerr" *ngIf="myForm.get('instrucciones').hasError('maxlength')">máximo de 300 digitos</p>
+			</ion-item>
+			
+			<ion-item>
+				<ion-label position="floating">Link de video youtube (opcional)</ion-label>
+				<ion-input type="text" formControlName="linkyoutube"></ion-input>
+				<ion-button (click)="pegar()" fill="clear" >
+						Pegar link
+					</ion-button>
+			</ion-item>
+			<div  color="normal" class="ionscroll">
+				<div class="itemsel">
+
+					<div class="selecionados add">
+						<ion-icon name="camera" (click)="seleccionarImagenes()"></ion-icon>
+					</div>
+				</div>
+				<div class="itemsel" *ngFor="let item of imgCropUrl; let o = index;">
+					<img class="selecionados" [src]="item.base64" />
+				</div>
+			</div>
+		</form>
+	</ion-list>
+	<!--
+
+		<input type="file" (change)="cargandoImagenejem($event.target.files)" >
+	-->
+
+</ion-content>
