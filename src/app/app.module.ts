@@ -13,6 +13,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 //agregados
 
@@ -72,8 +73,8 @@ import { IonicStorageModule } from '@ionic/storage';
     SocialSharing,
     AuthGuardService,
     Clipboard,
-    WheelSelector
-    //Firebase
+    WheelSelector,
+    FCM
 
   ],
   bootstrap: [AppComponent]
