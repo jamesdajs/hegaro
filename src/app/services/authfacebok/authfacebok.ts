@@ -22,23 +22,24 @@ export class AuthFacebookProvider {
                 this.fb.login(['email', 'public_profile']).then(res => {
                     //alert(JSON.stringify(res))
                     const facebookCredential = auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-                    //console.log(res)
-                    this.afAuth.auth.signInWithCredential(facebookCredential).then(user => {
-                        alert(JSON.stringify(user.additionalUserInfo.profile))
-                        let datosprueva={
-                            id:1231233,name:'juan perez',foto:'nada'
-                        }
-                        /**
-                         * 
-                         let datos={
-                             name:user.displayName,
-                             foto:user.photoURL,
-                             id:res.authResponse.userID
-                         }
-                         if(user.email) datos['correo']=user.email
-                         */
 
-                        resolve(datosprueva);
+                    this.afAuth.auth.signInWithCredential(facebookCredential).then(user => {
+
+                        //alert(JSON.stringify(user.additionalUserInfo.profile))
+                        /**
+                            let datosprueva={
+                                id:1231233,name:'juan perez',foto:'nada'
+                            }
+                         */
+                        
+                        
+                        let datos={
+                            name:user.user.displayName,
+                            foto:user.user.photoURL,
+                            id:res.authResponse.userID
+                        }
+                        if(user.user.email) datos['correo']=user.user.email
+                        resolve(datos);
                     })
                 }).catch((error) => {
                     reject(error);
@@ -50,9 +51,12 @@ export class AuthFacebookProvider {
                     .then((res:any) => {
                         this.datosusario=res.additionalUserInfo.profile
                         this.datosusario["foto"]=res.user.photoURL
-                        let datosprueva={
-                            id:1231233,name:'juan perez',foto:'nada'
-                        }
+                        /**
+                            let datosprueva={
+                                id:1231233,name:'juan perez',foto:'nada'
+                            }
+                         * 
+                         */
                         //cambiar datosprueva o this.datosusario
                         resolve(this.datosusario);
                     }).catch(error => {
