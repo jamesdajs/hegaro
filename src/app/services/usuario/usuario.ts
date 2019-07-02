@@ -264,28 +264,28 @@ verSitienenDatos() {
       "Content-Type": "application/json"
     })
   
-  guardarusuario(Datos) {
+  guardarusuario(Datos,token) {
     let sql = '', values = []
     if (Datos.correo) {
-      sql = "INSERT into  usuarios (idfacebook,fullname,foto,correo) VALUES (?,?,?,?)"
-      values = [Datos.id, Datos.name, Datos.foto, Datos.email]
+      sql = "INSERT into  usuarios (idfacebook,fullname,foto,correo,token) VALUES (?,?,?,?,?)"
+      values = [Datos.id, Datos.name, Datos.foto, Datos.email,token]
     } else {
-      sql = "INSERT into  usuarios (idfacebook,fullname,foto) VALUES (?,?,?)"
-      values = [Datos.id, Datos.name, Datos.foto]
+      sql = "INSERT into  usuarios (idfacebook,fullname,foto,token) VALUES (?,?,?,?)"
+      values = [Datos.id, Datos.name, Datos.foto,token]
     }
 
     return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers})
       .toPromise()
   }
-  actualizarusuario(Datos) {
+  actualizarusuario(Datos,token) {
     let sql = '', values = []
     if (Datos.correo) {
-      sql = "update usuarios set fullname='?',foto=?,correo=? where idfacebook = ?"
-      values = [Datos.name, Datos.foto, Datos.email, Datos.id]
+      sql = "update usuarios set fullname='?',foto=?,correo=?, token=? where idfacebook = ?"
+      values = [Datos.name, Datos.foto, Datos.email,token, Datos.id]
 
     } else {
-      sql = "update usuarios set fullname='?',foto=? where idfacebook = ?"
-      values = [Datos.name, Datos.foto, Datos.id]
+      sql = "update usuarios set fullname='?',foto=?, token=? where idfacebook = ?"
+      values = [Datos.name, Datos.foto,token, Datos.id]
     }
 
     return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
@@ -385,4 +385,7 @@ verSitienenDatos() {
     return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
+
+  //guardar token fcm
+
 }
