@@ -55,7 +55,7 @@ export class LoginPage implements OnInit {
     await cargar.present()
     this.conectarFacebook()
       .then(res => {
-        //console.log(res)
+        console.log(res)
         //cli
         this.navCtrl.navigateRoot(['/adm/cursos', { hola: 'holamundo' }])
         cargar.dismiss()
@@ -84,34 +84,40 @@ export class LoginPage implements OnInit {
     return new Promise((resolve, reject) => {
       this.auth.loginWithFacebook().then(data => {
         console.log(data)
-        let _token
-        this.fcmservice.getToken()
-        .then(token =>{
-          _token=token
-          return this.user.verUsuarioIDfb(data.id)
-        })
+        this.user.verUsuarioIDfb(data.id)
+        
           .then(userFb => {
             this.fcmservice.suscribeTopic("goodme")
+            let idusu=userFb[0].idusuarios
             if (userFb.length > 0) {
-              this.storage.set('idusuario', userFb[0].idusuarios);
+              this.storage.set('idusuario', idusu);
               this.storage.set('rol', "alumno");
-              this.user.actualizarusuario(data,_token)
-                .then(datas => {
-                  console.log()
-                  resolve('datos creados correctos')
-                }).catch(err => console.log(err)
-                )
+              //this.storage.set('token',this.fcm.getToken())
+              if(data.token)
+                return this.user.actualizarusuario(data,idusu)
+              else 
+              return this.user.actualizarusuariosintoken(data,idusu)
             } else {
-              this.user.guardarusuario(data,_token)
-                .then((datas) => this.user.verUsuarioIDfb(data.id))
-                .then(newuser => {
+              if(data.token)
+              return this.user.guardarusuario(data)
+                .then(idnewusu => {
                   this.storage.set('rol', "alumno");
-                  this.storage.set('idusuario', newuser[0].idusuarios);
+                  this.storage.set('idusuario', idnewusu);
                   //console.log(datas)
-                  resolve('datos creados correctos')
-                }).catch(err => console.log(err))
-
+                  return true
+                })
+                else 
+                this.user.guardarusuariosintoken(data)
+                .then(idnewusu => {
+                  this.storage.set('rol', "alumno");
+                  this.storage.set('idusuario', idnewusu);
+                  //console.log(datas)
+                  return true
+                })
             }
+          })
+          .then(()=>{
+            resolve('datos resueltos correctos correctos')
           })
           .catch(err=>console.log(err))
       })
