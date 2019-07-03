@@ -41,7 +41,7 @@ export class CursoService {
 
     //listar cursos
     listarcursos(estado){
-      let sql=`select c.*,u.idusuarios, u.fullname, u.foto, u.telefono 
+      let sql=`select c.*,u.idusuarios, u.fullname, u.foto, u.telefono,u.token 
       from cursos c,usu_cur uc,usuarios u  
       where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc `
       let values=[estado]

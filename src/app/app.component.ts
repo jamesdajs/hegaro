@@ -22,7 +22,16 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-
+      this.fcm.onNotification().subscribe(data => {
+        console.log(data);
+        if (data.wasTapped) {
+          alert('Received in background');
+          //this.router.navigate([data.landing_page, data.price]);
+        } else {
+          alert('Received in foreground');
+          //this.router.navigate([data.landing_page, data.price]);
+        }
+      });
       /*this.fcm.subscribeToTopic('people');
 
       this.fcm.getToken().then(token => {

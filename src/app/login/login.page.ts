@@ -91,11 +91,10 @@ export class LoginPage implements OnInit {
           return this.user.verUsuarioIDfb(data.id)
         })
           .then(userFb => {
-            alert(_token)
+            this.fcmservice.suscribeTopic("goodme")
             if (userFb.length > 0) {
               this.storage.set('idusuario', userFb[0].idusuarios);
               this.storage.set('rol', "alumno");
-              //this.storage.set('token',this.fcm.getToken())
               this.user.actualizarusuario(data,_token)
                 .then(datas => {
                   console.log()

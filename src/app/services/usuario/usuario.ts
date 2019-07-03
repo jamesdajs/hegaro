@@ -280,11 +280,11 @@ verSitienenDatos() {
   actualizarusuario(Datos,token) {
     let sql = '', values = []
     if (Datos.correo) {
-      sql = "update usuarios set fullname='?',foto=?,correo=?, token=? where idfacebook = ?"
+      sql = "update usuarios set fullname=?,foto=?,correo=?, token=? where idfacebook = ?"
       values = [Datos.name, Datos.foto, Datos.email,token, Datos.id]
 
     } else {
-      sql = "update usuarios set fullname='?',foto=?, token=? where idfacebook = ?"
+      sql = "update usuarios set fullname=?,foto=?, token=? where idfacebook = ?"
       values = [Datos.name, Datos.foto,token, Datos.id]
     }
 
