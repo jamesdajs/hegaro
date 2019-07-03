@@ -8,39 +8,48 @@ import { Platform, AlertController } from '@ionic/angular';
 
 import { auth } from 'firebase';
 import { Observable } from "rxjs/Observable";
+import { FcmService } from '../fcm/fcm.service';
 @Injectable()
 export class AuthFacebookProvider {
     constructor(private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform,
-        public alertController: AlertController
+        public alertController: AlertController,
+        private fcmservice: FcmService
     ) {
 
     }
-    datosusario={}
-    loginWithFacebook():Promise<any>{
-        return new Promise((resolve,reject) => {
+    datosusario = {}
+    loginWithFacebook(): Promise<any> {
+        return new Promise((resolve, reject) => {
             if (this.platform.is('cordova')) {
                 this.fb.login(['email', 'public_profile']).then(res => {
                     //alert(JSON.stringify(res))
                     const facebookCredential = auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-
-                    this.afAuth.auth.signInWithCredential(facebookCredential).then(user => {
-
-                        //alert(JSON.stringify(user.additionalUserInfo.profile))
-                        /**
-                            let datosprueva={
-                                id:1231233,name:'juan perez',foto:'nada'
-                            }
-                         */
-                        
-                        
-                        let datos={
-                            name:user.user.displayName,
-                            foto:user.user.photoURL,
-                            id:res.authResponse.userID
-                        }
-                        if(user.user.email) datos['correo']=user.user.email
-                        resolve(datos);
+                    let _user
+                    this.afAuth.auth.signInWithCredential(facebookCredential)
+                    .then(user=>{
+                        _user=user.user
+                        return this.fcmservice.getToken()
                     })
+                        .then(token => {
+
+                            //alert(JSON.stringify(user.additionalUserInfo.profile))
+                            /**
+                                let datosprueva={
+                                    id:1231233,name:'juan perez',foto:'nada'
+                                }
+                             */
+
+
+                            let datos = {
+                                name: _user.displayName,
+                                foto: _user.photoURL,
+                                id: res.authResponse.userID,
+                                token:token
+                            }
+                            if (_user.email) datos['email'] = _user.email
+                            resolve(datos);
+                        })
+                        
                 }).catch((error) => {
                     reject(error);
 
@@ -48,9 +57,9 @@ export class AuthFacebookProvider {
             } else {
                 this.afAuth.auth
                     .signInWithPopup(new auth.FacebookAuthProvider())
-                    .then((res:any) => {
-                        this.datosusario=res.additionalUserInfo.profile
-                        this.datosusario["foto"]=res.user.photoURL
+                    .then((res: any) => {
+                        this.datosusario = res.additionalUserInfo.profile
+                        this.datosusario["foto"] = res.user.photoURL
                         /**
                             let datosprueva={
                                 id:1231233,name:'juan perez',foto:'nada'
@@ -82,15 +91,16 @@ export class AuthFacebookProvider {
         this.fb.login(['public_profile', 'email'])
             .then((res: FacebookLoginResponse) => {
                 console.log('Logged into Facebook!', res)
-                
+
                 this.presentAlert(JSON.stringify(res))
             })
             .catch(e => {
                 this.presentAlert(JSON.stringify(e))
-                console.log('Error logging into Facebook', e)});
+                console.log('Error logging into Facebook', e)
+            });
 
 
-       // this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
+        // this.fb.logEvent(this.fb.EVENTS.EVENT_NAME_ADDED_TO_CART);
     }
     async presentAlert(data) {
         const alert = await this.alertController.create({
@@ -99,7 +109,7 @@ export class AuthFacebookProvider {
             message: data,
             buttons: ['OK']
         });
-    
+
         await alert.present();
     }
 }

@@ -9,6 +9,7 @@ import { Storage } from '@ionic/storage';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Router } from '@angular/router';
+import { FcmService } from '../services/fcm/fcm.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginPage implements OnInit {
     private storage: Storage,
     private loadCtrl: LoadingController,
     private router: Router,
+    private fcmservice: FcmService,
     private navCtrl:NavController,
   ) {
   }
@@ -53,7 +55,7 @@ export class LoginPage implements OnInit {
     await cargar.present()
     this.conectarFacebook()
       .then(res => {
-        //console.log(res)
+        console.log(res)
         //cli
         this.navCtrl.navigateRoot(['/adm/cursos', { hola: 'holamundo' }])
         cargar.dismiss()
@@ -83,29 +85,38 @@ export class LoginPage implements OnInit {
       this.auth.loginWithFacebook().then(data => {
         console.log(data)
         this.user.verUsuarioIDfb(data.id)
+        
           .then(userFb => {
-       
+            let idusu=userFb[0].idusuarios
             if (userFb.length > 0) {
-              this.storage.set('idusuario', userFb[0].idusuarios);
+              this.storage.set('idusuario', idusu);
               this.storage.set('rol', "alumno");
               //this.storage.set('token',this.fcm.getToken())
-              this.user.actualizarusuario(data)
-                .then(datas => {
-                  console.log()
-                  resolve('datos creados correctos')
-                }).catch(err => console.log(err)
-                )
+              if(data.token)
+                return this.user.actualizarusuario(data,idusu)
+              else 
+              return this.user.actualizarusuariosintoken(data,idusu)
             } else {
-              this.user.guardarusuario(data)
-                .then((datas) => this.user.verUsuarioIDfb(data.id))
-                .then(newuser => {
+              if(data.token)
+              return this.user.guardarusuario(data)
+                .then(idnewusu => {
                   this.storage.set('rol', "alumno");
-                  this.storage.set('idusuario', newuser[0].idusuarios);
+                  this.storage.set('idusuario', idnewusu);
                   //console.log(datas)
-                  resolve('datos creados correctos')
-                }).catch(err => console.log(err))
-
+                  return true
+                })
+                else 
+                this.user.guardarusuariosintoken(data)
+                .then(idnewusu => {
+                  this.storage.set('rol', "alumno");
+                  this.storage.set('idusuario', idnewusu);
+                  //console.log(datas)
+                  return true
+                })
             }
+          })
+          .then(()=>{
+            resolve('datos resueltos correctos correctos')
           })
           .catch(err=>console.log(err))
       })

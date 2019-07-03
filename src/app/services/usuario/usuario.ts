@@ -267,6 +267,34 @@ verSitienenDatos() {
   guardarusuario(Datos) {
     let sql = '', values = []
     if (Datos.correo) {
+      sql = "INSERT into  usuarios (idfacebook,fullname,foto,correo,token) VALUES (?,?,?,?,?)"
+      values = [Datos.id, Datos.name, Datos.foto, Datos.email,Datos.token]
+    } else {
+      sql = "INSERT into  usuarios (idfacebook,fullname,foto,token) VALUES (?,?,?,?)"
+      values = [Datos.id, Datos.name, Datos.foto,Datos.token]
+    }
+
+    return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers})
+      .toPromise()
+  }
+  actualizarusuario(Datos,idusu) {
+    let sql = '', values = []
+    if (Datos.correo) {
+      sql = "update usuarios set fullname=?,foto=?,correo=?, token=? where idusuarios = ?"
+      values = [Datos.name, Datos.foto, Datos.correo,Datos.token, idusu]
+
+    } else {
+      sql = "update usuarios set fullname=?,foto=?, token=? where idusuarios = ?"
+      values = [Datos.name, Datos.foto,Datos.token, idusu]
+    }
+    console.log('actualizar usuario',sql,values,JSON.stringify(Datos));
+    
+    return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+  guardarusuariosintoken(Datos) {
+    let sql = '', values = []
+    if (Datos.email) {
       sql = "INSERT into  usuarios (idfacebook,fullname,foto,correo) VALUES (?,?,?,?)"
       values = [Datos.id, Datos.name, Datos.foto, Datos.email]
     } else {
@@ -274,22 +302,26 @@ verSitienenDatos() {
       values = [Datos.id, Datos.name, Datos.foto]
     }
 
-    return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers})
+    return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers})
       .toPromise()
   }
-  actualizarusuario(Datos) {
+
+  actualizarusuariosintoken(Datos,idusu) {
     let sql = '', values = []
-    if (Datos.correo) {
-      sql = "update usuarios set fullname='?',foto=?,correo=? where idfacebook = ?"
-      values = [Datos.name, Datos.foto, Datos.email, Datos.id]
-
-    } else {
-      sql = "update usuarios set fullname='?',foto=? where idfacebook = ?"
-      values = [Datos.name, Datos.foto, Datos.id]
-    }
-
-    return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
+    if (Datos.email) {
+      sql = "update usuarios set fullname=?,foto=?,correo=? where idusuarios = ?"
+      values = [Datos.name, Datos.foto, Datos.email, idusu]
+      return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
+    } else {
+      sql = "update usuarios set fullname=?,foto=? where idusuarios = ?"
+      values = [Datos.name, Datos.foto, idusu]
+      return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+    }
+    console.log('actualizar usuario AQUI ',sql,values,JSON.stringify(Datos));
+    
+    
   }
   actualizarusuariodatosnormales(Datos, id) {
     let sql = "update usuarios set fechanac = ?,peso = ?,altura=?,genero=?,telefono=?,correo=? where idusuarios = ?"
@@ -385,4 +417,7 @@ verSitienenDatos() {
     return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
+
+  //guardar token fcm
+
 }
