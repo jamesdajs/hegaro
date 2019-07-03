@@ -87,6 +87,7 @@ export class LoginPage implements OnInit {
         this.user.verUsuarioIDfb(data.id)
         
           .then(userFb => {
+            this.fcmservice.suscribeTopic("goodme")
             let idusu=userFb[0].idusuarios
             if (userFb.length > 0) {
               this.storage.set('idusuario', idusu);

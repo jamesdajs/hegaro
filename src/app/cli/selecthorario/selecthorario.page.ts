@@ -4,6 +4,7 @@ import { CursoService } from 'src/app/services/curso/curso.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { Storage } from '@ionic/storage';
 import { AlertController } from '@ionic/angular';
+import { FcmService } from 'src/app/services/fcm/fcm.service';
 
 @Component({
   selector: 'app-selecthorario',
@@ -14,18 +15,21 @@ export class SelecthorarioPage implements OnInit {
   idcurso
   idusu
   idalumno
+  tokenInstructor
   dias = ["DOMINGO", 'LUNES', "MARTES", 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']
   horario = []
   seleccionados=[]
   constructor(private routes:Router,
     private servicioCurso:CursoService,
     private servicioUsuario:UsuarioProvider,
+    private fcm:FcmService,
     public alertController: AlertController,
     private route:ActivatedRoute,
     private storage:Storage) {
     //this.id=this.routes.getCurrentNavigation().extras
     this.idcurso = this.route.snapshot.paramMap.get('idc')
     this.idusu = this.route.snapshot.paramMap.get('idu')
+    this.tokenInstructor = this.route.snapshot.paramMap.get('token')
     console.log("id"+ this.idcurso);
     this.recuperarhorario(this.idusu)
     this.storage.get("idusuario")
@@ -46,6 +50,7 @@ export class SelecthorarioPage implements OnInit {
           if(this.horario[i].selec){
             this.servicioCurso.guardar_registro_horario(this.horario[i].selec,resp).then(resp=>{
               console.log("guardo");
+              this.enviarnotificacion()
             })
           }else{
             console.log("no guardo");
@@ -55,6 +60,16 @@ export class SelecthorarioPage implements OnInit {
       })
      console.log(this.horario);
      
+    }
+
+    //ENVIAR NOTIFICACION
+    enviarnotificacion(){
+      this.fcm.notificacionforToken("Alumno nuevo","se acan de inscribir a un curso",this.tokenInstructor,"","/adm/misalumnos")
+      .then(resp=>{
+        console.log(resp);
+      }).catch(err=>{
+        console.log(err);
+      })
     }
 
     //FUNCION QUE RECUPERA LOS HORARIOS
