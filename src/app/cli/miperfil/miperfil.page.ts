@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { AlertController, NavController } from '@ionic/angular';
+import { FcmService } from 'src/app/services/fcm/fcm.service';
+import { AuthFacebookProvider } from 'src/app/services/authfacebok/authfacebok';
 
 
 @Component({
@@ -24,7 +26,9 @@ export class MiperfilPage implements OnInit {
     private storage: Storage,
     private user: UsuarioProvider,
     public alertController: AlertController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private fmcservice:FcmService,
+    private logfb:AuthFacebookProvider
 
   ) {
 
@@ -50,31 +54,7 @@ export class MiperfilPage implements OnInit {
       })
       .catch(err => console.log(err))
   }
-  async presentAlertConfirm() {
-    const alert = await this.alertController.create({
-      header: 'Confirm!',
-      message: '<strong>Desea cerrar sesion de GoodMe</strong>!!!',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel: blah');
-          }
-        }, {
-          text: 'Ok',
-          handler: () => {
-            console.log('Confirm Okay');
-            this.storage.clear()
-              .then(() => this.navCtrl.navigateRoot(["/"]))
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
+  
 
   changeInstructor() {
 
@@ -113,6 +93,50 @@ export class MiperfilPage implements OnInit {
       this.cargardatos(id)
     })
   }
+  mensages(){
+    this.fmcservice.notificacionforTopic('hola','nada','/topics/all','1','nada')
+    .then(res=>{
+      console.log(res);
+      
+    })
+    .catch(err=>{console.log(err);
+    })
+  }
+  mensagesroken(){
+    this.fmcservice.notificacionforToken('hola','nada','/topics/all','1','nada')
+    .then(res=>{
+      console.log(res);
+      
+    })
+    .catch(err=>{console.log(err);
+    })
+  }
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      header: 'Confirm!',
+      message: '<strong>Desea cerrar sesion de GoodMe</strong>!!!',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Ok',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.storage.clear()
+              .then(() => {
+                this.logfb.logout()
+                this.navCtrl.navigateRoot(["/"])
+              })
+          }
+        }
+      ]
+    });
 
-
+    await alert.present();
+  }
 }

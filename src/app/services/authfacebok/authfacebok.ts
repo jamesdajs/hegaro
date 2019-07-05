@@ -21,39 +21,24 @@ export class AuthFacebookProvider {
     loginWithFacebook(): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.platform.is('cordova')) {
-                this.fb.login(['email', 'public_profile']).then(res => {
+                this.fb.login(['email', 'public_profile'])
+                .then(res => {
                     //alert(JSON.stringify(res))
                     const facebookCredential = auth.FacebookAuthProvider.credential(res.authResponse.accessToken);
-                    let _user
-                    this.afAuth.auth.signInWithCredential(facebookCredential)
-                    .then(user=>{
-                        _user=user.user
-                        return this.fcmservice.getToken()
-                    })
-                        .then(token => {
-
-                            //alert(JSON.stringify(user.additionalUserInfo.profile))
-                            /**
-                                let datosprueva={
-                                    id:1231233,name:'juan perez',foto:'nada'
-                                }
-                             */
-
-
-                            let datos = {
-                                name: _user.displayName,
-                                foto: _user.photoURL,
-                                id: res.authResponse.userID,
-                                token:token
-                            }
-                            if (_user.email) datos['email'] = _user.email
-                            resolve(datos);
-                        })
-                        
-                }).catch((error) => {
-                    reject(error);
-
-                });
+                    return this.afAuth.auth.signInWithCredential(facebookCredential)
+                })
+                .then(user => {
+                    this.datosusario = user.additionalUserInfo.profile
+                    this.datosusario["foto"] = user.user.photoURL
+                    return this.fcmservice.getToken()
+                })
+                .then(token => {
+                    this.datosusario["token"] = token
+                    resolve(this.datosusario);
+                })
+                .catch((err)=>{
+                    reject(err)
+                })
             } else {
                 this.afAuth.auth
                     .signInWithPopup(new auth.FacebookAuthProvider())

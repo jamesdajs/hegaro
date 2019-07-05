@@ -27,7 +27,7 @@ export class LoginPage implements OnInit {
     private loadCtrl: LoadingController,
     private router: Router,
     private fcmservice: FcmService,
-    private navCtrl:NavController,
+    private navCtrl: NavController,
   ) {
   }
   token
@@ -69,12 +69,18 @@ export class LoginPage implements OnInit {
            alert(JSON.stringify(error))
          })
          */
+        return this.fcmservice.suscribeTopic("goodme")
+      })
+      .then(()=>{
+        console.log('se subcribio al topin goodme');
+        
       })
       .catch(err => {
         console.log(err)
+        //alert(JSON.stringify(err) + ' aqui')
         cargar.dismiss()
       })
-      
+
   }
   loginWithFacebook2() {
     this.auth.facebookauth()
@@ -82,46 +88,42 @@ export class LoginPage implements OnInit {
   }
   conectarFacebook() {
     return new Promise((resolve, reject) => {
-      this.auth.loginWithFacebook().then(data => {
-        console.log(data)
-        this.user.verUsuarioIDfb(data.id)
-        
-          .then(userFb => {
-            this.fcmservice.suscribeTopic("goodme")
-            let idusu=userFb[0].idusuarios
-            if (userFb.length > 0) {
-              this.storage.set('idusuario', idusu);
-              this.storage.set('rol', "alumno");
-              //this.storage.set('token',this.fcm.getToken())
-              if(data.token)
-                return this.user.actualizarusuario(data,idusu)
-              else 
-              return this.user.actualizarusuariosintoken(data,idusu)
-            } else {
-              if(data.token)
-              return this.user.guardarusuario(data)
-                .then(idnewusu => {
-                  this.storage.set('rol', "alumno");
-                  this.storage.set('idusuario', idnewusu);
-                  //console.log(datas)
-                  return true
-                })
-                else 
-                this.user.guardarusuariosintoken(data)
-                .then(idnewusu => {
-                  this.storage.set('rol', "alumno");
-                  this.storage.set('idusuario', idnewusu);
-                  //console.log(datas)
-                  return true
-                })
-            }
-          })
-          .then(()=>{
-            resolve('datos resueltos correctos correctos')
-          })
-          .catch(err=>console.log(err))
-      })
+      let _idusu, _data
+      this.auth.loginWithFacebook()
+        .then(data => {
+          //alert(JSON.stringify(data))
+          _data = data
+            return this.user.verUsuarioIDfb(data.id)
+        })
+        .then(userFb => {
+          //alert(JSON.stringify(userFb))
+
+          if (userFb.length > 0) {
+
+          _idusu = userFb[0].idusuarios
+            //this.storage.set('token',this.fcm.getToken())
+            if (_data.token)
+              return this.user.actualizarusuario(_data, _idusu)
+            else
+              return this.user.actualizarusuariosintoken(_data, _idusu)
+          } else {
+            if (_data.token)
+              return this.user.guardarusuario(_data)
+            else
+              return this.user.guardarusuariosintoken(_data)
+          }
+        })
+        .then(idnewusu => {
+          if (_idusu)
+            this.storage.set('idusuario', _idusu);
+          else
+            this.storage.set('idusuario', idnewusu);
+          this.storage.set('rol', "alumno");
+          //alert("e creo el usuario")
+          resolve('datos resueltos correctos')
+        })
         .catch(err => {
+          console.log(err)
           reject(err)
         })
     })

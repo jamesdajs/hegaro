@@ -61,10 +61,16 @@
             <ion-icon slot="end" name="md-git-compare"></ion-icon>
           <ion-label>Cambiar a instructor</ion-label>
         </ion-item>
-        <ion-item>
+        <ion-item (click)="presentAlertConfirm()">
             <ion-icon slot="end" name="md-log-out"></ion-icon>
           <ion-label>Cerrar sesion</ion-label>
         </ion-item>
       </ion-list>
+      <ion-button (click)="mensages()" fill="solid" shape="round">
+        Click me
+      </ion-button>
+      <ion-button (click)="mensagesroken()" fill="solid" shape="round">
+        Click me token
+      </ion-button>
 </ion-content>
 
