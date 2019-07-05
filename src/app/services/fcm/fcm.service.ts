@@ -40,10 +40,12 @@ export class FcmService {
         "icon":"fcm_push_icon"
       },
       "data":{
-        "page":page,
-        "id":id
+        "landing_page": page,
+        "idusu": id
       },
-      "to" : "cAjsWmOZwlM:APA91bHe2wEtnSr5o_nXSObAm-U6_SOM9sL2-6Yth_0TMVmc-J1WOAu_naMKL9SeWCIAiu4OLfZp_yIwfK4klR4w0gzdvtH23xKCCvNqVOhRYPnWxdviQIm16qtWei7v__xLhByn032y"
+      "to" : token_cli,
+      "priority": "high",
+      "restricted_package_name": ""
     }
     console.log(notificacion);
     return this.http.post(this.url,notificacion , { headers: this.headers })
