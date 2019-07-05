@@ -16,9 +16,10 @@
 			</ion-label>
 			<ion-button ng-if="item.estado==1" color="secondary" fill="outline">Ver</ion-button>
 		</ion-item>
-		<ion-item ng-if="alumnos.length==0" class="ion-no-padding" text-center>
-				<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
-			<ion-label>No tienes alumnos aun..!!</ion-label>
-		</ion-item>
+
 	</ion-list>
+	<div *ngIf="alumnos.length==0" class="ion-no-padding" text-center class="div-noting">
+			<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
+		<ion-label>No tienes alumnos aun..!!</ion-label>
+	</div>
 </ion-content>
