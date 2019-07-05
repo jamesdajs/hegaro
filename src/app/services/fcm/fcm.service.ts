@@ -6,9 +6,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class FcmService {
-  url=""
+  url="https://fcm.googleapis.com/fcm/send"
   headers = new HttpHeaders({
-    "Content-Type": "application/json"
+    "Content-Type": "application/json; UTF-8",
+    "Accept": "application/json",
+    "Authorization": "key=AAAAIycp-GE:APA91bGtP1dPftavhSZWo3pCx_mi3R0bhYEKOyro8mJX1xolW8T98d2hGIl9aPdk1Xe9Or1TUh1Ho-ahWYQx6G42I8oWLn3QEiVUGKkXqNqU4UmYj6FRAlKzgERYqp79AUeztRvk4dMK"
   })
   constructor(private fcm:FCM,private http: HttpClient) { }
 
@@ -30,23 +32,25 @@ export class FcmService {
 
   //envia mensajes a firebase
   notificacionforToken(titulo,body,token_cli,id,page) {
-    let notificacion={
-    notification:{
-      title:titulo,
-      body:body,
-      sound:"default",
-      click_action:"FCM_PLUGIN_ACTIVITY",
-      icon:"fcm_push_icon"
-    },
-    data:{
-      landing_page:page,
-      idusu:id
-    },
-      to:token_cli,
-      priority:"high",
-      restricted_package_name:""
-  }
-    return this.http.post(this.url, {notificacion }, { headers: this.headers})
+    console.log(titulo+" "+body+" "+token_cli+" "+id+" "+page);
+    let jsonparam={
+              "message":{
+                "topics":"/topics/all",
+                "priority":"high",
+                "notification":{
+                  "title":titulo,
+                  "body":body,
+                  "click_action":"FCM_PLUGIN_ACTIVITY",
+                  "icon":"fcm_push_icon"
+                }
+              },
+              "data":{
+                "landing_page":page,
+              }
+          }
+            console.log(jsonparam);
+            
+    return this.http.post(this.url, jsonparam, { headers: this.headers})
       .toPromise()
   }
 
@@ -64,10 +68,12 @@ export class FcmService {
       landing_page:page,
       idusu:id
     },
-      topic:topic,
-      priority:"high",
-      restricted_package_name:""
+      to:topic,
+      priority:"high"
   }
+
+  console.log(notificacion);
+  
     return this.http.post(this.url, {notificacion }, { headers: this.headers})
       .toPromise()
   }
