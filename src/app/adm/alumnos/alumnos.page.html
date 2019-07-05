@@ -4,25 +4,6 @@
 	</ion-toolbar>
 </ion-header>
 <ion-content padding>
-	<!--
-
-		<p>Nuevas Suscripciones</p>
-		<hr>
-	
-		<ion-list>
-			<ion-item class="ion-no-padding">
-				<ion-avatar item-start>
-					<img src="../../../assets/imgs/logo.png" class="img-alumnos">
-				</ion-avatar>
-				<ion-label class="label-alumnos">item.fullnamecli
-	
-				</ion-label>
-				<ion-button color="secondary" fill="outline">
-					Ver
-				</ion-button>
-			</ion-item>
-		</ion-list>
-	-->
 	<p>Mis Alumnos</p>
 	<hr>
 	<ion-list>
@@ -31,10 +12,13 @@
 				<img [src]="item.foto" class="img-alumnos">
 			</ion-avatar>
 			<ion-label class="label-alumnos">{{item.fullname}}
-				<p>
-					Curso: {{item.titulo}}
-				</p>
+				<p>Curso: {{item.titulo}}</p>
 			</ion-label>
+			<ion-button ng-if="item.estado==1" color="secondary" fill="outline">Ver</ion-button>
+		</ion-item>
+		<ion-item ng-if="alumnos.length==0" class="ion-no-padding" text-center>
+				<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
+			<ion-label>No tienes alumnos aun..!!</ion-label>
 		</ion-item>
 	</ion-list>
 </ion-content>

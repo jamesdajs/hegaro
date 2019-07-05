@@ -10,6 +10,7 @@ import { Storage } from '@ionic/storage';
 })
 export class AlumnosPage implements OnInit {
   alumnos=[]
+  nuevos=[]
   constructor(private routes: Router,
     private curso: CursoService,
     private storage: Storage

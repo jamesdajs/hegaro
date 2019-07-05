@@ -130,8 +130,6 @@ export class SelecthorarioPage implements OnInit {
           }
         ]
       });
-    
       await alert.present();
     }
-
 }

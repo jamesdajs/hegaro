@@ -42,4 +42,8 @@ export class MycoursesPage implements OnInit {
     this.routes.navigate(['/cli/mis-cursos/vermicurso'],this.id)
   }
 
+  inicio(){
+    this.routes.navigate(['/cli/inicio'])
+  }
+
 }
