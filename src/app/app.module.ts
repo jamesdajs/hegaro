@@ -61,6 +61,7 @@ import { IonicStorageModule } from '@ionic/storage';
   providers: [
     StatusBar,
     SplashScreen,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 
     AngularFireAuth,
@@ -73,9 +74,7 @@ import { IonicStorageModule } from '@ionic/storage';
     SocialSharing,
     AuthGuardService,
     Clipboard,
-    WheelSelector,
-    FCM
-
+    WheelSelector
   ],
   bootstrap: [AppComponent]
 })

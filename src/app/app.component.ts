@@ -31,29 +31,13 @@ export class AppComponent {
           alert('Received in foreground');
           //this.router.navigate([data.landing_page, data.price]);
         }
-      });
-      /*this.fcm.subscribeToTopic('people');
+      })
 
-      this.fcm.getToken().then(token => {
-        console.log(token);
+      this.fcm.onTokenRefresh()
+      .subscribe(token=>{
         alert(token)
-      });
-
-      this.fcm.onNotification().subscribe(data => {
-        console.log(data);
-        if (data.wasTapped) {
-          alert(data)
-          //this.router.navigate([data.landing_page, data.price]);
-        } else {
-          console.log('Received in foreground');
-          //this.router.navigate([data.landing_page, data.price]);
-        }
-      });
-
-      this.fcm.onTokenRefresh().subscribe(token => {
-        console.log(token);
-      });
-    */    });
+      })
+    });
   }
 
 

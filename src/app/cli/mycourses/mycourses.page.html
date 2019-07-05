@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content no-padding>
-    <div ng-if="datos.length==0" class="ion-no-padding" text-center class="div-noting">
+    <div *ngIf="datos.length==0" class="ion-no-padding" text-center class="div-noting">
         <ion-label>No te suscribiste a un curso aun..!!
           <ion-button fill="outline" (click)=inicio()>
             Empieza ahora..!!!

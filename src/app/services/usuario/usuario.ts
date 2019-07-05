@@ -311,16 +311,13 @@ verSitienenDatos() {
     if (Datos.email) {
       sql = "update usuarios set fullname=?,foto=?,correo=? where idusuarios = ?"
       values = [Datos.name, Datos.foto, Datos.email, idusu]
-      return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
-      .toPromise()
     } else {
       sql = "update usuarios set fullname=?,foto=? where idusuarios = ?"
       values = [Datos.name, Datos.foto, idusu]
-      return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
-      .toPromise()
     }
     console.log('actualizar usuario AQUI ',sql,values,JSON.stringify(Datos));
-    
+    return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
     
   }
   actualizarusuariodatosnormales(Datos, id) {
