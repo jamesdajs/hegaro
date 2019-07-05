@@ -65,6 +65,8 @@ export class ModmiperfilPage implements OnInit {
     toast.present();
   }
   guardar() {
+    console.log(this.myForm.value);
+    
     if (this.myForm.valid) {
       let loading = this.presentLoading('Guardando datos')
       this.user.actualizarusuariodatosnormales(this.myForm.value, this.id)

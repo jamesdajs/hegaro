@@ -74,6 +74,17 @@
         <ion-button (click)="mensagesroken()" fill="solid" shape="round">
           Click me token
         </ion-button>
+        <ion-item>
+            <ion-label>fecha </ion-label>
+            <ion-datetime [(ngModel)]="fechaejem" monthValues="6,7,8" 
+            yearValues="2014,2015" 
+            dayValues="01,02,03,04,05,06,08,09,10, 11, 12, 13, 14" 
+            displayFormat="DD MMMM YYYY"
+            pickerFormat="DD MMMM YYYY"  ></ion-datetime>
+          </ion-item>
+          <ion-button (click)="verfechaejem()">
+            Click me
+          </ion-button>
       -->
 </ion-content>
 

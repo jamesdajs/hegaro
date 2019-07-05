@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -13,7 +14,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private fcm: FCM
+    private fcm: FCM,
+    private router:Router
   ) {
     this.initializeApp();
   }
@@ -25,11 +27,11 @@ export class AppComponent {
       this.fcm.onNotification().subscribe(data => {
         console.log(data);
         if (data.wasTapped) {
-          alert('Received in background');
-          //this.router.navigate([data.landing_page, data.price]);
+          //alert('Received in background');
+          this.router.navigate([data.landing_page]);
         } else {
-          alert('Received in foreground');
-          //this.router.navigate([data.landing_page, data.price]);
+          //alert('Received in foreground');
+          this.router.navigate([data.landing_page]);
         }
       }
       ,err=>{

@@ -205,13 +205,13 @@ export class RutinaProvider {
   }
   crearRut_Usu(idusu, idrut,datos) {
     let sql = "INSERT into  rut_usu (id_usuario,id_rutina,fecha_ini,fecha_fin) VALUES (?,?,?,?)"
-    let values = [idusu, idrut, datos.fechaini, datos.fechafin]
+    let values = [idusu, idrut, datos.fechaini.substring(0,10), datos.fechafin.substring(0,10)]
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
   ModificarRut_Usu(idusu, idrut,datos) {
     let sql = "update rut_usu set fecha_ini=?,fecha_fin=? where id_usuario=? and id_rutina=?"
-    let values = [ datos.fechaini, datos.fechafin,idusu, idrut]
+    let values = [ datos.fechaini.substring(0,10), datos.fechafin.substring(0,10),idusu, idrut]
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }

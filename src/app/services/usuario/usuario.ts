@@ -322,7 +322,7 @@ verSitienenDatos() {
   }
   actualizarusuariodatosnormales(Datos, id) {
     let sql = "update usuarios set fechanac = ?,peso = ?,altura=?,genero=?,telefono=?,correo=? where idusuarios = ?"
-    let values = [Datos.fechanac, Datos.peso, Datos.altura, Datos.genero, Datos.telefono,Datos.correo, id]
+    let values = [Datos.fechanac.substring(0,10), Datos.peso, Datos.altura, Datos.genero, Datos.telefono,Datos.correo, id]
     return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers})
       .toPromise()
   }
