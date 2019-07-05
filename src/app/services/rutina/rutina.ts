@@ -282,5 +282,10 @@ export class RutinaProvider {
     return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
-  
+  getSetsDefectoEjercicio(iDsetRutejer):Promise<any>{
+    let sql = "select * from set_rutejer where id_rutejer=?"
+    let values = [iDsetRutejer]
+    return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
 }

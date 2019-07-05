@@ -31,11 +31,18 @@ export class AppComponent {
           alert('Received in foreground');
           //this.router.navigate([data.landing_page, data.price]);
         }
+      }
+      ,err=>{
+        console.log(err);
+        
       })
 
       this.fcm.onTokenRefresh()
       .subscribe(token=>{
         alert(token)
+      },err=>{
+        console.log(err);
+        
       })
     });
   }
