@@ -16,9 +16,12 @@
       </ion-slides>
     </div> 
       <ion-card-header >
-          <ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="detallepago(datos.costo)">
+          <ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="verHorarios(datos.idcursos,datos.idusuarios,datos.titulo)">
               Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
             </ion-button> 
+            <!--<ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="detallepago(datos.costo)">
+                  Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
+              </ion-button> --> 
             <ion-button *ngIf="verificacion.length!==0" expand="block" color="primary" fill="outline" (click)="gocourse(datos.idcursos,datos.idusuarios)">
               Ya estas suscrito!! ir curso
             </ion-button>
@@ -45,9 +48,12 @@
         <ion-label> {{datos.telefono}}</ion-label>
         <ion-icon slot="end" name="logo-whatsapp"></ion-icon>
       </ion-item>
-      <ion-item  color="primary" (click)="verHorarios(datos.idcursos,datos.idusuarios)">
+      <!--
+ <ion-item  color="primary" (click)="verHorarios(datos.idcursos,datos.idusuarios)">
         <ion-label class="ver-post"  slot="start">
           Seleccionar horario
         </ion-label>
       </ion-item>
+      -->
+     
 </ion-content>

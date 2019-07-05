@@ -15,6 +15,7 @@ export class SelecthorarioPage implements OnInit {
   idcurso
   idusu
   idalumno
+  curso
   tokenInstructor
   dias = ["DOMINGO", 'LUNES', "MARTES", 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']
   horario = []
@@ -28,6 +29,7 @@ export class SelecthorarioPage implements OnInit {
     private storage:Storage) {
     //this.id=this.routes.getCurrentNavigation().extras
     this.idcurso = this.route.snapshot.paramMap.get('idc')
+    this.curso = this.route.snapshot.paramMap.get('t')
     this.idusu = this.route.snapshot.paramMap.get('idu')
     this.tokenInstructor = this.route.snapshot.paramMap.get('token')
     console.log("id"+ this.idcurso);
@@ -50,13 +52,13 @@ export class SelecthorarioPage implements OnInit {
           if(this.horario[i].selec){
             this.servicioCurso.guardar_registro_horario(this.horario[i].selec,resp).then(resp=>{
               console.log("guardo");
-              this.enviarnotificacion()
             })
           }else{
             console.log("no guardo");
             
           }
         }
+        this.enviarnotificacion()
       })
      console.log(this.horario);
      
@@ -64,8 +66,9 @@ export class SelecthorarioPage implements OnInit {
 
     //ENVIAR NOTIFICACION
     enviarnotificacion(){
-      this.fcm.notificacionforToken("Alumno nuevo","se acan de inscribir a un curso",this.tokenInstructor,"","/adm/misalumnos")
+      this.fcm.notificacionforToken("Alumno nuevo","nueva suscripcion al curso"+this.curso,this.tokenInstructor,"","/adm/misalumnos")
       .then(resp=>{
+        this.routes.navigate(["/cli/mis-cursos"])
         console.log(resp);
       }).catch(err=>{
         console.log(err);

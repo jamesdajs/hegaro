@@ -27,7 +27,7 @@
     <ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
         <ion-slide value="first" id="myFixZone"> 
                 <div *ngIf="cursos.length==0" class="ion-no-padding" text-center class="div-noting">
-                  <ion-label>No tienes cursos publicados aun..!!</ion-label>
+                  <ion-label>No tienes cursos publicados aun..!! <br> Comienza ahora..!!</ion-label>
                 </div>
                 <ion-card *ngFor="let item of cursos; let i=index">
                     <ion-item>
@@ -66,7 +66,7 @@
         </ion-slide>
         <ion-slide value="second">
             <div *ngIf="cursos.length==0" class="ion-no-padding" text-center class="div-noting">
-                <ion-label>No tienes cursos publicados aun..!!</ion-label>
+                <ion-label>No tienes cursos publicados aun..!! <br> Comienza ahora..!!</ion-label>
               </div>
          <div class="div-content">
             <ion-grid class="ion-no-padding">

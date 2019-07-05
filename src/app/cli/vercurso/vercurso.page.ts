@@ -53,10 +53,10 @@ export class VercursoPage implements OnInit {
     this.routes.navigate(['/cli/inicio/vercurso/verinstructor'],id)
   }
 
-  verHorarios(idcurso,idusuario){
+  verHorarios(idcurso,idusuario,titulo){
     console.log("idusu ver curso"+idusuario);
     
-    this.routes.navigate(['/cli/inicio/vercurso/selecthorario',{idc:idcurso,idu:idusuario,token:this.datos.token}])
+    this.routes.navigate(['/cli/inicio/vercurso/selecthorario',{idc:idcurso,idu:idusuario,token:this.datos.token,t:titulo}])
   }
 
   //funciona que redirecciona al curso supscrito
