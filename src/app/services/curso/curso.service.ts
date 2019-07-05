@@ -113,7 +113,7 @@ export class CursoService {
     
     listarMisAlumnos(idusu){
       let sql=`
-      SELECT u.*,uc.id_curso,c.titulo 
+      SELECT u.*,uc.id_curso,uc.estado,c.titulo
       from usuarios u, usu_cur uc ,cursos c
       WHERE u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='i' and 
       uc.id_curso in (
