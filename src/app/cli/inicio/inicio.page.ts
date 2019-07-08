@@ -93,63 +93,30 @@ export class InicioPage implements OnInit {
   //-----FUNCIONES PARA COMPARTIR CURSOS----
 
   shareWithOptions(item){
-    /*var options = {
-      message: 'hola',
-      subject: 'descripcion nada',
-      files: "https://www.fbhoy.com/wp-content/uploads/2016/03/como-personalizar-url-pagina-facebook.jpg", 
-      url:'www.hegaro.com.bo',//the property mentioned in the explanation
-      chooserTitle: 'Share via'
-    };*/
-
-    this.socialsharing.shareWithOptions({
-      message:"hola",
-      subject:'algo para mostrar',
-      url:'www.hegaro.com.bo',
-      chooserTitle:'Compartir Via'
-    }).then(() => {
-      console.log("shared successfull"); 
-    }).catch((e) => {
-      console.log("shared failed"+e);
-    });
-  }
-
-  async shareInstagram() {
-    this.socialsharing.shareViaInstagram("mi curso", "https://www.fbhoy.com/wp-content/uploads/2016/03/como-personalizar-url-pagina-facebook.jpg").then(() => {
-      console.log("shared successfull"); 
-  }).catch((e) => {
-      console.log("shared failed"+e);
-    });
-  }
-
-  async shareFacebook() {
-    this.socialsharing.shareViaFacebook("mi curso", "https://www.fbhoy.com/wp-content/uploads/2016/03/como-personalizar-url-pagina-facebook.jpg", null).then(() => {
-      console.log("shared successfull"); 
-  }).catch((e) => {
-      console.log("shared failed"+e);
-    });
-  }
-
-  async shareWhatsApp() {
-    this.socialsharing.shareViaWhatsApp("", null, "").then(() => {
-      // Success
-    }).catch((e) => {
-      // Error!
-    });
-  }
-
-  async shareTwitter() {
-    this.socialsharing.shareViaTwitter(null, null, "this.url").then(() => {
-      // Success
-    }).catch((e) => {
-      // Error!
-    });
-  }
-
-  async shareEmail() {
-    this.socialsharing.shareViaEmail("this.text", 'My custom subject', ['saimon@devdactic.com'], null, null, "file.nativeURL").then(() => {
-      
-    }).catch((e) => {
-      // Error!
-    });
+    console.log("foto 1 ",item.fotos[0].url);
+    if(item.fotos[0].url==0){
+      this.socialsharing.shareWithOptions({
+        message:item.titulo,
+        subject:item.descripcion,
+        url:'www.hegaro.com.bo',
+        chooserTitle:'Compartir Via'
+        }).then(() => {
+          console.log("shared successfull"); 
+        }).catch((e) => {
+          console.log("shared failed"+e);
+        });
+    }else{
+      this.socialsharing.shareWithOptions({
+        message:item.titulo,
+        subject:item.descripcion,
+        files:[item.fotos[0].url],
+        url:'www.hegaro.com.bo',
+        chooserTitle:'Compartir Via'
+        }).then(() => {
+          console.log("shared successfull"); 
+        }).catch((e) => {
+          console.log("shared failed"+e);
+        });
+    }
   }
 }

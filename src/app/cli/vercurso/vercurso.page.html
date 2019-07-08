@@ -16,15 +16,19 @@
       </ion-slides>
     </div> 
       <ion-card-header >
-          <ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="verHorarios(datos.idcursos,datos.idusuarios,datos.titulo)">
-              Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
-            </ion-button> 
-            <!--<ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="detallepago(datos.costo)">
-                  Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
-              </ion-button> --> 
-            <ion-button *ngIf="verificacion.length!==0" expand="block" color="primary" fill="outline" (click)="gocourse(datos.idcursos,datos.idusuarios)">
-              Ya estas suscrito!! ir curso
-            </ion-button>
+        <div *ngIf="owner==false">
+            <ion-button *ngIf="verificacion.length==0 ; else blockelse" expand="block" color="primary" fill="outline" (click)="verHorarios(datos.idcursos,datos.idusuarios,datos.titulo)">
+                Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
+              </ion-button> 
+              <!--<ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="detallepago(datos.costo)">
+                    Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
+                </ion-button> --> 
+                <ng-template #blockelse>
+                  <ion-button expand="block" color="primary" fill="outline" (click)="gocourse(datos.idcursos,datos.idusuarios)">
+                    Ya estas suscrito!! ir curso
+                  </ion-button>
+                </ng-template>
+        </div>
         <ion-card-title>{{datos.titulo}}</ion-card-title>
       </ion-card-header>
       
@@ -37,7 +41,7 @@
       <ion-item>
         <ion-label>Costo {{datos.costo}} {{datos.tipomoneda}}</ion-label>
       </ion-item>
-      <ion-item (click)="verinstructor(datos.idusuarios)">
+      <ion-item (click)="verinstructor(datos.idusuarios)" *ngIf="owner==false">
           <ion-avatar item-start>
               <img [src]="datos.foto">
             </ion-avatar>

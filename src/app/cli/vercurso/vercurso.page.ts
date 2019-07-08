@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./vercurso.page.scss'],
 })
 export class VercursoPage implements OnInit {
-
+  owner=false
   datos
   comision
   verificacion=[]
@@ -22,11 +22,14 @@ export class VercursoPage implements OnInit {
       .then(id => {
         console.log("id usuario"+id+ " "+this.datos.idcursos);
         console.log(this.datos);
-        this.servicioCurso.verificarsuscripcion(this.datos.idcursos,id).then(resp=>{
-          this.verificacion=resp;
-          console.log("nuemro de cursos"+this.verificacion.length);
-        
-        })
+        if(id=this.datos.idusuario){
+          this.owner=true
+          this.servicioCurso.verificarsuscripcion(this.datos.idcursos,id).then(resp=>{
+            this.verificacion=resp;
+            console.log("nuemro de cursos"+this.verificacion.length);
+          
+          })
+        }
       })
   }
   showToolbar = false;
