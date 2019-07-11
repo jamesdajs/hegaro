@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio',
@@ -10,6 +11,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
+  @ViewChild (IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   items: any;
   cursos=[]
   instructor=[]
@@ -36,9 +38,10 @@ export class InicioPage implements OnInit {
     }
 
   ngOnInit() {
+    this.listarcursos()
   }
   ionViewWillEnter() {
-    this.listarcursos()
+    
   }
 
   //BUSCAR CURSO 
@@ -50,6 +53,7 @@ export class InicioPage implements OnInit {
       })
     }
   }
+  im
 
   //cancelar busqueda
   clearFilter() { 
@@ -68,6 +72,7 @@ export class InicioPage implements OnInit {
   }
 
   //FUNCION LISTAR CURSOS
+
   listarcursos() {
     this.servicesCurso.listarcursos(1).subscribe(data=>{
 
@@ -92,27 +97,36 @@ export class InicioPage implements OnInit {
 
   //-----FUNCIONES PARA COMPARTIR CURSOS----
 
+  //FUNCION QUE COMPARTE MEDIANTE CUALQUIER RED SOCIAL
   shareWithOptions(item){
-    /*var options = {
-      message: 'hola',
-      subject: 'descripcion nada',
-      files: "https://www.fbhoy.com/wp-content/uploads/2016/03/como-personalizar-url-pagina-facebook.jpg", 
-      url:'www.hegaro.com.bo',//the property mentioned in the explanation
-      chooserTitle: 'Share via'
-    };*/
-
+     //EN CASO DE QUE NO TENGA IMAGEN NO ENVIA NINGUN DATO EN FILES 
+    if(item.fotos.length==0){
+      this.socialsharing.shareWithOptions({
+        message:item.titulo,
+        subject:item.descripcion,
+        url:'www.hegaro.com.bo',
+        chooserTitle:'Compartir Via'
+      }).then(() => {
+        console.log("shared successfull"); 
+      }).catch((e) => {
+        console.log("shared failed"+e);
+      });
+    }else{
     this.socialsharing.shareWithOptions({
-      message:"hola",
-      subject:'algo para mostrar',
+      message:item.titulo,
+      subject:item.descripcion,
       url:'www.hegaro.com.bo',
+      files: [item.fotos[0].url],
       chooserTitle:'Compartir Via'
     }).then(() => {
       console.log("shared successfull"); 
     }).catch((e) => {
       console.log("shared failed"+e);
     });
+   }
   }
 
+  /*
   async shareInstagram() {
     this.socialsharing.shareViaInstagram("mi curso", "https://www.fbhoy.com/wp-content/uploads/2016/03/como-personalizar-url-pagina-facebook.jpg").then(() => {
       console.log("shared successfull"); 
@@ -147,9 +161,35 @@ export class InicioPage implements OnInit {
 
   async shareEmail() {
     this.socialsharing.shareViaEmail("this.text", 'My custom subject', ['saimon@devdactic.com'], null, null, "file.nativeURL").then(() => {
-      
     }).catch((e) => {
       // Error!
     });
+  }
+  */
+
+ doInfinite(event) {
+
+  console.log('funcion');
+    setTimeout(() => {
+      console.log('Done');
+      event.target.complete();
+
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      //if (data.length == 1000) {
+       // event.target.disabled = true;
+      //}
+    }, 500);
+  }
+  toggleInfiniteScroll() {
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+  }
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
   }
 }

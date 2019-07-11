@@ -203,9 +203,9 @@ export class RutinaProvider {
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
-  crearRut_Usu(idusu, idrut,datos) {
-    let sql = "INSERT into  rut_usu (id_usuario,id_rutina,fecha_ini,fecha_fin) VALUES (?,?,?,?)"
-    let values = [idusu, idrut, datos.fechaini.substring(0,10), datos.fechafin.substring(0,10)]
+  crearRut_Usu(idusu, idrut,idcurso,datos) {
+    let sql = "INSERT into  rut_usu (id_usuario,id_rutina,id_curso,fecha_ini,fecha_fin) VALUES (?,?,?,?,?)"
+    let values = [idusu, idrut, idcurso,datos.fechaini.substring(0,10), datos.fechafin.substring(0,10)]
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
@@ -282,10 +282,24 @@ export class RutinaProvider {
     return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
+  //sets
   getSetsDefectoEjercicio(iDsetRutejer):Promise<any>{
     let sql = "select * from set_rutejer where id_rutejer=?"
     let values = [iDsetRutejer]
     return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
+  guardarHistorial(id_rutejer,	fecha,	idusuario){
+    let sql = "INSERT into  historial_rutejer (id_rutejer,	fecha,	idusuario) VALUES (?,?,?)"
+    let values = [id_rutejer,	fecha,	idusuario]
+    return this.http.post<any>(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+  guardarSets(id_historial,	peso,	repeticiones,	tiempo){
+    let sql = "INSERT into  set_historial(id_historial,	peso,	repeticiones,	tiempo) VALUES (?,?,?,?)"
+    let values = [id_historial,	peso,	repeticiones,	tiempo]
+    return this.http.post<any>(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+
 }

@@ -97,7 +97,13 @@ export class AlumnosdetallePage implements OnInit {
 
   }
   crerdef() {
-    this.router.navigate(['/adm/misalumnos/alumnodetalle/creardef', { idusu: this.datos.idusuarios }])
+    this.router.navigate(['/adm/misalumnos/alumnodetalle/creardef', 
+    { 
+      idusu: this.datos.idusuarios,
+      token:this.datos.token,
+      curso:this.datos.titulo,
+      id_curso:this.datos.id_curso
+    }])
   }
 
   cargarRutinas() {

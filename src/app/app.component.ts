@@ -22,6 +22,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
+ 
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.fcm.onNotification().subscribe(data => {

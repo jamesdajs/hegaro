@@ -10,6 +10,11 @@ import { Storage } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Router } from '@angular/router';
 import { FcmService } from '../services/fcm/fcm.service';
+import {
+  ToastController,
+  Platform
+} from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -17,7 +22,7 @@ import { FcmService } from '../services/fcm/fcm.service';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage implements OnInit {
-
+  address:string;
   estado = false
   constructor(
     private auth: AuthFacebookProvider,
@@ -28,10 +33,12 @@ export class LoginPage implements OnInit {
     private router: Router,
     private fcmservice: FcmService,
     private navCtrl: NavController,
+    public toastCtrl: ToastController
   ) {
   }
   token
   ngOnInit() {
+    //this.loadMap()
     /*this.user.consultas()
     .then(token=>{
       console.log(token)
@@ -127,6 +134,19 @@ export class LoginPage implements OnInit {
           reject(err)
         })
     })
+  }
+ 
+ 
+ 
+ 
+ 
+  async showToast(message: string) {
+    let toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      position: 'middle'
+    });
+    toast.present();
   }
 }
 

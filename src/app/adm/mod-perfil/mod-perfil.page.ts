@@ -4,6 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { ToastController, LoadingController, NavController } from '@ionic/angular';
+
 declare var google: any;
 @Component({
 	selector: 'app-mod-perfil',
@@ -41,11 +42,13 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		private user: UsuarioProvider,
 		public loadingController: LoadingController
 	) {
+
+		console.log(this.route.snapshot.params);
 		for (let key in this.datos)
 			this.datos[key] = !this.route.snapshot.paramMap.get(key)? this.datos[key] : this.route.snapshot.paramMap.get(key)
 
 		for (let key in this.datosins)
-			this.datosins[key] = this.route.snapshot.paramMap.get(key)? '' : this.route.snapshot.paramMap.get(key)
+			this.datosins[key] = this.route.snapshot.paramMap.get(key)? this.route.snapshot.paramMap.get(key):''
 
 
 
@@ -69,15 +72,17 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		});
 
 		this.myFormins.setValue(this.datosins)
+		
 	}
 
 	ngOnInit() {
 
 	}
 	ngAfterViewInit() {
-		console.log("despues de cargar vista")
+		console.log("despues de cargar vista",this.myFormins.value)
 
 		this.loadMap()
+		//this.loadMap2()
 
 	}
 	async presentToast(text) {
@@ -167,4 +172,84 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		await loading.present()
 		return loading
 	}
+	/**
+	 
+	 map: GoogleMap;
+ 
+ 
+	 async loadMap2() {
+		 let latlng:any = {}
+		 console.log(this.datosins)
+		 if (!this.datosins.lat ) {
+			 let resp = await this.geolocation.getCurrentPosition()
+			 latlng = { lat: resp.coords.latitude, lng: resp.coords.longitude }
+		 } else {
+			 latlng = { lat: parseFloat(this.datosins.lat), lng: parseFloat(this.datosins.lng) }
+		 }
+		 // This code is necessary for browser
+		 Environment.setEnv({
+		   'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyDv9zk84ed6_ckRorvxhVnTfecLs_aSbFw',
+		   'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyDv9zk84ed6_ckRorvxhVnTfecLs_aSbFw'
+		 });
+	 
+		 let mapOptions: GoogleMapOptions = {
+		   camera: {
+			  target: {
+				lat: latlng.lat,
+				lng: latlng.lng,
+				
+			  },
+			  zoom: 18,
+			  tilt: 30
+			}
+		 };
+	 
+		 this.map = GoogleMaps.create('map_canvas', mapOptions);
+	 
+		 let marker: Marker = this.map.addMarkerSync({
+		   title: 'Tu lugar de trabajo',
+		   icon: 'blue',
+		   animation: 'DROP',
+		   position: {
+			 lat: latlng.lat,
+			 lng: latlng.lng,
+		   }
+		 });
+		 let geocoder = new google.maps.Geocoder;
+		 let _myFormins = this.myFormins
+		 marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe((event) => {
+		   //alert('clicked');
+			 console.log(event)
+			 
+		 });
+		 this.map.on(GoogleMapsEvent.MAP_CLICK)
+		 .subscribe(event=>{
+			 //alert(JSON.stringify(event));
+			 console.log(event);
+			 
+		   marker.setPosition(event[0])
+			 console.log(event)
+			 _myFormins.get("lat").setValue(marker.getPosition().lat)
+			 _myFormins.get("lng").setValue(marker.getPosition().lng),
+				 _myFormins.get("zoom").setValue(this.map.getCameraZoom())
+			 geocoder.geocode({
+				 'location': event[0]
+			 }, function (results, status) {
+				 if (status === google.maps.GeocoderStatus.OK) {
+					 if (results[0]) {
+ 
+						 //alert('place id: ' + results[0].place_id);
+						 _myFormins.get("direccion").setValue(results[0]['formatted_address'])
+ 
+ 
+					 } else {
+						 console.log('No results found');
+					 }
+				 } else {
+					 console.log('Geocoder failed due to: ' + status);
+				 }
+			 });
+		 })
+	   }
+	 */
 }

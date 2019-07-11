@@ -363,7 +363,7 @@ verSitienenDatos() {
       .toPromise()
   }
   verUsuarioIDdbinstructor(id):Promise<any> {
-    let sql = "select * from usuarios where idusuarios=? "
+    let sql = "select * from usuarios u, datos_ins d where u.idusuarios=? and	d.iddatos_ins=u.idusuarios"
     let values = [id]
     return this.http.post(this.urlSelect, { sql: sql, values: values}, { headers: this.headers})
       .toPromise()

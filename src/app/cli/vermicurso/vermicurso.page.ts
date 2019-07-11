@@ -73,7 +73,7 @@ export class VermicursoPage implements OnInit {
       })
   }
   verejercicio(item){
-    this.router.navigate(['/cli/mis-cursos/vermicurso/verejercicio'],item)
+    this.router.navigate(['/cli/mis-cursos/vermicurso/verejercicio',item])
   }
   menuItemHandler(item): void {
     console.log(item);

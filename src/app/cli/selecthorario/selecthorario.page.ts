@@ -47,18 +47,22 @@ export class SelecthorarioPage implements OnInit {
 
     //GUARDAR HOARIOS SELECCIONADOS
     horariosseleccionados(){
-      this.servicioCurso.crearUsu_cur(this.idalumno,this.idcurso,"i").then(resp=>{
+      this.servicioCurso.crearUsu_cur(this.idalumno,this.idcurso,"i")
+      .then(resp=>{
+        let aux=[]
         for(let i in this.horario){
           if(this.horario[i].selec){
-            this.servicioCurso.guardar_registro_horario(this.horario[i].selec,resp).then(resp=>{
-              console.log("guardo");
-            })
-          }else{
-            console.log("no guardo");
-            
+            aux.push(this.servicioCurso.guardar_registro_horario(this.horario[i].selec,resp))
           }
         }
-        this.enviarnotificacion()
+        aux.push(this.enviarnotificacion())
+        return Promise.all(aux)
+      })
+      .then(resp=>{
+        this.routes.navigate(["/cli/mis-cursos"])
+        console.log(resp);
+      }).catch(err=>{
+        console.log(err);
       })
      console.log(this.horario);
      
@@ -66,13 +70,8 @@ export class SelecthorarioPage implements OnInit {
 
     //ENVIAR NOTIFICACION
     enviarnotificacion(){
-      this.fcm.notificacionforToken("Alumno nuevo","nueva suscripcion al curso"+this.curso,this.tokenInstructor,"","/adm/misalumnos")
-      .then(resp=>{
-        this.routes.navigate(["/cli/mis-cursos"])
-        console.log(resp);
-      }).catch(err=>{
-        console.log(err);
-      })
+      return this.fcm.notificacionforToken("Alumno nuevo","nueva suscripcion al curso"+this.curso,this.tokenInstructor,"","/adm/misalumnos")
+      
     }
 
     //FUNCION QUE RECUPERA LOS HORARIOS

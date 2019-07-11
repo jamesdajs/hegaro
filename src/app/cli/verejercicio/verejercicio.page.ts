@@ -27,14 +27,15 @@ export class VerejercicioPage implements OnInit {
   getsetejercicio() {
     this.rutina.getSetsDefectoEjercicio(this.ejercicio.idrut_ejer)
       .then(res => {
+        console.log(res);
         this.imagenes = res
       })
   }
   getImagenes() {
     this.rutina.listarImagenesEjercicios(this.ejercicio.idejercicios)
       .then(res => {
-        this.sets = res
         console.log(res);
+        this.sets = res
 
       })
   }
