@@ -37,13 +37,26 @@ export class MiperfilPage implements OnInit {
 
   ngOnInit() {
     console.log("Perfil Page");
-    this.storage.get("idusuario")
-      .then(id => {
-        console.log(id)
-        this.id = id
-        this.cargardatos(id)
-      })
+    /**
+     * 
+     * 
+     * 
+     * 
+     this.storage.get("idusuario")
+       .then(id => {
+         console.log(id)
+         this.id = id
+         this.cargardatos(id)
+       })
+     */
 
+  }
+  ionViewWillEnter(){
+    this.storage.get("idusuario")
+    .then(id => {
+      this.id = id
+      this.cargardatos(id)
+    })
   }
   cargardatos(id) {
     this.user.verUsuarioIDdbinstructor(id)
@@ -87,13 +100,7 @@ export class MiperfilPage implements OnInit {
   modificarperfil() {
     this.navCtrl.navigateForward(['/cli/miperfil/modmiperfil',this.datos[0]])
   }
-  ionViewWillEnter(){
-    this.storage.get("idusuario")
-    .then(id => {
-      this.id = id
-      this.cargardatos(id)
-    })
-  }
+  
   mensages(){
     this.fmcservice.notificacionforTopic('hola','nada','/topics/all','1','nada')
     .then(res=>{

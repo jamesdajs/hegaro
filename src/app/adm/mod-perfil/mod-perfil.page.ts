@@ -45,10 +45,10 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 
 		console.log(this.route.snapshot.params);
 		for (let key in this.datos)
-			this.datos[key] = !this.route.snapshot.paramMap.get(key)? this.datos[key] : this.route.snapshot.paramMap.get(key)
+			this.datos[key] = this.route.snapshot.paramMap.get(key)=='null'? this.datos[key] : this.route.snapshot.paramMap.get(key)
 
 		for (let key in this.datosins)
-			this.datosins[key] = this.route.snapshot.paramMap.get(key)? this.route.snapshot.paramMap.get(key):''
+			this.datosins[key] = this.route.snapshot.paramMap.get(key)!='null'? this.route.snapshot.paramMap.get(key):''
 
 
 
@@ -102,13 +102,13 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 				.then(res => {
 					console.log(res);
 					loading.then(load => load.dismiss())
-
+					this.presentToast("Se modificaron los datos correctamente")
 					this.navCtrl.back()
 
 				})
 				.catch(err => {
 					console.log(err);
-
+					this.presentToast("Error al guardar los datos")
 					loading.then(load => load.dismiss())
 				})
 		}
@@ -119,7 +119,7 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		// This code is necessary for browser
 		let latlng = {}
 		console.log(this.datosins)
-		if (!this.datosins.lat ) {
+		if (this.datosins.lat=="" ) {
 			let resp = await this.geolocation.getCurrentPosition()
 			latlng = { lat: resp.coords.latitude, lng: resp.coords.longitude }
 		} else {
@@ -128,13 +128,13 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		let map
 		map = new google.maps.Map(document.querySelector('#mapMOD'), {
 			center: latlng,// this.datosins.nombregym+' '+this.datosins.ciudad+' '+this.datosins.departamento,
-			zoom: this.datosins.lat ? parseInt(this.datosins.zoom) : 12,
+			zoom: this.datosins.lat!=""  ? parseInt(this.datosins.zoom) : 12,
 			disableDefaultUI: true
 		});
 		console.log(latlng)
 		var marker = new google.maps.Marker(
 			{
-				position: this.datosins.lat?"": latlng,
+				position:latlng,
 				map: map,
 			}
 		)
@@ -142,10 +142,9 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		let _myFormins = this.myFormins
 		map.addListener('click', function (event) {
 			marker.setPosition(event.latLng)
-			console.log(event)
 			_myFormins.get("lat").setValue(marker.getPosition().lat())
 			_myFormins.get("lng").setValue(marker.getPosition().lng()),
-				_myFormins.get("zoom").setValue(map.getZoom())
+			_myFormins.get("zoom").setValue(map.getZoom())
 			geocoder.geocode({
 				'location': event.latLng
 			}, function (results, status) {
@@ -163,6 +162,7 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 					console.log('Geocoder failed due to: ' + status);
 				}
 			});
+			console.log(_myFormins.value)
 		});
 	}
 	async presentLoading(text) {

@@ -101,12 +101,13 @@ export class AlumnosdetallePage implements OnInit {
       idusu: this.datos.idusuarios,
       token:this.datos.token,
       curso:this.datos.titulo,
-      id_curso:this.datos.id_curso
+      id_curso:this.datos.id_curso,
+      idusu_cur:this.datos.idusu_cur
     }])
   }
 
   cargarRutinas() {
-    this.rutina.listarRutinas_cli(this.datos.idusuarios, true)
+    this.rutina.listarRutinas_porCurso(this.datos.idusu_cur, true)
       .then(array => {
         for (let i in array) {
           array[i]['estadohidden'] = false

@@ -23,7 +23,7 @@ export class CrearPage implements OnInit {
   }
   tokencli
   curso
-
+  idusu_cur
   constructor(
     private formb: FormBuilder,
     public modalController: ModalController,
@@ -42,6 +42,7 @@ export class CrearPage implements OnInit {
     this.tokencli=this.arouter.snapshot.paramMap.get('token')
     this.curso=this.arouter.snapshot.paramMap.get('curso')
     this.idcurso=this.arouter.snapshot.paramMap.get('id_curso')
+    this.idusu_cur=this.arouter.snapshot.paramMap.get('idusu_cur')
     console.log(this.idalumno);
     
   }
@@ -101,7 +102,7 @@ export class CrearPage implements OnInit {
         return this.guardarRut_usu(_idrut)
       })
       .then(()=>{
-        this.rutina.estadousu_cur(this.idalumno,this.idcurso)
+        this.rutina.estadousu_cur(this.idusu_cur)
         this.presentToast('Se guardo corectamente la rutina')
         this.navCtrl.back()
       })
@@ -115,7 +116,7 @@ export class CrearPage implements OnInit {
   }
   guardarRut_usu(_idrut){
     if(this.idalumno)
-      return this.rutina.crearRut_Usu(this.idalumno,_idrut,this.idcurso,this.personal)
+      return this.rutina.crearRut_Usu(this.idalumno,_idrut,this.idusu_cur,this.personal)
       .then(res=>{
         console.log(res);
         return this.fcm.notificacionforToken(

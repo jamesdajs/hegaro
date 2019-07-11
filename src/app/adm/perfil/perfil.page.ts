@@ -27,15 +27,17 @@ export class PerfilPage implements OnInit {
   ) {
 
   }
+  ionViewWillEnter(){
 
-  ngOnInit() {
-    console.log("Perfil Page");
     this.storage.get("idusuario")
       .then(id => {
         console.log(id)
         this.id = id
         this.cargardatos(id)
       })
+  }
+  ngOnInit() {
+    console.log("Perfil Page");
 
   }
   modperfil() {

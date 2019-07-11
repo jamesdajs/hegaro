@@ -18,7 +18,7 @@ export class ModalrutdefPage implements OnInit {
   @Input() idusuarios
   @Input() titulo
   @Input() token
-  @Input() id_curso
+  @Input() idusu_cur
   constructor(
     private storage: Storage,
     private rutina: RutinaProvider,
@@ -55,7 +55,7 @@ export class ModalrutdefPage implements OnInit {
   guardar() {
     console.log(this.idusuarios, this.idselect, this.myForm.value);
     if (this.myForm.valid)
-      this.rutina.crearRut_Usu(this.idusuarios, this.idselect,this.id_curso, this.myForm.value)
+      this.rutina.crearRut_Usu(this.idusuarios, this.idselect,this.idusu_cur, this.myForm.value)
         .then(res=>{
           return this.fcm.notificacionforToken(
             'Rutina asignada',
@@ -66,6 +66,8 @@ export class ModalrutdefPage implements OnInit {
           )
         })
         .then(res => {
+
+          this.rutina.estadousu_cur(this.idusu_cur)
           this.presentToast('Se asigno correctamente la rutina al alumno')
           this.modalController.dismiss()
         })

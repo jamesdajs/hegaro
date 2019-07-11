@@ -204,17 +204,17 @@ export class RutinaProvider {
       .toPromise()
   }
   crearRut_Usu(idusu, idrut,idcurso,datos) {
-    let sql = "INSERT into  rut_usu (id_usuario,id_rutina,id_curso,fecha_ini,fecha_fin) VALUES (?,?,?,?,?)"
+    let sql = "INSERT into  rut_usu (id_usuario,id_rutina,id_usucur,fecha_ini,fecha_fin) VALUES (?,?,?,?,?)"
     let values = [idusu, idrut, idcurso,datos.fechaini.substring(0,10), datos.fechafin.substring(0,10)]
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
 
   //cambia el estado a alumno con rutinas
-  estadousu_cur(id_usu,id_curso){
-    let sql = "update udu_cur 'set estado=1 where id_usuario=? and id_curso=? and tipo='i'"
-    let values = [id_usu, id_curso]
-    return this.http.post(this.urlInsert, { sql: sql, values: values }, {headers: this.headers })
+  estadousu_cur(idusu_cur){
+    let sql = "update usu_cur set estado=1 where idusu_cur=? and tipo='i'"
+    let values = [idusu_cur]
+    this.http.post(this.urlInsert, { sql: sql, values: values }, {headers: this.headers })
       .toPromise()
   }
 
@@ -237,9 +237,9 @@ export class RutinaProvider {
     return this.http.post<[any]>(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
     .toPromise()
   }
-  listarRutinas_cli(idcli,estado) {
-    let sql = "select r.*,ru.fecha_ini,ru.fecha_fin from rutinas r,rut_usu ru where r.estado=? and r.idrutinas=ru.id_rutina and ru.id_usuario=?"
-    let values = [ estado,idcli]
+  listarRutinas_porCurso(idusucurcli,estado) {
+    let sql = "select r.*,ru.fecha_ini,ru.fecha_fin from rutinas r,rut_usu ru where r.estado=? and r.idrutinas=ru.id_rutina and ru.id_usucur=?"
+    let values = [ estado,idusucurcli]
     return this.http.post<[any]>(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
     .toPromise()
   }

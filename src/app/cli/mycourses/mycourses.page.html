@@ -14,7 +14,7 @@
       </div>
   <ion-list>
     <div *ngFor="let item of datos; let i=index ">
-        <ion-item (click)="vermicurso()">
+        <ion-item (click)="vermicurso(item)">
             <ion-avatar item-start>
                 <img [src]="item.foto">
               </ion-avatar>

@@ -38,8 +38,8 @@ export class MycoursesPage implements OnInit {
   ngOnInit() {
   }
 
-  vermicurso(){
-    this.routes.navigate(['/cli/mis-cursos/vermicurso'],this.id)
+  vermicurso(item){
+    this.routes.navigate(['/cli/mis-cursos/vermicurso'],item.idusu_cur)
   }
 
   inicio(){
