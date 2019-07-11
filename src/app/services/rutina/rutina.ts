@@ -209,6 +209,16 @@ export class RutinaProvider {
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
+
+  //cambia el estado a alumno con rutinas
+  estadousu_cur(id_usu,id_curso){
+    let sql = "update udu_cur 'set estado=1 where id_usuario=? and id_curso=? and tipo='i'"
+    let values = [id_usu, id_curso]
+    return this.http.post(this.urlInsert, { sql: sql, values: values }, {headers: this.headers })
+      .toPromise()
+  }
+
+
   ModificarRut_Usu(idusu, idrut,datos) {
     let sql = "update rut_usu set fecha_ini=?,fecha_fin=? where id_usuario=? and id_rutina=?"
     let values = [ datos.fechaini, datos.fechafin,idusu, idrut]

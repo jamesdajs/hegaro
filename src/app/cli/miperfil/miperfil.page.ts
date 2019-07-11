@@ -33,6 +33,7 @@ export class MiperfilPage implements OnInit {
   ) {
 
   }
+  
 
   ngOnInit() {
     console.log("Perfil Page");

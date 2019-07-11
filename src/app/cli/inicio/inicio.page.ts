@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
+import { IonInfiniteScroll} from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio',
@@ -32,11 +33,25 @@ export class InicioPage implements OnInit {
   constructor(private routes: Router,
     private servicesCurso:CursoService,
     private socialsharing:SocialSharing) { 
-  
+      
     }
+    @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+    loadData(event) {
+      console.log(event);
+      setTimeout(() => {
+        console.log('Done');
+        event.IonInfiniteScroll.complete();
+      }, 500);
+    }
+
+    
 
   ngOnInit() {
   }
+ /* toggleInfiniteScroll() {
+    console.log('Done',this.infiniteScroll.disabled);
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+  }*/
   ionViewWillEnter() {
     this.listarcursos()
   }

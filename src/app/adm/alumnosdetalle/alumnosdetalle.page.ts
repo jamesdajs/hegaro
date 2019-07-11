@@ -55,7 +55,6 @@ export class AlumnosdetallePage implements OnInit {
       .then(num => {
         this.selectedSegment = this.slides[num].id
       })
-
   }
   //--------------end funciones tab slide--------------*/
 
@@ -97,7 +96,7 @@ export class AlumnosdetallePage implements OnInit {
 
   }
   crerdef() {
-    this.router.navigate(['/adm/misalumnos/alumnodetalle/creardef', { idusu: this.datos.idusuarios }])
+    this.router.navigate(['/adm/misalumnos/alumnodetalle/creardef', { idusu: this.datos.idusuarios, idcurso:this.datos.id_curso }])
   }
 
   cargarRutinas() {
@@ -142,7 +141,6 @@ export class AlumnosdetallePage implements OnInit {
           if(item.tipo=='p')
           this.router.navigate(['/adm/misalumnos/alumnodetalle/modificardef', item])
           else this.presentToast('Las rutinas por defecto no se pueden modifican en esta vista')
-
         }
       }, {
         text: textver,

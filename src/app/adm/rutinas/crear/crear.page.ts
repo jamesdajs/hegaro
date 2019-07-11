@@ -15,6 +15,7 @@ export class CrearPage implements OnInit {
   myForm: FormGroup
   ejercicios = []
   idalumno
+  idcurso
   personal={
     fechaini:'',
     fechafin:''
@@ -33,6 +34,7 @@ export class CrearPage implements OnInit {
       descripcion: ['', [Validators.required, Validators.maxLength(200)]]
     });
     this.idalumno=this.arouter.snapshot.paramMap.get('idusu')
+    this.idcurso=this.arouter.snapshot.paramMap.get('idcurso')
     console.log(this.idalumno);
     
   }
@@ -49,7 +51,6 @@ export class CrearPage implements OnInit {
     const { data } = await modal.onDidDismiss()
     console.log(data);
     this.ejercicios=data
-
   }
   eliminar(i){
     this.ejercicios.splice(i, 1);
@@ -93,7 +94,7 @@ export class CrearPage implements OnInit {
         return this.guardarRut_usu(_idrut)
       })
       .then(()=>{
-
+        this.rutina.estadousu_cur(this.idalumno,this.idcurso)
         this.presentToast('Se guardo corectamente la rutina')
         this.navCtrl.back()
       })
@@ -117,5 +118,4 @@ export class CrearPage implements OnInit {
     });
     toast.present();
   }
-  
 }
