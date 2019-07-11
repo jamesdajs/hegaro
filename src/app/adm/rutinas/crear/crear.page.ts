@@ -16,13 +16,14 @@ export class CrearPage implements OnInit {
   myForm: FormGroup
   ejercicios = []
   idalumno
+  idcurso
   personal={
     fechaini:'',
     fechafin:''
   }
   tokencli
   curso
-  idcurso
+
   constructor(
     private formb: FormBuilder,
     public modalController: ModalController,
@@ -57,7 +58,6 @@ export class CrearPage implements OnInit {
     const { data } = await modal.onDidDismiss()
     console.log(data);
     this.ejercicios=data
-
   }
   eliminar(i){
     this.ejercicios.splice(i, 1);
@@ -101,7 +101,7 @@ export class CrearPage implements OnInit {
         return this.guardarRut_usu(_idrut)
       })
       .then(()=>{
-
+        this.rutina.estadousu_cur(this.idalumno,this.idcurso)
         this.presentToast('Se guardo corectamente la rutina')
         this.navCtrl.back()
       })
@@ -135,5 +135,4 @@ export class CrearPage implements OnInit {
     });
     toast.present();
   }
-  
 }

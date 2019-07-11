@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { promise } from 'protractor';
-import { AlertController, ToastController, NavController } from '@ionic/angular';
+import { AlertController, ToastController, NavController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AnimationOptions } from '@ionic/angular/dist/providers/nav-controller';
 
@@ -19,7 +19,8 @@ export class MishorariosPage implements OnInit {
   constructor(private storage: Storage,
     private servicioUsuario: UsuarioProvider,
     public navCtrl: NavController,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    public loadingController: LoadingController) {
     this.storage.get('idusuario').then(id => {
       this.idusuario = id
       this.recuperarhorario(id)
@@ -102,6 +103,7 @@ export class MishorariosPage implements OnInit {
 
 
   guardar() {
+    let loading = this.presentLoading('Guardando datos')
     let x = []
     for (let i in this.dias) {
       for (let h in this.horario[i].horas) {
@@ -122,11 +124,22 @@ export class MishorariosPage implements OnInit {
         animated: true,
         animationDirection: "back"
       }
+      loading.then(load => load.dismiss())
       this.navCtrl.back(animations)
     }).
       catch(er => {
         console.log(er);
       })
+  }
+
+  //funcion para el loading
+  async presentLoading(text) {
+    const loading = await this.loadingController.create({
+      message: text,
+      duration: 2000
+    });
+    await loading.present();
+    return loading
   }
 
   //FUNCION QUE RECUPERA LOS HORARIOS
@@ -149,7 +162,7 @@ export class MishorariosPage implements OnInit {
                   inicio: data[j].hora_ini,
                   fin: data[j].hora_fin,
                   estado:1
-                })
+              })
             }
           }
         }

@@ -11,7 +11,6 @@ import { IonInfiniteScroll } from '@ionic/angular';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
-  @ViewChild (IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   items: any;
   cursos=[]
   instructor=[]
@@ -34,12 +33,26 @@ export class InicioPage implements OnInit {
   constructor(private routes: Router,
     private servicesCurso:CursoService,
     private socialsharing:SocialSharing) { 
-  
+      
     }
+    @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+    loadData(event) {
+      console.log(event);
+      setTimeout(() => {
+        console.log('Done');
+        event.IonInfiniteScroll.complete();
+      }, 500);
+    }
+
+    
 
   ngOnInit() {
     this.listarcursos()
   }
+ /* toggleInfiniteScroll() {
+    console.log('Done',this.infiniteScroll.disabled);
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+  }*/
   ionViewWillEnter() {
     
   }
@@ -99,73 +112,33 @@ export class InicioPage implements OnInit {
 
   //FUNCION QUE COMPARTE MEDIANTE CUALQUIER RED SOCIAL
   shareWithOptions(item){
-     //EN CASO DE QUE NO TENGA IMAGEN NO ENVIA NINGUN DATO EN FILES 
-    if(item.fotos.length==0){
+    console.log("foto 1 ",item.fotos[0].url);
+    if(item.fotos[0].url==0){
       this.socialsharing.shareWithOptions({
         message:item.titulo,
         subject:item.descripcion,
         url:'www.hegaro.com.bo',
         chooserTitle:'Compartir Via'
-      }).then(() => {
-        console.log("shared successfull"); 
-      }).catch((e) => {
-        console.log("shared failed"+e);
-      });
+        }).then(() => {
+          console.log("shared successfull"); 
+        }).catch((e) => {
+          console.log("shared failed"+e);
+        });
     }else{
-    this.socialsharing.shareWithOptions({
-      message:item.titulo,
-      subject:item.descripcion,
-      url:'www.hegaro.com.bo',
-      files: [item.fotos[0].url],
-      chooserTitle:'Compartir Via'
-    }).then(() => {
-      console.log("shared successfull"); 
-    }).catch((e) => {
-      console.log("shared failed"+e);
-    });
-   }
+      this.socialsharing.shareWithOptions({
+        message:item.titulo,
+        subject:item.descripcion,
+        files:[item.fotos[0].url],
+        url:'www.hegaro.com.bo',
+        chooserTitle:'Compartir Via'
+        }).then(() => {
+          console.log("shared successfull"); 
+        }).catch((e) => {
+          console.log("shared failed"+e);
+        });
+    }
   }
-
-  /*
-  async shareInstagram() {
-    this.socialsharing.shareViaInstagram("mi curso", "https://www.fbhoy.com/wp-content/uploads/2016/03/como-personalizar-url-pagina-facebook.jpg").then(() => {
-      console.log("shared successfull"); 
-  }).catch((e) => {
-      console.log("shared failed"+e);
-    });
-  }
-
-  async shareFacebook() {
-    this.socialsharing.shareViaFacebook("mi curso", "https://www.fbhoy.com/wp-content/uploads/2016/03/como-personalizar-url-pagina-facebook.jpg", null).then(() => {
-      console.log("shared successfull"); 
-  }).catch((e) => {
-      console.log("shared failed"+e);
-    });
-  }
-
-  async shareWhatsApp() {
-    this.socialsharing.shareViaWhatsApp("", null, "").then(() => {
-      // Success
-    }).catch((e) => {
-      // Error!
-    });
-  }
-
-  async shareTwitter() {
-    this.socialsharing.shareViaTwitter(null, null, "this.url").then(() => {
-      // Success
-    }).catch((e) => {
-      // Error!
-    });
-  }
-
-  async shareEmail() {
-    this.socialsharing.shareViaEmail("this.text", 'My custom subject', ['saimon@devdactic.com'], null, null, "file.nativeURL").then(() => {
-    }).catch((e) => {
-      // Error!
-    });
-  }
-  */
+ 
 
  doInfinite(event) {
 

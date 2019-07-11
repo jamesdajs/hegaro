@@ -53,12 +53,12 @@
 			</div>
 		</div>
 	</ion-list>
-	<div *ngIf="rutinas.length==0" class="ion-no-padding" text-center class="div-noting">
+	<div *ngIf="rutinas.length==0" text-center class="div-noting">
 			<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
-		<ion-label>No tienes rutinas creadas aun..!! comienza ahora.
+		<ion-label>No tienes rutinas creadas aun..!! comienza ahora. <br>
 				<ion-button fill="outline" (click)=crear()>
 						Crear rutina
-					  </ion-button>
+				</ion-button>
 		</ion-label>
 	</div>
 </ion-content>

@@ -18,9 +18,17 @@ const routes: Routes = [
               },
               {
                 path: 'crearcurso',
-                loadChildren: '../crearcurso/crearcurso.module#CrearcursoPageModule'
+                children:[
+                  {
+                    path: '',
+                    loadChildren: '../crearcurso/crearcurso.module#CrearcursoPageModule'
+                  },
+                  {
+                    path: 'crearhorario',
+                    loadChildren: '../mishorarios/mishorarios.module#MishorariosPageModule'
+                  }
+                ]
               },
-
             ]
         },
         {

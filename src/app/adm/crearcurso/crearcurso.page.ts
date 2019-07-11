@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FotosService } from 'src/app/services/fotos.service';
 import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ToastController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { Storage } from '@ionic/storage';
+import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 
 @Component({
   selector: 'app-crearcurso',
@@ -32,26 +33,25 @@ export class CrearcursoPage implements OnInit {
     private selector: WheelSelector,
     public formb: FormBuilder,
     public loadingController: LoadingController,
+    private alertController: AlertController,
     private router: Router,
     private toastController: ToastController,
-    private curso: CursoService
-    ,
-    private storage: Storage
+    private curso: CursoService,
+    private storage: Storage,
+    private serviciousuario:UsuarioProvider
   ) {
     this.jsonData = {
       horas: [
-        { name:'Horas', id: "" },
-        { name:'1 hora', id: "1" },
-        { name:'2 horas', id: "2" },
-        { name:'3 horas', id: "3" },
-        { name:'4 horas', id: "4" },
-        { name:'5 horas', id: "5" },
-        { name:'6 horas', id: "6" },
-        { name:'7 horas', id: "7" }
+        { name:'1', id: "1" },
+        { name:'2', id: "2" },
+        { name:'3', id: "3" },
+        { name:'4', id: "4" },
+        { name:'5', id: "5" },
+        { name:'6', id: "6" },
+        { name:'7', id: "7" }
       ],
       semanas: [
-        { name:'Semanas',id: "" },
-        { name:'1 semana',id: "1" },
+        { name:'1 semana',  id: "1" },
         { name:'2 semanas', id: "2" },
         { name:'3 semanas', id: "3" },
         { name:'4 semanas', id: "4" },
@@ -60,7 +60,17 @@ export class CrearcursoPage implements OnInit {
         { name:'7 semanas', id: "7" },
         { name:'8 semanas', id: "8" },
         { name:'9 semanas', id: "9" },
-        { name:'10 semanas', id: "10" }
+        { name:'10 semanas',id: "10" },
+        { name:'11 semana', id: "11" },
+        { name:'12 semanas', id: "12" },
+        { name:'13 semanas', id: "13" },
+        { name:'14 semanas', id: "14" },
+        { name:'15 semanas', id: "15" },
+        { name:'16 semanas', id: "16" },
+        { name:'17 semanas', id: "17" },
+        { name:'18 semanas', id: "18" },
+        { name:'19 semanas', id: "19" },
+        { name:'20 semanas', id: "20" }
       ]
     };
     this.myFormins = this.formb.group({
@@ -93,32 +103,71 @@ export class CrearcursoPage implements OnInit {
 
   selectDuracion() {
     this.selector.show({
-      title: "Selecciona duración del curso",
-      items: [
-        this.jsonData.horas, this.jsonData.semanas
-      ],
+      title: "Selecciona la duración del curso",
+      items: [ this.jsonData.semanas ],
       displayKey: 'name',
       positiveButtonText: "Ok",
       negativeButtonText: "Cancelar",
       defaultItems: [
-        { index: 0, value: this.jsonData.horas[0].name },
+        /*{ index: 0, value: this.jsonData.horas[0].name },*/
         { index: 1, value: this.jsonData.semanas[0].name }
       ]
     }).then(
       result => {
-        this.duracion = this.jsonData.horas[result[0].index].name + ' por ' + this.jsonData.semanas[result[1].index].name ;
-        this.horas = this.jsonData.horas[result[0].index].id
-        this.semanas = this.jsonData.horas[result[1].index].id;
+       
+        //this.duracion = this.jsonData.horas[result[0].index].name + ' por ' + this.jsonData.semanas[result[1].index].name ;
+        this.duracion = this.jsonData.semanas[result[0].index].name;
+        /*this.horas = this.jsonData.horas[result[0].index].id*/
+        this.semanas = this.jsonData.semanas[result[0].index].id;
       },
       err => console.log('Error: ' + JSON.stringify(err))
     );
   }
 
-  //llenar datos en tabla relacion
-  guardardatosTablaRelacion() {
+  //funcion para consultar si este tiene horarios ya creados
+  consultarhorarios(){
+    console.log("consultar")
+    this.storage.get('idusuario')
+    .then(id => {
+      this.serviciousuario.mishorarios(id)
+      .then(res => {
+        console.log(res);
+        
+        if(res.length==0){
+          console.log("sin hoarios")
+          this.presentAlertConfirm()
+        }else{
+          console.log("con horarios");
+          this.guardarDatos()
+        }
+      })
+    })
 
   }
 
+    //alerta eliminar horario
+    async presentAlertConfirm() {
+      const alert = await this.alertController.create({
+        header: 'No tienes horarios creados!!',
+        message: 'Te recomendamos definir tus horarios, para que tus alumnos puedan inscribirse a tus cursos',
+        buttons: [
+          {
+            text: 'Publicar curso',
+            role: 'cancel',
+            cssClass: 'secondary',
+            handler: (blah) => {
+              this.guardarDatos()
+            }
+          }, {
+            text: 'Crear horario',
+            handler: () => {
+              this.router.navigate(['/adm/cursos/crearcurso/crearhorario'])
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
 
   date = new Date();
   guardarDatos() {

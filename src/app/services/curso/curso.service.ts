@@ -47,7 +47,8 @@ export class CursoService {
       let values=[estado]
       return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
     }
-
+    
+    //lista las fotos 
     listarfotos(idcurso){
       let sql="select * from fotos_curso where id_curso=?" 
       let values=[idcurso]
