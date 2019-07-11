@@ -16,7 +16,7 @@ import { AuthFacebookProvider } from 'src/app/services/authfacebok/authfacebok';
 })
 export class MiperfilPage implements OnInit {
 
-
+  fechaejem:''
 
   datos = []
   genero = "hombre"
@@ -140,4 +140,10 @@ export class MiperfilPage implements OnInit {
 
     await alert.present();
   }
+  verfechaejem(){
+    console.log(this.fechaejem.substring(0,10));
+    
+    
+  }
+
 }

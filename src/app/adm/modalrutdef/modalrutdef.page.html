@@ -16,14 +16,27 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
-      <ion-label>inicio</ion-label>
-      <ion-datetime [(ngModel)]='personal.fechaini' display-format="DD MMMM YYYY" min="2019" max="2020"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label>fin</ion-label>
-      <ion-datetime [(ngModel)]='personal.fechafin' display-format="DD MMMM YYYY" min="2019" max="2020"></ion-datetime>
-    </ion-item>
+      <form [formGroup]="myForm">
+
+        <ion-item>
+          <ion-label>inicio</ion-label>
+          <ion-datetime displayFormat="D de MMMM , YYYY" pickerFormat="DD MMMM YYYY" min="2019" max="2020" cancelText=Cancelar
+            doneText=Ok
+            month-names="Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre"
+            month-short-names='Ene,Feb,Mar,Abr,May,Jun,jul,Ago,Sep,Oct,Nov,Dic'
+            formControlName="fechaini">
+          </ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>fin</ion-label>
+          <ion-datetime  displayFormat="D de MMMM , YYYY" min="2019" max="2020" cancelText=Cancelar
+            doneText=Ok
+            month-names="Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre"
+            month-short-names='Ene,Feb,Mar,Abr,May,Jun,jul,Ago,Sep,Oct,Nov,Dic'
+            formControlName="fechafin">
+          </ion-datetime>
+        </ion-item>
+      </form>
     <ion-item-divider>
       <ion-label>Rutinas por defecto</ion-label>
     </ion-item-divider>

@@ -5,6 +5,7 @@ import { ModaladdejerPage } from '../modaladdejer/modaladdejer.page';
 import { Storage } from '@ionic/storage';
 import { RutinaProvider } from 'src/app/services/rutina/rutina';
 import { ActivatedRoute } from '@angular/router';
+import { FcmService } from 'src/app/services/fcm/fcm.service';
 
 @Component({
   selector: 'app-crear',
@@ -20,6 +21,9 @@ export class CrearPage implements OnInit {
     fechaini:'',
     fechafin:''
   }
+  tokencli
+  curso
+
   constructor(
     private formb: FormBuilder,
     public modalController: ModalController,
@@ -27,14 +31,17 @@ export class CrearPage implements OnInit {
     public rutina:RutinaProvider,
     public toastController: ToastController,
     public navCtrl:NavController,
-    private arouter:ActivatedRoute
+    private arouter:ActivatedRoute,
+    private fcm : FcmService
   ) {
     this.myForm = this.formb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
       descripcion: ['', [Validators.required, Validators.maxLength(200)]]
     });
     this.idalumno=this.arouter.snapshot.paramMap.get('idusu')
-    this.idcurso=this.arouter.snapshot.paramMap.get('idcurso')
+    this.tokencli=this.arouter.snapshot.paramMap.get('token')
+    this.curso=this.arouter.snapshot.paramMap.get('curso')
+    this.idcurso=this.arouter.snapshot.paramMap.get('id_curso')
     console.log(this.idalumno);
     
   }
@@ -108,7 +115,17 @@ export class CrearPage implements OnInit {
   }
   guardarRut_usu(_idrut){
     if(this.idalumno)
-      return this.rutina.crearRut_Usu(this.idalumno,_idrut,this.personal)
+      return this.rutina.crearRut_Usu(this.idalumno,_idrut,this.idcurso,this.personal)
+      .then(res=>{
+        console.log(res);
+        return this.fcm.notificacionforToken(
+          'Rutina asignada',
+          'Tienen una nueva rutina en el curso '+this.curso,
+          this.tokencli,
+          '',
+          '/cli/mis-cursos'
+        )
+      })
     else return true
   }
   async presentToast(text) {

@@ -14,14 +14,26 @@
 </ion-header>
 
 <ion-content no-padding>
-    <ion-slides pager class="ion-no-padding">
-        <ion-slide>
-            <img src="../../../assets/imgs/defecto.jpeg" width="100%">
-        </ion-slide>
-        <ion-slide>
-            <img src="../../../assets/imgs/defecto2.jpeg" width="100%">
-        </ion-slide>
-    </ion-slides>
+  <ion-card>
+      <ion-slides >
+          <ng-container *ngIf="imagenes.length!=0; else elseBlock">
+            <ion-slide *ngFor="let imagen of imagenes">
+      
+              <img [src]="imagen.url" />
+      
+            </ion-slide>
+      
+          </ng-container>
+          <ng-template #elseBlock>
+            <ion-slide>
+              <img src="../../assets/imgs/defecto.jpeg" />
+            </ion-slide>
+          </ng-template>
+          <ion-slide *ngIf="ejercicio.linkyoutube!='' && ejercicio.linkyoutube; " class="video">
+            <iframe width="100%" height="250px" [src]="youtubeaux" frameborder="0"
+              allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </ion-slide>
+        </ion-slides>
     <ion-card-header >
         <ion-card-title>Tipo: {{ejercicio.tipo}}</ion-card-title>
     </ion-card-header>
@@ -29,9 +41,12 @@
     <ion-card-content >
         Instrucciones: {{ejercicio.instrucciones}}
     </ion-card-content>
+  </ion-card>
+  
+    
 
         <ion-grid class="ion-padding">
-                <ion-row>
+                <ion-row >
                   <ion-col size="2" size-sm class="ion-align-self-center">
                     <div>
                       Set
@@ -58,25 +73,22 @@
                         </div>
                       </ion-col>
                 </ion-row>
-                <ion-row>
+                <ion-row *ngFor="let set of sets; let i=index">
                         <ion-col size="2" size-sm class="ion-align-self-center">
                           <div>
-                            1
+                            {{i+1}} set
                           </div>
                         </ion-col>
                         <ion-col size="3" size-sm>
                           <div>
-                            50 kg
                           </div>
                         </ion-col>
                         <ion-col size="2" size-sm>
                           <div>
-                            3
                           </div>
                         </ion-col>
                         <ion-col size="3" size-sm>
                           <div>
-                            10
                           </div>
                         </ion-col>
                         <ion-col size="2" size-sm>
@@ -86,5 +98,9 @@
                             </ion-col>
                       </ion-row>
         </ion-grid>
-
+        <ion-list>
+          <ion-item *ngFor="let i of sets">
+            <ion-label>Awesome Label</ion-label>
+          </ion-item>
+        </ion-list>
 </ion-content>

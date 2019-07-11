@@ -87,9 +87,8 @@ const routes: Routes = [
                 },
                 {
                   path: 'verejercicio',
-                  loadChildren: '../verejercicio/verejercicio.module#VerejercicioPageModule'
+                  loadChildren: '../detalleejercicio/detalleejercicio.module#DetalleejercicioPageModule'
                 },
-
               ]
 
             },

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { IonInfiniteScroll} from '@ionic/angular';
+import { IonInfiniteScroll } from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio',
@@ -47,13 +47,14 @@ export class InicioPage implements OnInit {
     
 
   ngOnInit() {
+    this.listarcursos()
   }
  /* toggleInfiniteScroll() {
     console.log('Done',this.infiniteScroll.disabled);
     this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
   }*/
   ionViewWillEnter() {
-    this.listarcursos()
+    
   }
 
   //BUSCAR CURSO 
@@ -65,6 +66,7 @@ export class InicioPage implements OnInit {
       })
     }
   }
+  im
 
   //cancelar busqueda
   clearFilter() { 
@@ -83,6 +85,7 @@ export class InicioPage implements OnInit {
   }
 
   //FUNCION LISTAR CURSOS
+
   listarcursos() {
     this.servicesCurso.listarcursos(1).subscribe(data=>{
 
@@ -107,6 +110,7 @@ export class InicioPage implements OnInit {
 
   //-----FUNCIONES PARA COMPARTIR CURSOS----
 
+  //FUNCION QUE COMPARTE MEDIANTE CUALQUIER RED SOCIAL
   shareWithOptions(item){
     console.log("foto 1 ",item.fotos[0].url);
     if(item.fotos[0].url==0){
@@ -133,5 +137,32 @@ export class InicioPage implements OnInit {
           console.log("shared failed"+e);
         });
     }
+  }
+ 
+
+ doInfinite(event) {
+
+  console.log('funcion');
+    setTimeout(() => {
+      console.log('Done');
+      event.target.complete();
+
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      //if (data.length == 1000) {
+       // event.target.disabled = true;
+      //}
+    }, 500);
+  }
+  toggleInfiniteScroll() {
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+  }
+  doRefresh(event) {
+    console.log('Begin async operation');
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
   }
 }

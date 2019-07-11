@@ -45,8 +45,11 @@
 								</p>
 							</ion-item>
 						</form>
+<!--
 
-						<div id="mapMOD" style="height: 200px;"></div>
+	<div id="map_canvas"></div>
+-->
+					<div id="mapMOD" style="height: 200px;"></div>
 					</div>
 					<ion-item-divider>
 						<ion-label>Datos de Personales</ion-label>
@@ -74,7 +77,7 @@
 
 						<ion-item>
 							<ion-label position="stacked">Fecha de nacimiento:</ion-label>
-							<ion-datetime displayFormat="DD MMMM YYYY" min="1940" cancelText=Cancelar doneText=Ok
+							<ion-datetime displayFormat="D de MMMM , YYYY" min="1940" cancelText=Cancelar doneText=Ok
 								month-names="Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre"
 								month-short-names='Ene,Feb,Mar,Abr,May,Jun,jul,Ago,Sep,Oct,Nov,Dic'
 								formControlName="fechanac">
@@ -132,4 +135,5 @@
 			</ion-row>
 		</ion-list>
 	</ion-grid>
+	
 </ion-content>

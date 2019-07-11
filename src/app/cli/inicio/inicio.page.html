@@ -5,15 +5,37 @@
 </ion-header>
 
 <ion-content no-padding>
-  <div >
-      <ion-list *ngIf="cursos.length===0">
-          <ion-item *ngFor="let i of [1,1,1,1,1,1,1,1,1,1] " >
-            <ion-label>
-                <ion-skeleton-text width="40%"></ion-skeleton-text>
-                <ion-skeleton-text width="80%"></ion-skeleton-text>
-            </ion-label>
-          </ion-item>
-        </ion-list>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+          pullingIcon="arrow-dropdown"
+          pullingText="Pull to refresh"
+          refreshingSpinner="circles"
+          refreshingText="Refreshing...">
+        </ion-refresher-content>
+      </ion-refresher>
+  <ion-button (click)="toggleInfiniteScroll()">
+    Click me
+  </ion-button>
+  <ion-list *ngIf="cursos.length===0">
+    <ion-item *ngFor="let i of [1,1,1,1,1,1,1,1,1,1] " >
+      <ion-label>
+          <ion-skeleton-text width="40%"></ion-skeleton-text>
+          <ion-skeleton-text width="80%"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="cursos.length > 0">
+      <div *ngFor="let item of cursos; let i=index ">
+          <ion-card>
+            <ion-item>
+              <ion-avatar item-start (click)="verInstructor(item.idusuarios)">
+                <img class="img-alumno" [src]="item.foto">
+              </ion-avatar>
+              <ion-label class="label-name-post" (click)="verInstructor(item.idusuarios)"> {{item.fullname}} </ion-label>
+              <ion-button fill="clear" (click)="shareWithOptions(item)">
+                <ion-icon name="md-share"></ion-icon>
+              </ion-button>
+            </ion-item>
       
         <div *ngIf="cursos.length > 0">
           <div *ngFor="let item of cursos; let i=index ">
@@ -61,11 +83,11 @@
               </ion-card>
             </div>
         </div>
-        <ion-infinite-scroll #infiniteScroll threshold="100px" (ionInfinite)="loadData($event)" >
-          <ion-infinite-scroll-content
-            loadingSpinner="bubbles"
-            loadingText="Cargando mas datos…">
-          </ion-infinite-scroll-content>
-        </ion-infinite-scroll>
-  </div>
+    </ion-list>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content
+          loadingSpinner="bubbles"
+          loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
 </ion-content>
