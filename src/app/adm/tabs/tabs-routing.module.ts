@@ -27,8 +27,13 @@ const routes: Routes = [
                     path: 'crearhorario',
                     loadChildren: '../mishorarios/mishorarios.module#MishorariosPageModule'
                   }
+
                 ]
               },
+                { 
+                  path: 'cursomodificar', 
+                  loadChildren: '../cursomodificar/cursomodificar.module#CursomodificarPageModule' 
+                }
             ]
         },
         {

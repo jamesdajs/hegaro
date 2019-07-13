@@ -102,6 +102,20 @@ export class InicioPage implements OnInit {
     })
   }
 
+  cargarmas(){
+    this.servicesCurso.listarcursos(1).subscribe(data=>{
+      data.forEach(item=>{
+        item.idcursos
+        item['fotos']=[]
+        this.servicesCurso.listarfotos(item.idcursos)
+        .then(res=>{
+          item['fotos']=res
+        })
+      })
+      this.cursos.push(...data)
+    })
+  }
+
   //FUNCION VER INSTRUCTOR
   verInstructor(id){
     console.log("id facebook"+id);
@@ -113,18 +127,6 @@ export class InicioPage implements OnInit {
   //FUNCION QUE COMPARTE MEDIANTE CUALQUIER RED SOCIAL
   shareWithOptions(item){
     console.log("foto 1 ",item.fotos[0].url);
-    if(item.fotos[0].url==0){
-      this.socialsharing.shareWithOptions({
-        message:item.titulo,
-        subject:item.descripcion,
-        url:'www.hegaro.com.bo',
-        chooserTitle:'Compartir Via'
-        }).then(() => {
-          console.log("shared successfull"); 
-        }).catch((e) => {
-          console.log("shared failed"+e);
-        });
-    }else{
       this.socialsharing.shareWithOptions({
         message:item.titulo,
         subject:item.descripcion,
@@ -136,7 +138,6 @@ export class InicioPage implements OnInit {
         }).catch((e) => {
           console.log("shared failed"+e);
         });
-    }
   }
  
 

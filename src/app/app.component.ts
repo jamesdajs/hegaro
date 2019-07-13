@@ -42,7 +42,7 @@ export class AppComponent {
 
       this.fcm.onTokenRefresh()
       .subscribe(token=>{
-        alert(token)
+       // alert(token)
       },err=>{
         console.log(err);
         

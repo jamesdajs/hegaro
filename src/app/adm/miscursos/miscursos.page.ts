@@ -1,5 +1,5 @@
 import { Component, OnInit , ViewChild} from '@angular/core';
-import { IonSlides,ActionSheetController,ToastController } from '@ionic/angular';
+import { IonSlides,ActionSheetController,ToastController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import { CursoService } from 'src/app/services/curso/curso.service';
@@ -35,7 +35,8 @@ export class MiscursosPage implements OnInit {
     private routes:Router,
     private servicesCurso:CursoService,
     private socialsharing:SocialSharing,
-    private storage:Storage
+    private storage:Storage,
+    private alertController:AlertController
   ) { }
   ngOnInit() {
     this.listarcursos()
@@ -85,7 +86,7 @@ export class MiscursosPage implements OnInit {
    //--------------end funciones tab slide--------------*/
 
   //----------FUNCION DESLIZAR OPCIONES---------------
-  opciones(){
+  opciones(item,i){
     this.actionSheetCtrl.create({
       buttons:[
         {
@@ -93,13 +94,14 @@ export class MiscursosPage implements OnInit {
           icon: 'md-share',
           handler: () => {
             console.log('Delete clicked');
+            this.shareWithOptions(item)
           }
         },
         {
           text: 'Modificar',
           icon: 'create',
           handler: () => {
-            console.log('Delete clicked');
+            this.routes.navigate(["/adm/cursos/cursomodificar"],item)
           }
         },
         {
@@ -108,6 +110,7 @@ export class MiscursosPage implements OnInit {
           handler: () => {
             console.log('Archive clicked');
             //this.eliminarpubli(p)
+            this.estadoCurso(item.idcursos,i)
           }
         },
         {
@@ -115,6 +118,7 @@ export class MiscursosPage implements OnInit {
           role: 'cancel',
           handler: () => {
             console.log('Cancel clicked');
+            
           }
         }
       ]
@@ -122,6 +126,8 @@ export class MiscursosPage implements OnInit {
       actionsheet.present();
     });
   }
+
+  //
 
    //-------------funcion para mostrar toast ----------
    estadoToast=true;
@@ -148,4 +154,47 @@ export class MiscursosPage implements OnInit {
     crearcurso(){
       this.routes.navigate(['/adm/cursos/crearcurso'])
     }
+
+      //FUNCION QUE COMPARTE MEDIANTE CUALQUIER RED SOCIAL
+  shareWithOptions(item){
+    console.log("foto 1 ",item.fotos[0].url);
+      this.socialsharing.shareWithOptions({
+        message:item.titulo,
+        subject:item.descripcion,
+        files:[item.fotos[0].url],
+        url:'android:www.hegaro.com.bo',
+        chooserTitle:'Compartir Via'
+        }).then(() => {
+          console.log("shared successfull"); 
+        }).catch((e) => {
+          console.log("shared failed"+e);
+        });
+  }
+
+  //funcion para dar de baja curso
+  async estadoCurso(id,i){
+    const alert = await this.alertController.create({
+      header: 'Estas a punto de eliminar este curso!',
+      message: 'Ten en cuenta que al eliminar este curso, ya no estará disponible para que otras personas se puedan inscribir, sin embargo los estudiantes que esten inscritos podran visualizar sus rutinas normalmente!!!',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Eliminar',
+          handler: () => {
+            console.log('Eliminar');
+                this.servicesCurso.eliminar(id).then(resp => {
+                  this.cursos.splice(i,1);
+                })
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 }

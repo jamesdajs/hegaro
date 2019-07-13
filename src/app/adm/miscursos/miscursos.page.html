@@ -35,7 +35,7 @@
                         <img class="img-alumno" [src]="item.foto">
                       </ion-avatar>
                       <ion-label class="label-name-post">{{item.fullname}}</ion-label>
-                      <ion-button fill="clear" (click)="opciones()">
+                      <ion-button fill="clear" (click)="opciones(item,i)">
                           <ion-icon name="md-more"></ion-icon>
                       </ion-button>
                     </ion-item>
@@ -71,7 +71,7 @@
             <ion-grid class="ion-no-padding">
                 <ion-row >
                     <ion-col size="4" *ngFor="let item of cursos; let i=index">
-                      <div>
+                      <div (click)="opciones(item,i)">
                           <ion-slides pager  >
                               <ion-slide class="ion-no-padding" *ngIf="item.fotos.length==0; else blockelse">
                                   <img src="../../../assets/imgs/defecto.jpeg" width="100%">

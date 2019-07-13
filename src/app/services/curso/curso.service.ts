@@ -43,7 +43,8 @@ export class CursoService {
     listarcursos(estado){
       let sql=`select c.*,u.idusuarios, u.fullname, u.foto, u.telefono,u.token 
       from cursos c,usu_cur uc,usuarios u  
-      where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc `
+      where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc
+      limit 2  `
       let values=[estado]
       return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
     }
@@ -124,5 +125,23 @@ export class CursoService {
         )`
       let values=[idusu]
       return this.http.post<[]>(this.urlSelect,{sql:sql,values:values},{headers:this.headers}).toPromise()
+    }
+
+    eliminar(idcurso){
+      let sql = "update cursos set estado=0 where idcursos = ?"
+      let values = [idcurso]
+      return this.http.post(this.urlDelete, { sql: sql, values: values }, { headers: this.headers })
+        .toPromise()
+    }
+
+    modificarcurso(datos,id){
+      console.log(datos);
+      let sql =  ` 
+      UPDATE cursos 
+      set titulo=?, descripcion=?,tipomoneda=?,costo=?
+      where idcursos=?`
+      let values = [datos.titulo,datos.descripcion,datos.moneda,datos.costo,id]
+      return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
+        .toPromise()
     }
 }
