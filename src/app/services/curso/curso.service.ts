@@ -43,8 +43,23 @@ export class CursoService {
     listarcursos(estado){
       let sql=`select c.*,u.idusuarios, u.fullname, u.foto, u.telefono,u.token 
       from cursos c,usu_cur uc,usuarios u  
-      where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc `
+      where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc limit 3`
       let values=[estado]
+      return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
+    }
+    Getnumcursos(estado){
+      let sql=`select count(*) 
+      from cursos 
+      where estado=? `
+      let values=[estado]
+      return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers}).toPromise()
+    }
+    listarcursosPaginador(estado,offset){
+      let sql=`select c.*,u.idusuarios, u.fullname, u.foto, u.telefono,u.token 
+      from cursos c,usu_cur uc,usuarios u  
+      where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc 
+      limit 3 offset ?`
+      let values=[estado,offset]
       return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
     }
     

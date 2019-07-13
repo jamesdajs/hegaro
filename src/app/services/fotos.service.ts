@@ -59,7 +59,7 @@ export class FotosService {
 				}).then(buffer => {
 					//alert(buffer.byteLength)
 					let blob = new Blob([buffer], { type: "image/jpg" })
-
+					
 					var reader = new FileReader();
 					reader.readAsDataURL(blob);
 					reader.onloadend = function () {

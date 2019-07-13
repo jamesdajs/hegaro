@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RutinaProvider } from 'src/app/services/rutina/rutina';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
-import { ToastController } from '@ionic/angular';
+import { ToastController, NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import * as moment from 'moment';
 
@@ -38,7 +38,8 @@ export class DetalleejercicioPage implements OnInit {
     private sanitizer:DomSanitizer,
     private selector:WheelSelector,
     public toastController: ToastController,
-    private storage : Storage
+    private storage : Storage,
+    private navCtrl: NavController
   ) {
     this.ejercicio = this.arouter.snapshot.params
     console.log(this.ejercicio);
@@ -170,5 +171,8 @@ export class DetalleejercicioPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+  historial(){
+    this.navCtrl.navigateForward(['cli/mis-cursos/vermicurso/verejercicio/historial/',this.ejercicio])
   }
 }

@@ -7,8 +7,11 @@
 
 <ion-content no-padding>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
-      refreshingText="Refreshing...">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Suelta para cargar nuevos datos"
+      refreshingSpinner="dots"
+      refreshingText="Actualizando...">
     </ion-refresher-content>
   </ion-refresher>
 <!--
@@ -73,5 +76,7 @@
     </div>
   </div>
 
-
+  <ion-button (click)="loadData($event)" fill="clear" shape="round">
+    mostrar masS
+  </ion-button>
 </ion-content>

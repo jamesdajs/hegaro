@@ -76,7 +76,7 @@ export class VermicursoPage implements OnInit {
     this.router.navigate(['/cli/mis-cursos/vermicurso/verejercicio',item])
   }
   menuItemHandler(item): void {
-    console.log(item);
+    //console.log(item);
     
     if (item['ejercicios'].length == 0)
       this.rutina.listarEjerciciosporRutinas(item.idrutinas)

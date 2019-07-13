@@ -148,4 +148,26 @@ export class MiscursosPage implements OnInit {
     crearcurso(){
       this.routes.navigate(['/adm/cursos/crearcurso'])
     }
+    doRefresh(event) {
+      console.log("funciona");
+      
+      this.storage.get("idusuario")
+    .then(id => {
+      this.idusu = id
+      this.servicesCurso.miscursospublicados(1,parseInt(this.idusu))
+      .subscribe(data=>{
+        data.forEach(item=>{
+          item.idcursos
+          item['fotos']=[]
+          this.servicesCurso.listarfotos(item.idcursos)
+          .then(res=>{
+            item['fotos']=res
+            event.target.complete()
+          })
+        })
+        this.cursos=data
+      
+      })
+    })
+  }
 }

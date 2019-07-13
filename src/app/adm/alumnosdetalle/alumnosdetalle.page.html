@@ -80,14 +80,14 @@
 
       </ion-fab>
       <ion-list id="sidenav">
-        <div *ngFor='let r of rutinas'>
+        <div *ngFor='let r of rutinas;let i=index'>
           <ion-item >
             <ion-label (click)="menuItemHandler(r)">{{r.nombre}}
               <p>
                 {{r.descripcion}}
               </p>
             </ion-label>
-            <ion-button fill="clear" (click)="presentsheetRutina(r)">
+            <ion-button fill="clear" (click)="presentsheetRutina(r,i)">
                 <ion-icon slot="icon-only" name="more" ></ion-icon>
             </ion-button>
           </ion-item>

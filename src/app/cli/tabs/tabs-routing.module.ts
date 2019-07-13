@@ -87,7 +87,17 @@ const routes: Routes = [
                 },
                 {
                   path: 'verejercicio',
-                  loadChildren: '../detalleejercicio/detalleejercicio.module#DetalleejercicioPageModule'
+                  children: [
+                    {
+                      path: '',
+                      loadChildren: '../detalleejercicio/detalleejercicio.module#DetalleejercicioPageModule'
+                    },
+                    {
+                      path: 'historial',
+                      loadChildren: '../historial/historial.module#HistorialPageModule'
+                    },
+
+                  ]
                 },
               ]
 

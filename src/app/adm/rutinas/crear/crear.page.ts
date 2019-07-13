@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, ToastController, NavController } from '@ionic/angular';
+import { ModalController, ToastController, NavController, LoadingController } from '@ionic/angular';
 import { ModaladdejerPage } from '../modaladdejer/modaladdejer.page';
 import { Storage } from '@ionic/storage';
 import { RutinaProvider } from 'src/app/services/rutina/rutina';
@@ -32,7 +32,8 @@ export class CrearPage implements OnInit {
     public toastController: ToastController,
     public navCtrl:NavController,
     private arouter:ActivatedRoute,
-    private fcm : FcmService
+    private fcm : FcmService,
+    public loadingController: LoadingController
   ) {
     this.myForm = this.formb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
@@ -67,6 +68,7 @@ export class CrearPage implements OnInit {
     if(this.myForm.invalid || this.ejercicios.length==0)
       this.presentToast('Tienen que llenar todos los campos y seleccionar al menos un ejercicio')
     else{
+      let loading = this.presentLoading()
       let _idusu, _idrut
       this.storage.get('idusuario')
       .then(idusu=>{
@@ -103,18 +105,21 @@ export class CrearPage implements OnInit {
       })
       .then(()=>{
         this.rutina.estadousu_cur(this.idusu_cur)
+        loading.then(load=>load.dismiss())
         this.presentToast('Se guardo corectamente la rutina')
+        .then(()=>loading)
+        .then(load=>load.dismiss())
         this.navCtrl.back()
       })
       .catch(err=>{
         console.log(err);
-        
+        loading.then(load=>load.dismiss())
         this.presentToast('No se puedo guardar la rutina correctamente')
         this.navCtrl.back()
       })
     }
   }
-  guardarRut_usu(_idrut){
+  guardarRut_usu(_idrut){ 
     if(this.idalumno)
       return this.rutina.crearRut_Usu(this.idalumno,_idrut,this.idusu_cur,this.personal)
       .then(res=>{
@@ -135,5 +140,12 @@ export class CrearPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Guardando datos...',
+    });
+    await loading.present();
+    return loading
   }
 }

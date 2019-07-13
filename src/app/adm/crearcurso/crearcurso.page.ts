@@ -89,6 +89,7 @@ export class CrearcursoPage implements OnInit {
     this.fotos.escogerImagenes(5)
       .then(urlarray => {
         this.imagenes = urlarray
+        alert(JSON.stringify(urlarray[0].blob.type))
         let aux=[]
         for(let i in urlarray)
           aux.push(this.fotos.createThumbnail(urlarray[i].base64))

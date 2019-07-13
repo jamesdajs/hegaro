@@ -237,8 +237,14 @@ export class RutinaProvider {
     return this.http.post<[any]>(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
     .toPromise()
   }
+  deshabilitarUsu_rut(idusu,idrut){
+    let sql = "update rut_usu set estado=0 where id_usuario = ? and id_rutina=?"
+    let values = [idusu,idrut]
+    return this.http.post(this.urlDelete, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
   listarRutinas_porCurso(idusucurcli,estado) {
-    let sql = "select r.*,ru.fecha_ini,ru.fecha_fin from rutinas r,rut_usu ru where r.estado=? and r.idrutinas=ru.id_rutina and ru.id_usucur=?"
+    let sql = "select r.*,ru.fecha_ini,ru.fecha_fin from rutinas r,rut_usu ru where ru.estado=1 and r.estado=? and r.idrutinas=ru.id_rutina and ru.id_usucur=?"
     let values = [ estado,idusucurcli]
     return this.http.post<[any]>(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
     .toPromise()
@@ -311,5 +317,18 @@ export class RutinaProvider {
     return this.http.post<any>(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
+  verHIstorialalumno(idrutejer,idusu){
+    let sql = "select * from historial_rutejer where id_rutejer=? and idusuario=?"
+    let values = [idrutejer,idusu]
+    return this.http.post<any>(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+  verSetsHistorialalumno(idhistorial){
+    let sql = "select * from set_historial where id_historial=? "
+    let values = [idhistorial]
+    return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+
 
 }
