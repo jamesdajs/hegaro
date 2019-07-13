@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonSegment, IonSlides, ToastController, ModalController, ActionSheetController } from '@ionic/angular';
+import { IonSegment, IonSlides, ToastController, ModalController, ActionSheetController, IonButton } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RutinaProvider } from 'src/app/services/rutina/rutina';
 import { ModalrutdefPage } from '../modalrutdef/modalrutdef.page';
@@ -12,6 +12,8 @@ import { ModalrutdefPage } from '../modalrutdef/modalrutdef.page';
 export class AlumnosdetallePage implements OnInit {
 
   @ViewChild('mySlider') slider: IonSlides;
+  @ViewChild('butReg') botonreg: IonButton;
+  @ViewChild('butfin') botonfin: IonButton;
   selectedSegment = 'first';
   select = "";
   rutinas = []
@@ -30,6 +32,7 @@ export class AlumnosdetallePage implements OnInit {
     }
   ];
   datos
+  registro=[]
   constructor(public toastCtrl: ToastController,
     private router: Router,
     private rutina: RutinaProvider,
@@ -60,6 +63,7 @@ export class AlumnosdetallePage implements OnInit {
 
   ngOnInit() {
     this.cargarRutinas()
+    
   }
 
   //-------------funcion para mostrar toast ----------
@@ -105,7 +109,7 @@ export class AlumnosdetallePage implements OnInit {
         idusu_cur: this.datos.idusu_cur
       }])
   }
-
+  
   cargarRutinas() {
     this.rutina.listarRutinas_porCurso(this.datos.idusu_cur, true)
       .then(array => {
@@ -116,7 +120,29 @@ export class AlumnosdetallePage implements OnInit {
 
         console.log(array);
         this.rutinas = array
+        return this.rutina.verregistroCurso(this.datos.idusu_cur)
       })
+      .then(res=>{
+        console.log(res);
+        if(res.length!=0) this.botonreg.disabled=true
+        if(res.length>2) this.botonfin.disabled=true
+        
+        this.registro=res
+      })
+  }
+  regInicioCurso(){
+    this.rutina.registroInicioFinCurso(this.datos.idusu_cur,this.datos.altura,this.datos.peso,0)
+    .then(res=>{
+      this.botonreg.disabled=true
+      this.presentToast("Se registro el inicio del curso")
+    })
+  }
+  regfinCurso(){
+    this.rutina.registroInicioFinCurso(this.datos.idusu_cur,this.datos.altura,this.datos.peso,1)
+    .then(res=>{
+      this.botonfin.disabled=true
+      this.presentToast("Se registro el final del curso")
+    })
   }
   async presentModal() {
     const modal = await this.modalController.create({

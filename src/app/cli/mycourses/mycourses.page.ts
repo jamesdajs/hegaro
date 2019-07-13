@@ -39,7 +39,7 @@ export class MycoursesPage implements OnInit {
   }
 
   vermicurso(item){
-    this.routes.navigate(['/cli/mis-cursos/vermicurso'],item.idusu_cur)
+    this.routes.navigate(['/cli/mis-cursos/vermicurso'],item)
   }
 
   inicio(){

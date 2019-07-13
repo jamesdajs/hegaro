@@ -15,7 +15,8 @@ export class VermicursoPage implements OnInit {
   select="";
   ejercicios = {}
   rutinas = []
-  idusu_cur
+  curso
+  regcurso=[]
   slides = [
     {
       id: "first",
@@ -32,7 +33,7 @@ export class VermicursoPage implements OnInit {
   ];
   constructor(private router:Router,
     private rutina: RutinaProvider,) {
-      this.idusu_cur=this.router.getCurrentNavigation().extras
+      this.curso=this.router.getCurrentNavigation().extras
      }
 
    //----------------funciones tab slide------------------
@@ -59,9 +60,9 @@ export class VermicursoPage implements OnInit {
     this.cargarRutinas()
   }
   cargarRutinas() {
-    console.log(this.idusu_cur);
+    console.log(this.curso.idusu_cur);
     
-    this.rutina.listarRutinas_porCurso(this.idusu_cur, true)
+    this.rutina.listarRutinas_porCurso(this.curso.idusu_cur, true)
       .then(array => {
         for (let i in array) {
           array[i]['estadohidden'] = false
@@ -70,6 +71,12 @@ export class VermicursoPage implements OnInit {
 
         console.log(array);
         this.rutinas = array
+        return this.rutina.verregistroCurso(this.curso.idusu_cur)
+      })
+      .then(res=>{
+        console.log(res);
+        
+        this.regcurso=res
       })
   }
   verejercicio(item){
