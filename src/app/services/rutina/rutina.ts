@@ -329,6 +329,17 @@ export class RutinaProvider {
     return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
-
+  registroInicioFinCurso(id_usucur,altura,	peso,	tipo){
+    let sql = "INSERT into  registros_curso (id_usucur,altura,	peso,tipo) VALUES (?,?,?,?)"
+    let values = [id_usucur,altura,	peso,	tipo]
+    return this.http.post<any>(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+  verregistroCurso(id_usucur){
+    let sql = "select * from registros_curso where id_usucur=? "
+    let values = [id_usucur]
+    return this.http.post<[]>(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
 
 }

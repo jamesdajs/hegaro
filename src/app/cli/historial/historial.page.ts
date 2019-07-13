@@ -12,12 +12,13 @@ moment.locale('es')
 })
 export class HistorialPage implements OnInit {
 ejercicio
+historial
   constructor(
     private arouter:ActivatedRoute,
     private rutina:RutinaProvider,
     private storaje:Storage
   ) { 
-    console.log(this.arouter.snapshot.params);
+    //console.log(this.arouter.snapshot.params);
     
     this.ejercicio=this.arouter.snapshot.params
   }
@@ -33,8 +34,7 @@ ejercicio
     })
     .then(historial=>{
       historial.forEach(item => {
-        item['date']=new Date(item.fecha)
-        console.log(moment(item.date).format('LLLL'));
+        item['date']=moment(new Date(item.fecha)).format('LLLL')
         
         this.rutina.verSetsHistorialalumno(item.idhistorial_rutejer)
         .then(sets=>{
@@ -42,8 +42,9 @@ ejercicio
           item['sets']=sets
         })
       })
-
       console.log(historial);
+      
+      this.historial=historial
     })
   }
 }

@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Datos Alumno</ion-title>
+    <ion-title>{{datos.titulo}}</ion-title>
     <ion-buttons slot="secondary">
       <ion-button fill="clear" (click)=presentToastWithOptions()>
         <ion-icon slot="start" name="information-circle"></ion-icon>
@@ -63,6 +63,12 @@
           <ion-label slot="end">{{datos.correo}}</ion-label>
         </ion-item>
       </ion-list>
+      <ion-button #butReg (click)="regInicioCurso()" fill="solid" shape="round">
+        Registrar inicio del curso
+      </ion-button>
+      <ion-button #butfin (click)="regfinCurso()" fill="outline" shape="round">
+          Registrar fin del curso
+        </ion-button>
     </ion-slide>
     <ion-slide value="second">
       <ion-fab vertical="bottom" horizontal="end">
