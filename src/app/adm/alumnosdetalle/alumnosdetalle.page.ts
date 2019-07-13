@@ -212,4 +212,5 @@ export class AlumnosdetallePage implements OnInit {
     toast.present();
   }
 
+
 }

@@ -67,8 +67,7 @@
           <ion-card-content class="padding-post-detail">
             {{item.descripcion}}
           <ion-item class="ion-no-padding">
-            <ion-label>Duración {{item.hora}} hrs. {{item.semanas}} Semanas</ion-label>
-            <ion-label class="costo-post">Costo {{item.costo}} {{item.tipomoneda}}</ion-label>
+            <ion-label>{{item.costo}} {{item.tipomoneda}} por {{item.semanas}} semanas</ion-label>
           </ion-item>
           <ion-item class="ion-no-padding">
             <ion-label class="costo-post" (click)="vercurso(item)" slot="end">

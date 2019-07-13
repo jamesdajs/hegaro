@@ -141,4 +141,22 @@ export class CursoService {
       let values=[idusu]
       return this.http.post<[]>(this.urlSelect,{sql:sql,values:values},{headers:this.headers}).toPromise()
     }
+
+    eliminar(estado,idcurso){
+      let sql = "update cursos set estado=? where idcursos = ?"
+      let values = [estado,idcurso]
+      return this.http.post(this.urlDelete, { sql: sql, values: values }, { headers: this.headers })
+        .toPromise()
+    }
+
+    modificarcurso(datos,id){
+      console.log(datos);
+      let sql =  ` 
+      UPDATE cursos 
+      set titulo=?, descripcion=?,tipomoneda=?,costo=?
+      where idcursos=?`
+      let values = [datos.titulo,datos.descripcion,datos.moneda,datos.costo,id]
+      return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
+        .toPromise()
+    }
 }
