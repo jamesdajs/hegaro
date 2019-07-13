@@ -96,17 +96,18 @@ export class AlumnosdetallePage implements OnInit {
 
   }
   crerdef() {
-    this.router.navigate(['/adm/misalumnos/alumnodetalle/creardef', 
-    { 
-      idusu: this.datos.idusuarios,
-      token:this.datos.token,
-      curso:this.datos.titulo,
-      id_curso:this.datos.id_curso
-    }])
+    this.router.navigate(['/adm/misalumnos/alumnodetalle/creardef',
+      {
+        idusu: this.datos.idusuarios,
+        token: this.datos.token,
+        curso: this.datos.titulo,
+        id_curso: this.datos.id_curso,
+        idusu_cur: this.datos.idusu_cur
+      }])
   }
 
   cargarRutinas() {
-    this.rutina.listarRutinas_cli(this.datos.idusuarios, true)
+    this.rutina.listarRutinas_porCurso(this.datos.idusu_cur, true)
       .then(array => {
         for (let i in array) {
           array[i]['estadohidden'] = false
@@ -126,43 +127,53 @@ export class AlumnosdetallePage implements OnInit {
     await modal.present();
 
   }
-  async presentsheetRutina(item) {
+  async presentsheetRutina(item,i) {
     let textver = item.estadohidden ? 'Ocultar ejercicios' : 'Ver ejercicios'
     const actionSheet = await this.actionSheetController.create({
       header: 'Opciones',
-      buttons: [{
-        text: 'Desactivar',
-        role: 'destructive',
-        icon: 'trash',
-        handler: () => {
-          console.log('Delete clicked');
-        }
-      }, {
-        text: 'Modificar',
-        icon: 'paper',
-        handler: () => {
-          console.log('Share clicked');
+      buttons: [
+        {
+          text: textver,
+          icon: 'eye',
+          handler: () => {
+            console.log(item);
+            this.menuItemHandler(item)
+          }
+        },
+        {
+          text: 'Modificar',
+          icon: 'paper',
+          handler: () => {
+            console.log('Share clicked');
 
-          item['idalumno']=this.datos.idusuarios
-          if(item.tipo=='p')
-          this.router.navigate(['/adm/misalumnos/alumnodetalle/modificardef', item])
-          else this.presentToast('Las rutinas por defecto no se pueden modifican en esta vista')
-        }
-      }, {
-        text: textver,
-        icon: 'eye',
-        handler: () => {
-          console.log(item);
-          this.menuItemHandler(item)
-        }
-      }, {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      }]
+            item['idalumno'] = this.datos.idusuarios
+            if (item.tipo == 'p')
+              this.router.navigate(['/adm/misalumnos/alumnodetalle/modificardef', item])
+            else this.presentToast('Las rutinas por defecto no se pueden modifican en esta vista')
+          }
+        },
+        {
+          text: 'Desactivar',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            console.log('Delete clicked');
+            this.rutina.deshabilitarUsu_rut(this.datos.idusuarios,item.idrutinas)
+            .then(res=>{
+              this.rutinas.slice(i,1)
+              console.log(res);
+              
+            })
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }]
     });
 
     await actionSheet.present();
@@ -174,4 +185,6 @@ export class AlumnosdetallePage implements OnInit {
     });
     toast.present();
   }
+
+
 }

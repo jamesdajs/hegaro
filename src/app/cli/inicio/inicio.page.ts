@@ -29,20 +29,14 @@ export class InicioPage implements OnInit {
     foto:'',
     telefono:''
   }
-
+  count=0
   constructor(private routes: Router,
     private servicesCurso:CursoService,
     private socialsharing:SocialSharing) { 
       
     }
     @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
-    loadData(event) {
-      console.log(event);
-      setTimeout(() => {
-        console.log('Done');
-        event.IonInfiniteScroll.complete();
-      }, 500);
-    }
+
 
     
 
@@ -100,6 +94,8 @@ export class InicioPage implements OnInit {
       this.cursos=data
       console.log(data)
     })
+    this.servicesCurso.Getnumcursos(1)
+    .then(num=>{})
   }
 
   cargarmas(){
@@ -159,11 +155,43 @@ export class InicioPage implements OnInit {
     this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
   }
   doRefresh(event) {
-    console.log('Begin async operation');
+    this.servicesCurso.listarcursos(1).subscribe(data=>{
 
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      event.target.complete();
-    }, 2000);
+      data.forEach(item=>{
+        item.idcursos
+        item['fotos']=[]
+        this.servicesCurso.listarfotos(item.idcursos)
+        .then(res=>{
+          item['fotos']=res
+          event.target.complete();
+          this.count=0
+        })
+      })
+      this.cursos=data
+      console.log(data)
+    },err=>{
+      console.log(err);
+      event.target.cancel()
+    })
+  }
+  loadData(event) {
+    this.count+=3
+    this.servicesCurso.listarcursosPaginador(1,this.count).subscribe(data=>{
+
+      data.forEach(item=>{
+        item.idcursos
+        item['fotos']=[]
+        this.servicesCurso.listarfotos(item.idcursos)
+        .then(res=>{
+          item['fotos']=res
+          //event.target.complete();
+        })
+      })
+      this.cursos.push(...data)
+      //console.log(data)
+    },err=>{
+      console.log(err);
+      //event.target.cancel()
+    })
   }
 }

@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'adm', loadChildren: './adm/tabs/tabs.module#TabsPageModule',canActivate:[AuthguardadmService] },
   { path: 'cli', loadChildren: './cli/tabs/tabs.module#TabsPageModule', canActivate: [AuthGuardService] },
   
+  
 ]
 
 

@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cursos Inactivos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="cursos.length==0" class="ion-no-padding" text-center class="div-noting">
+        <ion-label>No tienes cursos con estado inactivo</ion-label>
+      </div>
+      <ion-card *ngFor="let item of cursos; let i=index">
+          <div class="ion-no-padding">
+            <ion-slides pager >
+                <ion-slide class="ion-no-padding" *ngIf="item.fotos.length==0; else blockelse">
+                    <img src="../../../assets/imgs/defecto.jpeg" width="100%">
+                  </ion-slide>
+                  <ng-template #blockelse>
+                      <ion-slide class="ion-no-padding" *ngFor="let foto of item.fotos">
+                          <img [src]="foto.url" width="100%">
+                        </ion-slide>
+                    </ng-template>
+            </ion-slides>
+          </div>
+          <ion-card-header class="padding-post-detail-title">
+            <ion-card-title>{{item.titulo}}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="padding-post-detail">
+            {{item.descripcion}}
+          <ion-item class="ion-no-padding">
+            <ion-label>{{item.costo}} {{item.tipomoneda}} por {{item.semanas}} Semanas</ion-label>
+          </ion-item>
+          <ion-button (click)="activar(item.idcursos,i)" expand="block" fill="clear">
+            activar
+          </ion-button>
+          </ion-card-content>
+      </ion-card>
+</ion-content>

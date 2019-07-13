@@ -60,7 +60,6 @@ export class MiscursosPage implements OnInit {
           })
         })
         this.cursos=data
-      
       })
     })
     console.log('id usuario'+this.idusu);
@@ -188,13 +187,45 @@ export class MiscursosPage implements OnInit {
           text: 'Eliminar',
           handler: () => {
             console.log('Eliminar');
-                this.servicesCurso.eliminar(id).then(resp => {
-                  this.cursos.splice(i,1);
-                })
+            this.cursos.splice(i,1);
+            this.servicesCurso.eliminar(0,id).then(resp => {
+              
+            })
           }
         }
       ]
     });
     await alert.present();
-  }
+    
+}
+doRefresh(event) {
+  console.log("funciona");
+  
+  this.storage.get("idusuario")
+.then(id => {
+  this.idusu = id
+  this.servicesCurso.miscursospublicados(1,parseInt(this.idusu))
+  .subscribe(data=>{
+    data.forEach(item=>{
+      item.idcursos
+      item['fotos']=[]
+      this.servicesCurso.listarfotos(item.idcursos)
+      .then(res=>{
+        item['fotos']=res
+        event.target.complete()
+      })
+    })
+    this.cursos=data
+  
+  })
+})
+}
+
+
+cursosinactivos(){
+  this.storage.get("idusuario")
+    .then(id => {
+    this.routes.navigate(["/adm/cursos/cursosinactivos"],id)
+  })
+}
 }

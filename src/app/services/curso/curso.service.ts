@@ -43,9 +43,23 @@ export class CursoService {
     listarcursos(estado){
       let sql=`select c.*,u.idusuarios, u.fullname, u.foto, u.telefono,u.token 
       from cursos c,usu_cur uc,usuarios u  
-      where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc
-      limit 2  `
+      where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc limit 3`
       let values=[estado]
+      return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
+    }
+    Getnumcursos(estado){
+      let sql=`select count(*) 
+      from cursos 
+      where estado=? `
+      let values=[estado]
+      return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers}).toPromise()
+    }
+    listarcursosPaginador(estado,offset){
+      let sql=`select c.*,u.idusuarios, u.fullname, u.foto, u.telefono,u.token 
+      from cursos c,usu_cur uc,usuarios u  
+      where c.estado=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc 
+      limit 3 offset ?`
+      let values=[estado,offset]
       return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
     }
     
@@ -104,7 +118,8 @@ export class CursoService {
                 FROM usu_cur uu,  usuarios uuu 
                 WHERE uu.id_usuario=uuu.idusuarios and uu.tipo='c' and uc.id_curso=uu.id_curso) AS instructor,
                 c.titulo,
-                c.idcursos
+                c.idcursos,
+                uc.idusu_cur
             FROM usu_cur uc,cursos c 
             WHERE uc.id_usuario=? and uc.id_curso=c.idcursos and uc.tipo='i'`
 
@@ -115,7 +130,7 @@ export class CursoService {
     
     listarMisAlumnos(idusu){
       let sql=`
-      SELECT u.*,uc.id_curso,uc.estado,c.titulo
+      SELECT u.*,uc.idusu_cur,uc.id_curso,uc.estado,c.titulo
       from usuarios u, usu_cur uc ,cursos c
       WHERE u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='i' and 
       uc.id_curso in (
@@ -127,9 +142,9 @@ export class CursoService {
       return this.http.post<[]>(this.urlSelect,{sql:sql,values:values},{headers:this.headers}).toPromise()
     }
 
-    eliminar(idcurso){
-      let sql = "update cursos set estado=0 where idcursos = ?"
-      let values = [idcurso]
+    eliminar(estado,idcurso){
+      let sql = "update cursos set estado=? where idcursos = ?"
+      let values = [estado,idcurso]
       return this.http.post(this.urlDelete, { sql: sql, values: values }, { headers: this.headers })
         .toPromise()
     }

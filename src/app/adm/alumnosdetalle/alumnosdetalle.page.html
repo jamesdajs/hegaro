@@ -67,7 +67,6 @@
     <ion-slide value="second">
       <ion-fab vertical="bottom" horizontal="end">
         <ion-fab-button size="small">+</ion-fab-button>
-
         <ion-fab-list side="top">
           <ion-fab-button data-desc="Asignar una por defecto" (click)="presentModal()">
             <ion-icon name="arrow-dropleft"></ion-icon>
@@ -76,18 +75,22 @@
             <ion-icon name="arrow-dropleft"></ion-icon>
           </ion-fab-button>
         </ion-fab-list>
-
-
       </ion-fab>
+      <div *ngIf="rutinas.length==0" text-center class="div-noting">
+          <ion-label>No tiene rutinas asignadas aun. comienza ahora!!<br>
+          </ion-label>
+        </div>
       <ion-list id="sidenav">
-        <div *ngFor='let r of rutinas'>
+          
+
+        <div *ngFor='let r of rutinas;let i=index'>
           <ion-item >
             <ion-label (click)="menuItemHandler(r)">{{r.nombre}}
               <p>
                 {{r.descripcion}}
               </p>
             </ion-label>
-            <ion-button fill="clear" (click)="presentsheetRutina(r)">
+            <ion-button fill="clear" (click)="presentsheetRutina(r,i)">
                 <ion-icon slot="icon-only" name="more" ></ion-icon>
             </ion-button>
           </ion-item>

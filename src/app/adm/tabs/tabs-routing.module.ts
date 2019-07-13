@@ -33,6 +33,10 @@ const routes: Routes = [
                 { 
                   path: 'cursomodificar', 
                   loadChildren: '../cursomodificar/cursomodificar.module#CursomodificarPageModule' 
+                },
+                { 
+                  path: 'cursosinactivos', 
+                  loadChildren: '../cursosinactivos/cursosinactivos.module#CursosinactivosPageModule' 
                 }
             ]
         },
@@ -62,7 +66,8 @@ const routes: Routes = [
                   {
                     path: 'detalleejer',
                     loadChildren: '../ejercicios/detalle/detalle.module#DetallePageModule'
-                  },
+                  }
+
                   
                 ]
               },

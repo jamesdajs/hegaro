@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { RutinaProvider } from 'src/app/services/rutina/rutina';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, ToastController, LoadingController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FcmService } from 'src/app/services/fcm/fcm.service';
 
@@ -18,14 +18,15 @@ export class ModalrutdefPage implements OnInit {
   @Input() idusuarios
   @Input() titulo
   @Input() token
-  @Input() id_curso
+  @Input() idusu_cur
   constructor(
     private storage: Storage,
     private rutina: RutinaProvider,
     public modalController: ModalController,
     public toastController: ToastController,
     private formb: FormBuilder,
-    private fcm : FcmService
+    private fcm : FcmService,
+    public loadingController: LoadingController
   ) {
     this.myForm = this.formb.group({
       fechaini: ['', [Validators.required]],
@@ -54,8 +55,9 @@ export class ModalrutdefPage implements OnInit {
   }
   guardar() {
     console.log(this.idusuarios, this.idselect, this.myForm.value);
-    if (this.myForm.valid)
-      this.rutina.crearRut_Usu(this.idusuarios, this.idselect,this.id_curso, this.myForm.value)
+    if (this.myForm.valid){
+      let loading=this.presentLoading()
+      this.rutina.crearRut_Usu(this.idusuarios, this.idselect,this.idusu_cur, this.myForm.value)
         .then(res=>{
           return this.fcm.notificacionforToken(
             'Rutina asignada',
@@ -66,6 +68,9 @@ export class ModalrutdefPage implements OnInit {
           )
         })
         .then(res => {
+
+          this.rutina.estadousu_cur(this.idusu_cur)
+          loading.then(load=>load.dismiss())
           this.presentToast('Se asigno correctamente la rutina al alumno')
           this.modalController.dismiss()
         })
@@ -73,7 +78,9 @@ export class ModalrutdefPage implements OnInit {
           console.log(err);
           this.presentToast('error al asignar la rutina al alumno')
 
+          loading.then(load=>load.dismiss())
         })
+    }
   }
   async presentToast(txt) {
     const toast = await this.toastController.create({
@@ -81,6 +88,14 @@ export class ModalrutdefPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Guardando datos..',
+      duration: 2000
+    });
+    await loading.present();
+    return loading
   }
 
 }

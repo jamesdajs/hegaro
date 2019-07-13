@@ -5,6 +5,9 @@
           </ion-buttons>
         <ion-title>Mis Cursos</ion-title>
         <ion-buttons slot="secondary">
+            <ion-button fill="clear" (click)=cursosinactivos()>
+                <ion-icon slot="start" name="md-archive"></ion-icon>
+              </ion-button>
             <ion-button fill="clear" (click)=presentToastWithOptions()>
               <ion-icon slot="start" name="information-circle"></ion-icon>
             </ion-button>
@@ -21,11 +24,20 @@
 </ion-header>
 
 <ion-content no-padding>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+          pullingIcon="arrow-dropdown"
+          pullingText="Suelta para cargar nuevos datos"
+          refreshingSpinner="dots"
+          refreshingText="Actualizando...">
+        </ion-refresher-content>
+      </ion-refresher> 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearcurso()">
         <ion-fab-button><ion-icon  name="add"></ion-icon></ion-fab-button>
       </ion-fab>
     <ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
-        <ion-slide value="first" id="myFixZone"> 
+        <ion-slide value="first" id="myFixZone">
+            
                 <div *ngIf="cursos.length==0" class="ion-no-padding" text-center class="div-noting">
                   <ion-label>No tienes cursos publicados aun..!! <br> Comienza ahora..!!</ion-label>
                 </div>
