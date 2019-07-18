@@ -102,7 +102,7 @@
           </ion-item>
           
           <ion-item-group submenu [class.visible]="r.estadohidden">
-            <ion-item submenu-item *ngFor='let ejer of r.ejercicios'>
+            <ion-item submenu-item *ngFor='let ejer of r.ejercicios' (click)="verEjercicio(ejer)">
                 <ion-thumbnail slot="start">
                     <img *ngIf='ejer.miniatura;else elseBlockimg' [src]="ejer.miniatura" />
                     <ng-template #elseBlockimg>

@@ -376,17 +376,41 @@ verSitienenDatos() {
       .toPromise()
   }
 
-  guardarhorario(idusu,cant,dia,hi,hf) {
+  guardarhorario(idtipo_horario,cant,dia,hi,hf) {
     let sql = '', values = []
-    sql = "INSERT into horarios (id_usuarios,cantidad,dia,hora_ini,hora_fin) VALUES (?,?,?,?,?)"
-    values = [idusu,cant,dia,hi,hf]
+    sql = "INSERT into horarios (idtipo_horario,cantidad,dia,hora_ini,hora_fin) VALUES (?,?,?,?,?)"
+    values = [idtipo_horario,cant,dia,hi,hf]
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
-
+  guardarTipohorario(idusu,nombre) {
+    let sql = '', values = []
+    sql = "INSERT into tipo_horario (nombre,idusuario) VALUES (?,?)"
+    values = [nombre,idusu]
+    return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+  listarTipohorario(id):Promise<any>{
+    let sql = "select * from tipo_horario where idusuario=?"
+    let values = [id]
+    return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+  modificarestadotipohorario(idtipo,estado) {
+    let sql = "update tipo_horario set estado=? where idtipo_horario = ?"
+    let values = [estado,idtipo]
+    return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
+  modificarNombretipohorario(idtipo,nombre) {
+    let sql = "update tipo_horario set nombre=? where idtipo_horario = ?"
+    let values = [nombre,idtipo]
+    return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
+      .toPromise()
+  }
   //RECUPERAR HORARIO DE USUARIO
   mishorarios(id):Promise<any> {
-    let sql = "select h.*, (SELECT COUNT(id_horario) FROM registro_horarios WHERE id_horario=h.idhorarios)AS contador from horarios h where h.id_usuarios=?"
+    let sql = "select h.*, (SELECT COUNT(id_horario) FROM registro_horarios WHERE id_horario=h.idhorarios)AS contador from horarios h where h.idtipo_horario=?"
     let values = [id]
     return this.http.post(this.urlSelect, { sql: sql, values: values}, { headers: this.headers })
       .toPromise()
