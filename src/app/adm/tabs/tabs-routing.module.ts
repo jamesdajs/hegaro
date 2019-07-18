@@ -18,7 +18,7 @@ const routes: Routes = [
               },
               {
                 path: 'crearcurso',
-                children:[
+                children: [
                   {
                     path: '',
                     loadChildren: '../crearcurso/crearcurso.module#CrearcursoPageModule'
@@ -30,14 +30,14 @@ const routes: Routes = [
 
                 ]
               },
-                { 
-                  path: 'cursomodificar', 
-                  loadChildren: '../cursomodificar/cursomodificar.module#CursomodificarPageModule' 
-                },
-                { 
-                  path: 'cursosinactivos', 
-                  loadChildren: '../cursosinactivos/cursosinactivos.module#CursosinactivosPageModule' 
-                }
+              {
+                path: 'cursomodificar',
+                loadChildren: '../cursomodificar/cursomodificar.module#CursomodificarPageModule'
+              },
+              {
+                path: 'cursosinactivos',
+                loadChildren: '../cursosinactivos/cursosinactivos.module#CursosinactivosPageModule'
+              }
             ]
         },
         {
@@ -56,7 +56,7 @@ const routes: Routes = [
                     loadChildren: '../alumnosdetalle/alumnosdetalle.module#AlumnosdetallePageModule'
                   },
                   {
-                    path:'creardef',
+                    path: 'creardef',
                     loadChildren: '../rutinas/crear/crear.module#CrearPageModule'
                   },
                   {
@@ -68,7 +68,7 @@ const routes: Routes = [
                     loadChildren: '../ejercicios/detalle/detalle.module#DetallePageModule'
                   }
 
-                  
+
                 ]
               },
             ]
@@ -88,9 +88,19 @@ const routes: Routes = [
                 loadChildren: '../mod-perfil/mod-perfil.module#ModPerfilPageModule'
               },
               {
-                path: 'mishorarios',
-                loadChildren: '../mishorarios/mishorarios.module#MishorariosPageModule'
+                path: 'tipohorario',
+                children:[
+                  {
+                    path:'',
+                    loadChildren: '../tipohorario/tipohorario.module#TipohorarioPageModule'
+                  },
+                  {
+                    path: 'mishorarios',
+                    loadChildren: '../mishorarios/mishorarios.module#MishorariosPageModule'
+                  },
+                ]
               },
+
 
             ]
         },

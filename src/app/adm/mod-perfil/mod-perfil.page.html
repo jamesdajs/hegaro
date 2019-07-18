@@ -26,10 +26,10 @@
 							</ion-item-divider>
 							<ion-item>
 								<ion-label position="floating">Descripción profesional</ion-label>
-								<ion-textarea formControlName='descripcion' type="text"></ion-textarea>
+								<ion-textarea formControlName='nombre' type="text"></ion-textarea>
 							</ion-item>
-							<ion-item *ngIf="myFormins.get('descripcion').errors && myFormins.get('descripcion').dirty">
-								<p class="msgerr" *ngIf="myFormins.get('descripcion').hasError('required')">Campo
+							<ion-item *ngIf="myFormins.get('nombre').errors && myFormins.get('nombre').dirty">
+								<p class="msgerr" *ngIf="myFormins.get('nombre').hasError('required')">Campo
 									requerido
 								</p>
 							</ion-item>

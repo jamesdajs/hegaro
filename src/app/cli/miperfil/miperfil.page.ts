@@ -55,11 +55,13 @@ export class MiperfilPage implements OnInit {
     this.storage.get("idusuario")
     .then(id => {
       this.id = id
+      console.log(id);
+      
       this.cargardatos(id)
     })
   }
   cargardatos(id) {
-    this.user.verUsuarioIDdbinstructor(id)
+    this.user.verUsuarioIDdbalumno(id)
       .then(datos => {
         console.log(datos[0])
         this.genero = datos[0].genero == 'm' ? 'Mujer' : 'Hombre'
@@ -80,13 +82,16 @@ export class MiperfilPage implements OnInit {
         console.log("rol before change:" + rol)
 
         this.navCtrl.navigateRoot(['/adm/perfil'])
-        return this.user.creardatosInstructor({
-          descripcion: '',
-          direccion: '',
-          lat: '',
-          lng: '',
-          zoom: ''
-        }, this.id)
+        /**
+         return this.user.creardatosInstructor({
+           descripcion: '',
+           direccion: '',
+           lat: '',
+           lng: '',
+           zoom: ''
+         }, this.id)
+         */
+          return true
       })
       .then(() => {
         console.log('se creo datos de instructor')

@@ -44,7 +44,7 @@ export class PerfilPage implements OnInit {
     this.navCtrl.navigateForward(["/adm/perfil/mod-perfil", this.datos[0]])
   }
   cargardatos(id) {
-    this.user.verUsuarioIDdbinstructor(id)
+    this.user.verUsuarioIDdbalumno(id)
       .then(datos => {
         console.log(datos[0])
         this.genero = datos[0].genero == 'm' ? 'Mujer' : 'Hombre'
@@ -97,7 +97,7 @@ export class PerfilPage implements OnInit {
 
   //REDIRECCIONA PAGINA HORARIOS
   mishorarios(){
-    this.navCtrl.navigateForward(["/adm/perfil/mishorarios"])
+    this.navCtrl.navigateForward(["/adm/perfil/tipohorario"])
   }
 
 }

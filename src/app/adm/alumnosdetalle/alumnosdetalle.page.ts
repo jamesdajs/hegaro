@@ -211,6 +211,8 @@ export class AlumnosdetallePage implements OnInit {
     });
     toast.present();
   }
-
+  verEjercicio(item){
+    this.router.navigate(['adm/misalumnos/alumnodetalle/detalleejer',item])
+  }
 
 }
