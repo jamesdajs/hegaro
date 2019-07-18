@@ -11,9 +11,9 @@
 </ion-header>
 
 <ion-content padding>
-<ion-title>Titulo del curso</ion-title>
+<ion-title>{{curso}}</ion-title>
   <ion-list *ngFor="let h of horario" no-lines>
-      <ion-list-header>
+      <ion-list-header *ngIf="h.horas.length!==0">
         <ion-label>{{dias[h.nombre]}}</ion-label>
       </ion-list-header>
     <ion-radio-group [(ngModel)]="h.selec">

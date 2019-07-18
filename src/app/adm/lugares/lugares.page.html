@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title>Mis lugares de trabajo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="crearlugar()">
+        <ion-fab-button><ion-icon  name="add"></ion-icon></ion-fab-button>
+    </ion-fab>
+    
+    <div *ngIf="datos.length==0" class="ion-no-padding" text-center class="div-noting">
+        <ion-label>No tienes lugares de trabajo guardados<br> Comienza ahora..!!</ion-label>
+      </div>
+  <ion-list>
+    <ion-item *ngFor="let item of datos; let i=index">
+        <ion-icon slot="end" name="md-more" (click)="opciones(item,i)"></ion-icon>
+      <ion-label>
+        {{item.nombregym}} <br>
+        <p>{{item.direccion}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

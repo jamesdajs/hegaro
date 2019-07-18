@@ -33,6 +33,8 @@ export class MishorariosPage implements OnInit {
   ngOnInit() {
   }
 
+
+
   aumentarhoras(_this) {
 
     _this.push({

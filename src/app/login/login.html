@@ -8,18 +8,19 @@
 
 
 <ion-content class="ion-padding">
-  <!--
+  <div class="content-log">
+    <p text-center>
+        <img src="../assets/imgs/logo.png"/>
+    </p>
+      <p text-center class="titulo-app">
+        <ion-label>GOODME</ion-label>
+      </p>
+   
+      <ion-button expand="block" icon-left color="primary" (click)="loginWithFacebook()">
+          <ion-icon name="logo-facebook"></ion-icon>Inicia con Facebook
+        </ion-button>
+  </div>
+   
 
-    <div id="map_canvas"></div>
-  -->
-   <div class="div-title" >
-      <img src="../assets/imgs/title.png"/>
-   </div>
-   <div class="div-btn">
-    <ion-button expand="block" class="btn-log" icon-left color="primary" size="large" (click)="loginWithFacebook()">
-      <ion-icon name="logo-facebook"></ion-icon>
-        Inicia con Facebook
-    </ion-button>
-   </div>
    
 </ion-content>

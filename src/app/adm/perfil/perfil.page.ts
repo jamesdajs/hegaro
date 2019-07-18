@@ -100,4 +100,11 @@ export class PerfilPage implements OnInit {
     this.navCtrl.navigateForward(["/adm/perfil/mishorarios"])
   }
 
+  //lugares de trabajo
+  lugares(){
+    console.log("entro lugares");
+    
+    this.navCtrl.navigateForward(["/adm/perfil/lugares"])
+  }
+
 }
