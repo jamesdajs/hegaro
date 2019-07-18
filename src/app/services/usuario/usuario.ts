@@ -390,9 +390,9 @@ verSitienenDatos() {
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }
-  listarTipohorario(estado,id):Promise<any>{
-    let sql = "select * from tipo_horario where estado=? and idusuario=?"
-    let values = [estado,id]
+  listarTipohorario(id):Promise<any>{
+    let sql = "select * from tipo_horario where idusuario=?"
+    let values = [id]
     return this.http.post(this.urlSelect, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
   }

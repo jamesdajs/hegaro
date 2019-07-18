@@ -34,7 +34,7 @@ export class TipohorarioPage implements OnInit {
   cargardatos(){
     this.storage.get('idusuario')
     .then(id=>{
-      return this.usuario.listarTipohorario(1,id)
+      return this.usuario.listarTipohorario(id)
     })
     .then(res=>{
       console.log(res);
@@ -43,12 +43,14 @@ export class TipohorarioPage implements OnInit {
     .catch(err=>console.log(err))
   }
   async presentActionSheet(item,i) {
+    let texto=item.estado==1?'Desactivar':"Activar"
+    let icon=item.estado==1?'trash':"add"
     const actionSheet = await this.actionSheetController.create({
       header: 'Albums',
       buttons: [{
-        text: 'eliminar',
+        text: texto,
         role: 'destructive',
-        icon: 'trash',
+        icon: icon,
         handler: () => {
           console.log('Delete clicked');
           this.presentAlertConfirm(item,i)
@@ -73,9 +75,11 @@ export class TipohorarioPage implements OnInit {
     await actionSheet.present();
   }
   async presentAlertConfirm(item,i) {
+    let text=item.estado==1?'seguro que desactivar el horario':'seguro que desea activar el horario'
     const alert = await this.alertController.create({
+      
       header: 'Confirm!',
-      message: 'Message <strong>Seguro que desea dar de baja el horario</strong>!!!',
+      message: 'Message <strong>'+text+'</strong>!!!',
       buttons: [
         {
           text: 'Cancel',
@@ -88,10 +92,13 @@ export class TipohorarioPage implements OnInit {
           text: 'Okay',
           handler: () => {
             console.log('Confirm Okay');
-            this.usuario.modificarestadotipohorario(item.idtipo_horario,0)
+            let estado=item.estado==1?0:1
+            let toasrtxt=item.estado==1?'Se dio de baja el horario correctamente.':'Se activo el horario correctamente.'
+            this.usuario.modificarestadotipohorario(item.idtipo_horario,estado)
             .then(()=>{
-              this.presentToast('Se dio de baja el horario correctamente.')
-              this.datos.splice(i,1)
+              this.presentToast(toasrtxt)
+              //this.datos.splice(i,1)
+              this.cargardatos()
             })
           }
         }
