@@ -26,6 +26,10 @@ const routes: Routes = [
                   {
                     path: 'crearhorario',
                     loadChildren: '../mishorarios/mishorarios.module#MishorariosPageModule'
+                  },
+                  { 
+                    path: 'crearlugar', 
+                    loadChildren: '../crearlugar/crearlugar.module#CrearlugarPageModule' 
                   }
 
                 ]
@@ -100,6 +104,25 @@ const routes: Routes = [
                   },
                 ]
               },
+              { 
+                path: 'lugares', 
+                children:[
+                  {
+                    path: '',
+                    loadChildren: '../lugares/lugares.module#LugaresPageModule'
+                  },
+                  { 
+                    path: 'crearlugar', 
+                    loadChildren: '../crearlugar/crearlugar.module#CrearlugarPageModule' 
+                  },
+                  { 
+                    path: 'modlugar', 
+                    loadChildren: '../modlugar/modlugar.module#ModlugarPageModule' 
+                  }
+              
+
+                ]
+              }
 
 
             ]

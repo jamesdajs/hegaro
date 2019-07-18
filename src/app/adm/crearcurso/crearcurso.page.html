@@ -4,11 +4,7 @@
           <ion-back-button></ion-back-button>
         </ion-buttons>
     <ion-title>Crear Curso</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="consultarhorarios()">
-        <ion-icon slot="icon-only" name="checkmark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -66,11 +62,34 @@
         <ion-item *ngIf="myFormins.get('moneda').errors && myFormins.get('moneda').dirty">
           <p class="msgerr" *ngIf="myFormins.get('moneda').hasError('required')">Selecciona tipo de moneda
           </p>
-      </ion-item>
+        </ion-item>
         <ion-item  class="ion-no-padding" (click)="selectDuracion()">
           <ion-label>Duracion:</ion-label>
           <ion-label id="duracion"> {{duracion}} </ion-label>
         </ion-item>
+        <p>Horarios:</p>
+        <ion-item  class="ion-no-padding" (click)="viewhoarios()">
+         
+          <ion-select  formControlName='moneda' interface="popover" class="ion-no-padding">
+            <ion-select-option value="online" selected="true" >Online</ion-select-option>
+            <ion-select-option value="presencial">Presenciales</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button (click)="adicionarlugar()" shape="round" fill="clear" class="ion-no-padding" text-left>
+          <ion-icon  name="md-add" ></ion-icon> Adicionar nueva horario
+        </ion-button>
+        <p>Lugar: 
+         
+        </p>
+        <ion-item  class="ion-no-padding">
+          <ion-select  formControlName="gym" interface="popover" class="ion-no-padding">
+            <ion-select-option *ngFor="let item of datoslug" [value]="item.iddatos_ins" >{{item.nombregym}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-button (click)="adicionarlugar()" shape="round" fill="clear" class="ion-no-padding" text-left>
+          <ion-icon  name="md-add" ></ion-icon> Adicionar nueva ubicación
+        </ion-button>
+       
       </ion-list>
     </form>
 </ion-content>

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { Storage } from '@ionic/storage';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
+import { LugaresService } from 'src/app/services/lugares/lugares.service';
 
 @Component({
   selector: 'app-crearcurso',
@@ -15,6 +16,8 @@ import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 })
 export class CrearcursoPage implements OnInit {
   myFormins: FormGroup
+  idusuario
+  datoslug=[]
   imagenes = []
   duracion = ''
   fecha
@@ -24,7 +27,8 @@ export class CrearcursoPage implements OnInit {
     descripcion: "",
     titulo: "",
     costo: 0,
-    moneda: ""
+    moneda: "",
+    iddatos_ins:""
   }
   jsonData: any;
   blobthumbnail
@@ -37,9 +41,15 @@ export class CrearcursoPage implements OnInit {
     private router: Router,
     private toastController: ToastController,
     private curso: CursoService,
+    private lugares:LugaresService,
     private storage: Storage,
     private serviciousuario:UsuarioProvider
   ) {
+    this.storage.get('idusuario')
+    .then(idusu => {
+      this.idusuario=idusu
+      this.listarlugars(idusu)
+    })
     this.jsonData = {
       horas: [
         { name:'1', id: "1" },
@@ -78,10 +88,25 @@ export class CrearcursoPage implements OnInit {
       titulo: ['', [Validators.required]],
       costo: ['', [Validators.required]],
       moneda: ['', [Validators.required]],
+      iddatos_ins:['', [Validators.required]],
     });
   }
 
   ngOnInit() {
+  }
+
+
+  listarlugars(id){
+    console.log("idusus",id);
+    
+    this.lugares.listarlugares(1,id).then(resp=>{
+      console.log(resp);
+      
+        this.datoslug=resp
+    })
+  }
+  adicionarlugar(){
+    this.router.navigate(["/adm/cursos/crearcurso/crearlugar"],this.idusuario)
   }
 
   //cuncion para seleccionar imagen
@@ -222,11 +247,6 @@ export class CrearcursoPage implements OnInit {
         })
     }
     else this.presentToast("Completa los campos")
-  }
-
-  //recupera el ultimo id
-  recuperarId() {
-
   }
 
   //mesage loading

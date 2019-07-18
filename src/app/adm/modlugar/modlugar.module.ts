@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, FormBuilder } from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { VercursoPage } from './vercurso.page';
+import { ModlugarPage } from './modlugar.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
 
 const routes: Routes = [
   {
     path: '',
-    component: VercursoPage
+    component: ModlugarPage
   }
 ];
 
@@ -21,12 +20,13 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ReactiveFormsModule
   ],
   providers:[
     FormBuilder,
     Geolocation
   ],
-  declarations: [VercursoPage]
+  declarations: [ModlugarPage]
 })
-export class VercursoPageModule {}
+export class ModlugarPageModule {}

@@ -21,8 +21,8 @@ export class CursoService {
 
      //tipo ejercicios
      crearcurso(datos,fecha,hora,semanas){
-      let sql="INSERT into cursos (titulo,descripcion,costo,tipomoneda,fecha,hora,semanas) VALUES (?,?,?,?,?,?,?)"
-      let values=[datos.titulo,datos.descripcion,datos.costo,datos.moneda,fecha,hora,semanas]
+      let sql="INSERT into cursos (titulo,descripcion,costo,tipomoneda,fecha,hora,semanas,iddatos_ins) VALUES (?,?,?,?,?,?,?)"
+      let values=[datos.titulo,datos.descripcion,datos.costo,datos.moneda,fecha,hora,semanas,datos.iddatos_ins]
       return this.http.post<any>(this.urlInsert,{sql:sql,values:values},{headers:this.headers})
       .toPromise()
     }

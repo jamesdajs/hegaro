@@ -3,7 +3,16 @@
       <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
-    <ion-title>Curso</ion-title>
+        <ion-item (click)="verinstructor(datos.idusuarios)" *ngIf="owner==false">
+          <ion-avatar item-start>
+              <img [src]="datos.foto">
+            </ion-avatar>
+            <ion-label class="name-instructor">  
+              instructor <br>
+              {{datos.fullname}}  
+            </ion-label>
+            <ion-icon slot="end" name="md-arrow-dropright"></ion-icon>
+      </ion-item>
   </ion-toolbar>
 </ion-header>
 
@@ -41,17 +50,22 @@
       <ion-item>
         <ion-label>Costo {{datos.costo}} {{datos.tipomoneda}}</ion-label>
       </ion-item>
-      <ion-item (click)="verinstructor(datos.idusuarios)" *ngIf="owner==false">
-          <ion-avatar item-start>
-              <img [src]="datos.foto">
-            </ion-avatar>
-            <ion-label class="name-instructor"> {{datos.fullname}} </ion-label>
-            <ion-icon slot="end" name="md-arrow-dropright"></ion-icon>
-      </ion-item>
+      
       <ion-item *ngIf="datos.telefono!==null">
         <ion-label> {{datos.telefono}}</ion-label>
         <ion-icon slot="end" name="logo-whatsapp"></ion-icon>
       </ion-item>
+      
+     
+        <ion-item>
+          <ion-label position="floating">Direccion</ion-label>
+          <ion-textarea rows="2" type="text" value="Av.Victor Paz, estensoro Nro 9898"></ion-textarea>
+        </ion-item>
+      <div id="mapMOD" style="height: 200px;"></div>
+      <ion-item >
+          <ion-label>Horarios</ion-label>
+          
+        </ion-item>
       <!--
  <ion-item  color="primary" (click)="verHorarios(datos.idcursos,datos.idusuarios)">
         <ion-label class="ver-post"  slot="start">

@@ -3,7 +3,9 @@ import { ScrollDetail } from '@ionic/core';
 import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { Storage } from '@ionic/storage';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+declare var google: any;
 @Component({
   selector: 'app-vercurso',
   templateUrl: './vercurso.page.html',
@@ -11,11 +13,20 @@ import { Storage } from '@ionic/storage';
 })
 export class VercursoPage implements OnInit {
   owner=false
+  direccion
   datos
   comision
   verificacion=[]
+  datosins = {
+		descripcion: "",
+		lat: '',
+		lng: '',
+		zoom: '',
+		direccion: ''
+  	}
   constructor(private routes:Router,
     private servicioCurso:CursoService,
+    private geolocation: Geolocation,
     private storage:Storage) { 
       this.datos=this.routes.getCurrentNavigation().extras
       this.storage.get("idusuario")
@@ -81,4 +92,55 @@ export class VercursoPage implements OnInit {
       
     })
   }
+
+  ngAfterViewInit() {
+		this.loadMap()
+	}
+  async loadMap() {
+		let latlng = {}
+		console.log(this.datosins)
+		if (this.datosins.lat=="" ) {
+			let resp = await this.geolocation.getCurrentPosition()
+			latlng = { lat: resp.coords.latitude, lng: resp.coords.longitude }
+		} else {
+			latlng = { lat: parseFloat(this.datosins.lat), lng: parseFloat(this.datosins.lng) }
+		}
+		let map
+		map = new google.maps.Map(document.querySelector('#mapMOD'), {
+			center: latlng,// this.datosins.nombregym+' '+this.datosins.ciudad+' '+this.datosins.departamento,
+			zoom: this.datosins.lat!=""  ? parseInt(this.datosins.zoom) : 12,
+			disableDefaultUI: true
+		});
+		console.log(latlng)
+		var marker = new google.maps.Marker(
+			{
+				position:latlng,
+				map: map,
+			}
+		)
+		let geocoder = new google.maps.Geocoder;
+		
+		map.addListener('click', function (event) {
+			marker.setPosition(event.latLng)
+			geocoder.geocode({
+				'location': event.latLng
+			}, function (results, status) {
+				if (status === google.maps.GeocoderStatus.OK) {
+					if (results[0]) {
+
+						console.log('place id: ', results);
+						this.direccion=results[0]['formatted_address']
+					//	_myFormins.get("direccion").setValue(results[0]['formatted_address'])
+
+
+					} else {
+						console.log('No results found');
+					}
+				} else {
+					console.log('Geocoder failed due to: ' + status);
+				}
+			});
+		
+		});
+	}
 }

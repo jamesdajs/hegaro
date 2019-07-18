@@ -75,11 +75,11 @@ export class TipohorarioPage implements OnInit {
     await actionSheet.present();
   }
   async presentAlertConfirm(item,i) {
-    let text=item.estado==1?'seguro que desactivar el horario':'seguro que desea activar el horario'
+    let text=item.estado==1?'Seguro que desactivar el horario':'Seguro que desea activar el horario'
     const alert = await this.alertController.create({
       
-      header: 'Confirm!',
-      message: 'Message <strong>'+text+'</strong>!!!',
+      header: 'Cambiar de estado!',
+      message: '<strong>'+text+'</strong>!!!',
       buttons: [
         {
           text: 'Cancel',

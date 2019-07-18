@@ -46,6 +46,8 @@ export class MishorariosPage implements OnInit {
     console.log(this.idtipohorario)
   }
 
+
+
   aumentarhoras(_this) {
 
     _this.push({
