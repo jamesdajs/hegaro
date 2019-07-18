@@ -30,11 +30,20 @@ export class LugaresService {
   }
 
      //listar cursos
-  listarlugares(id_usuario){
+  listarlugaresadm(id_usuario){
     let sql=`select * 
     from datos_ins 
-    where estado=1 and idusuario=?`
+    where idusuario=?`
     let values=[id_usuario]
+    return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
+    .toPromise()
+  }
+
+  listarlugares(id_usuario,estado){
+    let sql=`select * 
+    from datos_ins 
+    where estado=? and idusuario=?`
+    let values=[estado,id_usuario]
     return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
     .toPromise()
   }

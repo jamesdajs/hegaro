@@ -99,7 +99,7 @@ export class CrearcursoPage implements OnInit {
   listarlugars(id){
     console.log("idusus",id);
     
-    this.lugares.listarlugares(id).then(resp=>{
+    this.lugares.listarlugares(1,id).then(resp=>{
       console.log(resp);
       
         this.datoslug=resp
