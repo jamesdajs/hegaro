@@ -2,24 +2,54 @@
 	<ion-toolbar>
 		<ion-title>Mis Alumnos</ion-title>
 	</ion-toolbar>
+	<ion-segment  [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
+	<ion-segment-button value="first">
+		<ion-icon name="md-people"></ion-icon>
+		<ion-label>Alumnos</ion-label>
+		</ion-segment-button>
+		<ion-segment-button value="second">
+			<ion-icon name="md-menu"></ion-icon>
+			<ion-label>Cursos</ion-label>
+		</ion-segment-button>
+	</ion-segment>
 </ion-header>
-<ion-content padding>
-	<p>Mis Alumnos</p>
-	<hr>
-	<ion-list>
-		<ion-item *ngFor="let item of alumnos" class="ion-no-padding" (click)="veralumno(item)">
-			<ion-avatar item-start>
-				<img [src]="item.foto" class="img-alumnos">
-			</ion-avatar>
-			<ion-label class="label-alumnos">{{item.fullname}}
-				<p>Curso: {{item.titulo}}</p>
-			</ion-label>
-			<ion-button ng-if="item.estado==1" color="secondary" fill="outline">Ver</ion-button>
-		</ion-item>
+<ion-content class="ion-no-padding">
+	<ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
+		<ion-slide value="first" id="myFixZone">
+			<ion-list>
+				<ion-item *ngFor="let item of alumnos" class="ion-no-padding" (click)="veralumno(item)">
+					<ion-avatar item-start>
+						<img [src]="item.foto" class="img-alumnos">
+					</ion-avatar>
+					<ion-label class="label-alumnos">{{item.fullname}}
+						<p>Curso: {{item.titulo}}</p>
+					</ion-label>
+					<ion-button ng-if="item.estado==1" color="secondary" fill="outline">Ver</ion-button>
+				</ion-item>
 
-	</ion-list>
-	<div *ngIf="alumnos.length==0" class="ion-no-padding" text-center class="div-noting">
-			<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
-		<ion-label>No tienes alumnos aun..!!</ion-label>
-	</div>
+			</ion-list>
+			<div *ngIf="alumnos.length==0" class="ion-no-padding" text-center class="div-noting">
+					<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
+				<ion-label>No tienes alumnos aun..!!</ion-label>
+			</div>
+		</ion-slide>  
+		<ion-slide value="second">
+			<div class="content-forcourses"> 
+				<ion-list class="ion-no-padding">
+					<ion-item *ngFor="let item of cursos" class="ion-no-padding" (click)="veralumnos(item)">
+						<ion-label class="label-alumnos">{{item.titulo}}
+							<p> {{item.inscritos}} inscritos</p>
+						</ion-label>
+						<ion-button color="primary" fill="clear">
+								<ion-icon name="md-arrow-dropright"></ion-icon>
+						</ion-button>
+					</ion-item>					
+				</ion-list>
+			</div>
+			<div *ngIf="cursos.length==0" class="ion-no-padding" text-center class="div-noting">
+					<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
+				<ion-label>No tienes cursos con inscritos aun..!!</ion-label>
+			</div>
+		</ion-slide>
+	</ion-slides>
 </ion-content>

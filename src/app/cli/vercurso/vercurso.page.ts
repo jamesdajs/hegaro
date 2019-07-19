@@ -31,14 +31,13 @@ export class VercursoPage implements OnInit {
       this.datos=this.routes.getCurrentNavigation().extras
       this.storage.get("idusuario")
       .then(id => {
-        console.log("id usuario"+id+ " "+this.datos.idcursos);
+        console.log("id usuario"+id+ " "+this.datos.idcursos+" id usus"+this.datos.idusuarios);
         console.log(this.datos);
-        if(id=this.datos.idusuario){
+        if(id==this.datos.idusuarios){
           this.owner=true
           this.servicioCurso.verificarsuscripcion(this.datos.idcursos,id).then(resp=>{
             this.verificacion=resp;
             console.log("nuemro de cursos"+this.verificacion.length);
-          
           })
         }
       })
@@ -89,7 +88,6 @@ export class VercursoPage implements OnInit {
     })
     .catch(err=>{
       console.log(err);
-      
     })
   }
 

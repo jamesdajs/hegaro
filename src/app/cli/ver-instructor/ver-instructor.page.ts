@@ -45,10 +45,10 @@ export class VerInstructorPage implements OnInit {
     console.log("id facebook ver"+this.id);
     this.datos=this.servicioUsuario.verUsuarioIDdbinstructor(this.id) 
     .then(datos => {
-      console.log(datos[0])
+      console.log("resp",datos)
       this.genero = datos[0].genero != 'h' ? 'Mujer' : 'Hombre'
       this.datos = datos[0]
     })
-    .catch(err => console.log(err))
+    .catch(err => console.log("error",err))
   }
 }
