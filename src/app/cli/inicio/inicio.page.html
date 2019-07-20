@@ -20,7 +20,7 @@
     Click me
   </ion-button>
 -->
-  <ion-list *ngIf="cursos.length===0">
+  <ion-list *ngIf="estadoderecarga==false">
     <ion-item *ngFor="let i of [1,1,1,1,1,1,1,1,1,1] ">
       <ion-label>
         <ion-skeleton-text width="40%"></ion-skeleton-text>
@@ -28,6 +28,9 @@
       </ion-label>
     </ion-item>
   </ion-list>
+  <div *ngIf="cursos.length==0 && estadoderecarga==true" class="ion-no-padding" text-center class="div-noting">
+      <ion-label>No se publicados cursos aun..!! </ion-label>
+    </div>
   <div *ngIf="cursos.length > 0">
     <div *ngFor="let item of cursos; let i=index ">
       <ion-card>
@@ -74,9 +77,9 @@
         </div>
       </ion-card>
     </div>
+    <ion-button (click)="loadData($event)" fill="clear" expand="block" class="button-vermas">
+      mostrar mas
+    </ion-button>
   </div>
 
-  <ion-button (click)="loadData($event)" fill="clear" expand="block" class="button-vermas">
-    mostrar mas
-  </ion-button>
 </ion-content>

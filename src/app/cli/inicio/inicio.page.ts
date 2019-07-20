@@ -79,7 +79,7 @@ export class InicioPage implements OnInit {
   }
 
   //FUNCION LISTAR CURSOS
-
+  estadoderecarga=false
   listarcursos() {
     this.servicesCurso.listarcursos(1).subscribe(data=>{
 
@@ -92,6 +92,7 @@ export class InicioPage implements OnInit {
         })
       })
       this.cursos=data
+        this.estadoderecarga=true
       console.log(data)
     })
     this.servicesCurso.Getnumcursos(1)
