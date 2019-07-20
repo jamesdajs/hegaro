@@ -82,14 +82,14 @@ export class TipohorarioPage implements OnInit {
       message: '<strong>'+text+'</strong>!!!',
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
             console.log('Confirm Cancel: blah');
           }
         }, {
-          text: 'Okay',
+          text: 'Aceptar',
           handler: () => {
             console.log('Confirm Okay');
             let estado=item.estado==1?0:1

@@ -44,7 +44,6 @@ export class VercursoPage implements OnInit {
           this.servicioCurso.verificarsuscripcion(this.datos.idcursos,id).then(resp=>{
             this.verificacion=resp;
             console.log("nuemro de cursos"+this.verificacion.length);
-          
           })
         }
       })
@@ -109,7 +108,6 @@ export class VercursoPage implements OnInit {
     })
     .catch(err=>{
       console.log(err);
-      
     })
   }
 

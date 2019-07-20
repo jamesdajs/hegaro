@@ -15,6 +15,9 @@
   </ion-header>
 
 <ion-content>
+  <div *ngIf="datos.length==0" class="ion-no-padding" text-center class="div-noting">
+    <ion-label>No tienes horarios guardados<br> Comienza ahora..!!</ion-label>
+  </div>
   <ion-list>
     <ion-item *ngFor="let item of datos; let i=index" >
       <ion-label>{{item.nombre}}</ion-label>

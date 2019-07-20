@@ -176,4 +176,29 @@ export class CursoService {
       return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
         .toPromise()
     }
+
+    //listar cursos con numero de inscritos
+    cursosinscritos(idusuario){
+      let sql=`SELECT (
+        SELECT count(*) 
+        FROM usu_cur uu
+        WHERE uu.id_curso=c.idcursos and uu.tipo='i') AS inscritos,
+        c.titulo,
+        c.idcursos,
+        uc.idusu_cur
+        FROM usu_cur uc,cursos c 
+        WHERE uc.id_usuario=? and uc.id_curso=c.idcursos and uc.tipo='c'`
+      let values=[idusuario]
+      return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
+      .toPromise()
+      }
+
+      listainscritos(idcurso){
+        let sql=`
+        SELECT u.*,uc.idusu_cur
+        FROM usuarios u, usu_cur uc
+        WHERE uc.id_curso=? and u.idusuarios=uc.id_usuario and uc.tipo='i'`
+        let values=[idcurso]
+        return this.http.post<[]>(this.urlSelect,{sql:sql,values:values},{headers:this.headers}).toPromise()
+      }
 }

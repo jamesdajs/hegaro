@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title>Lista de alumnos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+    <div *ngIf="alumnos.length==0" class="ion-no-padding" text-center class="div-noting">
+      <ion-label>No tienes inscritos aun..!!</ion-label>
+    </div>
+     <ion-list>
+				<ion-item *ngFor="let item of alumnos" (click)="veralumno(item)">
+					<ion-avatar item-start>
+						<img [src]="item.foto" class="img-alumnos">
+					</ion-avatar>
+					<ion-label class="label-alumnos">{{item.fullname}}</ion-label>
+					<ion-button color="primary" fill="clear">
+            <ion-icon name="md-arrow-dropright"></ion-icon>
+          </ion-button>
+				</ion-item>
+			</ion-list>
+</ion-content>

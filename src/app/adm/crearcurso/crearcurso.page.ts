@@ -108,7 +108,6 @@ export class CrearcursoPage implements OnInit {
     
     this.lugares.listarlugares(1,id).then(resp=>{
       console.log(resp);
-      
         this.datoslug=resp
         return this.usuario.listarTipohorario(id)
     })

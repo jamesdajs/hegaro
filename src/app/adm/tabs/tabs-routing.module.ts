@@ -88,10 +88,13 @@ const routes: Routes = [
                     path: 'detalleejer',
                     loadChildren: '../ejercicios/detalle/detalle.module#DetallePageModule'
                   }
-
-
                 ]
               },
+              { 
+                path: 'cursoalumnos', 
+                loadChildren: '../cursoalumnos/cursoalumnos.module#CursoalumnosPageModule' 
+              },
+
             ]
         },
         {
