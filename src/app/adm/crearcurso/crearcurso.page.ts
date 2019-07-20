@@ -32,6 +32,7 @@ export class CrearcursoPage implements OnInit {
   }
   jsonData: any;
   blobthumbnail
+  horarios=[]
   constructor(
     private fotos: FotosService,
     private selector: WheelSelector,
@@ -43,13 +44,10 @@ export class CrearcursoPage implements OnInit {
     private curso: CursoService,
     private lugares:LugaresService,
     private storage: Storage,
-    private serviciousuario:UsuarioProvider
+    private serviciousuario:UsuarioProvider,
+    private usuario:UsuarioProvider
   ) {
-    this.storage.get('idusuario')
-    .then(idusu => {
-      this.idusuario=idusu
-      this.listarlugars(idusu)
-    })
+    
     this.jsonData = {
       horas: [
         { name:'1', id: "1" },
@@ -89,10 +87,19 @@ export class CrearcursoPage implements OnInit {
       costo: ['', [Validators.required]],
       moneda: ['', [Validators.required]],
       iddatos_ins:['', [Validators.required]],
+      horario:['', [Validators.required]]
+      
     });
   }
 
   ngOnInit() {
+  }
+  ionViewWillEnter(){
+    this.storage.get('idusuario')
+    .then(idusu => {
+      this.idusuario=idusu
+      this.listarlugars(idusu)
+    })
   }
 
 
@@ -103,6 +110,12 @@ export class CrearcursoPage implements OnInit {
       console.log(resp);
       
         this.datoslug=resp
+        return this.usuario.listarTipohorario(id)
+    })
+    .then(datos=>{
+      this.horarios=datos
+      console.log(datos);
+      
     })
   }
   adicionarlugar(){
@@ -114,7 +127,7 @@ export class CrearcursoPage implements OnInit {
     this.fotos.escogerImagenes(5)
       .then(urlarray => {
         this.imagenes = urlarray
-        alert(JSON.stringify(urlarray[0].blob.type))
+        //alert(JSON.stringify(urlarray[0].blob.type))
         let aux=[]
         for(let i in urlarray)
           aux.push(this.fotos.createThumbnail(urlarray[i].base64))
@@ -194,11 +207,19 @@ export class CrearcursoPage implements OnInit {
       });
       await alert.present();
     }
+    adicionarhorario(){
+      this.router.navigate(["/adm/cursos/crearcurso/mishorarios"])
+    }
 
   date = new Date();
   guardarDatos() {
     console.log(this.myFormins.value);
-    if (this.myFormins.valid) {
+    if (this.myFormins.invalid)
+    this.presentToast("Completa los campos")
+    else if(this.imagenes.length==0)
+      this.presentToast('seleciona una imagen')
+    else
+    {
       let loading = this.presentLoading('Guardando datos')
       this.date = new Date('yyyy-MM-dd HH:mm:ss Z')
       let _idcurso,_idusucur,_resimg=[],_resthumb=[]
@@ -246,7 +267,6 @@ export class CrearcursoPage implements OnInit {
           loading.then(load => load.dismiss())
         })
     }
-    else this.presentToast("Completa los campos")
   }
 
   //mesage loading

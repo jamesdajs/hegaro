@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { Storage } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { LugaresService } from 'src/app/services/lugares/lugares.service';
+import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 
 declare var google: any;
 @Component({
@@ -12,27 +14,31 @@ declare var google: any;
   styleUrls: ['./vercurso.page.scss'],
 })
 export class VercursoPage implements OnInit {
+  dias = ["DOMINGO", 'LUNES', "MARTES", 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']
   owner=false
   direccion
   datos
   comision
   verificacion=[]
-  datosins = {
-		descripcion: "",
-		lat: '',
-		lng: '',
-		zoom: '',
-		direccion: ''
-  	}
+ lugar={
+   lat:'',
+   lng:'',
+   zoom:'',
+   direccion:'',
+   nombregym:''
+ }
+ horario=[]
   constructor(private routes:Router,
     private servicioCurso:CursoService,
     private geolocation: Geolocation,
-    private storage:Storage) { 
+    private storage:Storage,
+    private lugares:LugaresService,
+    private usuario:UsuarioProvider
+     ) { 
       this.datos=this.routes.getCurrentNavigation().extras
       this.storage.get("idusuario")
       .then(id => {
-        console.log("id usuario"+id+ " "+this.datos.idcursos);
-        console.log(this.datos);
+        console.log(this.datos,id);
         if(id=this.datos.idusuario){
           this.owner=true
           this.servicioCurso.verificarsuscripcion(this.datos.idcursos,id).then(resp=>{
@@ -52,6 +58,20 @@ export class VercursoPage implements OnInit {
     }
 
   ngOnInit() {
+    this.lugares.listarlUnlugar(this.datos.iddatos_ins)
+    .then(lugares=>{
+      console.log(lugares[0]);
+      this.lugar=lugares[0]
+      return this.usuario.mishorarios(this.datos.idtipo_horario)
+
+    })
+    .then(horario=>{
+      console.log(horario);
+     // this.horario=horario
+      this.armarhorario(horario)
+      this.loadMap()
+    })
+    .catch(err=>console.log(err))
   }
   ionViewWillEnter() {
 
@@ -68,9 +88,9 @@ export class VercursoPage implements OnInit {
   }
 
   verHorarios(idcurso,idusuario,titulo){
-    console.log("idusu ver curso"+idusuario);
+    console.log(this.datos);
     
-    this.routes.navigate(['/cli/inicio/vercurso/selecthorario',{idc:idcurso,idu:idusuario,token:this.datos.token,t:titulo}])
+    this.routes.navigate(['/cli/inicio/vercurso/selecthorario',this.datos])
   }
 
   //funciona que redirecciona al curso supscrito
@@ -94,21 +114,15 @@ export class VercursoPage implements OnInit {
   }
 
   ngAfterViewInit() {
-		this.loadMap()
+		
 	}
   async loadMap() {
-		let latlng = {}
-		console.log(this.datosins)
-		if (this.datosins.lat=="" ) {
-			let resp = await this.geolocation.getCurrentPosition()
-			latlng = { lat: resp.coords.latitude, lng: resp.coords.longitude }
-		} else {
-			latlng = { lat: parseFloat(this.datosins.lat), lng: parseFloat(this.datosins.lng) }
-		}
+		let latlng = {lat:parseFloat(this.lugar.lat),lng:parseFloat(this.lugar.lng)}
+		
 		let map
 		map = new google.maps.Map(document.querySelector('#mapMOD'), {
 			center: latlng,// this.datosins.nombregym+' '+this.datosins.ciudad+' '+this.datosins.departamento,
-			zoom: this.datosins.lat!=""  ? parseInt(this.datosins.zoom) : 12,
+			zoom: this.lugar.zoom,
 			disableDefaultUI: true
 		});
 		console.log(latlng)
@@ -117,30 +131,57 @@ export class VercursoPage implements OnInit {
 				position:latlng,
 				map: map,
 			}
-		)
-		let geocoder = new google.maps.Geocoder;
-		
-		map.addListener('click', function (event) {
-			marker.setPosition(event.latLng)
-			geocoder.geocode({
-				'location': event.latLng
-			}, function (results, status) {
-				if (status === google.maps.GeocoderStatus.OK) {
-					if (results[0]) {
-
-						console.log('place id: ', results);
-						this.direccion=results[0]['formatted_address']
-					//	_myFormins.get("direccion").setValue(results[0]['formatted_address'])
-
-
-					} else {
-						console.log('No results found');
-					}
-				} else {
-					console.log('Geocoder failed due to: ' + status);
-				}
-			});
-		
-		});
-	}
+    )
+    /**
+     * 
+     let geocoder = new google.maps.Geocoder;
+     
+     map.addListener('click', function (event) {
+       marker.setPosition(event.latLng)
+       geocoder.geocode({
+         'location': event.latLng
+       }, function (results, status) {
+         if (status === google.maps.GeocoderStatus.OK) {
+           if (results[0]) {
+ 
+             console.log('place id: ', results);
+             this.direccion=results[0]['formatted_address']
+           //	_myFormins.get("direccion").setValue(results[0]['formatted_address'])
+ 
+ 
+           } else {
+             console.log('No results found');
+           }
+         } else {
+           console.log('Geocoder failed due to: ' + status);
+         }
+       });
+     
+     });
+     */
+  }
+armarhorario(data){
+  console.log(data);
+        if (data.length != 0) {
+          for (let i in this.dias) {
+            this.horario.push({
+              nombre: i,
+              horas: []
+            })
+            for (let j in data) {
+              if (data[j].dia == i) {
+                this.horario[i].horas.push(
+                  {
+                    id: data[j].idhorarios,
+                    cantidad: data[j].cantidad,
+                    inicio: data[j].hora_ini,
+                    fin: data[j].hora_fin,
+                    estado: 1
+                  })
+              }
+            }
+          }
+        } 
+        console.log(this.horario);
+}
 }

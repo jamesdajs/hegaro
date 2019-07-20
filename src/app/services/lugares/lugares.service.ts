@@ -47,6 +47,14 @@ export class LugaresService {
     return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
     .toPromise()
   }
+  listarlUnlugar(id_datosins){
+    let sql=`select * 
+    from datos_ins 
+    where  iddatos_ins=?`
+    let values=[id_datosins]
+    return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
+    .toPromise()
+  }
 
   
   modlugar(datos,id){

@@ -19,38 +19,6 @@
 		<ion-list>
 			<ion-row align-items-end>
 				<ion-col col-12>
-					<div *ngIf="rol=='instructor'">
-						<form [formGroup]="myFormins">
-							<ion-item-divider>
-								<ion-label>Datos de instructor</ion-label>
-							</ion-item-divider>
-							<ion-item>
-								<ion-label position="floating">Descripción profesional</ion-label>
-								<ion-textarea formControlName='nombre' type="text"></ion-textarea>
-							</ion-item>
-							<ion-item *ngIf="myFormins.get('nombre').errors && myFormins.get('nombre').dirty">
-								<p class="msgerr" *ngIf="myFormins.get('nombre').hasError('required')">Campo
-									requerido
-								</p>
-							</ion-item>
-							<ion-item>
-
-								<ion-label position="floating">Direccion</ion-label>
-								<ion-input formControlName='direccion' type="text"></ion-input>
-
-							</ion-item>
-							<ion-item *ngIf="myFormins.get('direccion').errors && myFormins.get('direccion').dirty">
-								<p class="msgerr" *ngIf="myFormins.get('direccion').hasError('required')">Campo
-									requerido
-								</p>
-							</ion-item>
-						</form>
-<!--
-
-	<div id="map_canvas"></div>
--->
-					<div id="mapMOD" style="height: 200px;"></div>
-					</div>
 					<ion-item-divider>
 						<ion-label>Datos de Personales</ion-label>
 					</ion-item-divider>

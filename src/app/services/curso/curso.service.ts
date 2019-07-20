@@ -21,8 +21,21 @@ export class CursoService {
 
      //tipo ejercicios
      crearcurso(datos,fecha,hora,semanas){
-      let sql="INSERT into cursos (titulo,descripcion,costo,tipomoneda,fecha,hora,semanas,iddatos_ins) VALUES (?,?,?,?,?,?,?)"
-      let values=[datos.titulo,datos.descripcion,datos.costo,datos.moneda,fecha,hora,semanas,datos.iddatos_ins]
+      let sql=`INSERT into cursos 
+              (titulo,descripcion,costo,tipomoneda,fecha,hora,semanas,iddatos_ins,idtipo_horario) 
+              VALUES (?,?,?,?,?,?,?,?,?)`
+      let values=[
+        datos.titulo,
+        datos.descripcion,
+        datos.costo,
+        datos.moneda,
+        fecha,
+        hora,
+        semanas,
+        datos.iddatos_ins,
+        datos.horario
+      ]
+
       return this.http.post<any>(this.urlInsert,{sql:sql,values:values},{headers:this.headers})
       .toPromise()
     }
@@ -153,9 +166,13 @@ export class CursoService {
       console.log(datos);
       let sql =  ` 
       UPDATE cursos 
-      set titulo=?, descripcion=?,tipomoneda=?,costo=?
+      set titulo=?, descripcion=?,tipomoneda=?,costo=?,iddatos_ins=?,idtipo_horario=?
       where idcursos=?`
-      let values = [datos.titulo,datos.descripcion,datos.moneda,datos.costo,id]
+      let values = [datos.titulo,datos.descripcion,datos.moneda,datos.costo,
+        datos.iddatos_ins,
+        datos.horario
+        ,id
+      ]
       return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
         .toPromise()
     }
