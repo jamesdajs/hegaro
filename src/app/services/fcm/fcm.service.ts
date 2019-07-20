@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,9 @@ export class FcmService {
     "Content-Type": "application/json",
     "Authorization": "key=AAAAIycp-GE:APA91bHFgDb_8rmpj5V2F7iMcgXlAJBQoMne5B6FfpFMKCcbMgTsD9pcx3jDnrYIq5P4K0WCoo7UsyUXOOdrtRSbh11cADDuNqCEsbMFm_cMNdr6ADVAsR5xsMwd96ssg-_5zpW0_Hvb"
   })
-  constructor(private fcm: FCM, private http: HttpClient) { }
+  constructor(
+    private fcm: FCM, 
+    private http: HttpClient) { }
 
   getToken() {
     return this.fcm.getToken()

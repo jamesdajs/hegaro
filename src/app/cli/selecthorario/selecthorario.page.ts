@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { Storage } from '@ionic/storage';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController, NavController } from '@ionic/angular';
 import { FcmService } from 'src/app/services/fcm/fcm.service';
 
 @Component({
@@ -26,7 +26,9 @@ export class SelecthorarioPage implements OnInit {
     private servicioUsuario:UsuarioProvider,
     private fcm:FcmService,
     public alertController: AlertController,
+    private loadingController:LoadingController,
     private route:ActivatedRoute,
+    private navcontroller:NavController,
     private storage:Storage) {
     //this.id=this.routes.getCurrentNavigation().extras
     this.idcurso = this.route.snapshot.paramMap.get('idcursos')
@@ -49,6 +51,7 @@ export class SelecthorarioPage implements OnInit {
 
     //GUARDAR HOARIOS SELECCIONADOS
     horariosseleccionados(){
+      let loading=this.presentLoading()
       this.servicioCurso.crearUsu_cur(this.idalumno,this.idcurso,"i")
       .then(resp=>{
         let aux=[]
@@ -61,13 +64,26 @@ export class SelecthorarioPage implements OnInit {
         return Promise.all(aux)
       })
       .then(resp=>{
-        this.routes.navigate(["/cli/mis-cursos"])
-        console.log(resp);
+        loading.then(resp=>{
+          resp.dismiss()
+          this.navcontroller.back()
+          this.routes.navigate(["/cli/mis-cursos"])
+        })
+        
+       
       }).catch(err=>{
         console.log(err);
       })
      console.log(this.horario);
      
+    }
+
+    async presentLoading() {
+      const loading = await this.loadingController.create({
+        message: 'Guardando..!'
+      });
+      await loading.present();
+      return loading
     }
 
     //ENVIAR NOTIFICACION
