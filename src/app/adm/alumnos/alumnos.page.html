@@ -29,11 +29,10 @@
 
 			</ion-list>
 			<div *ngIf="alumnos.length==0" class="ion-no-padding" text-center class="div-noting">
-					<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
 				<ion-label>No tienes alumnos aun..!!</ion-label>
 			</div>
 		</ion-slide>  
-		<ion-slide value="second">
+		<ion-slide value="second" id="myFixZone">
 			<div class="content-forcourses"> 
 				<ion-list class="ion-no-padding">
 					<ion-item *ngFor="let item of cursos" class="ion-no-padding" (click)="veralumnos(item)">
@@ -47,7 +46,6 @@
 				</ion-list>
 			</div>
 			<div *ngIf="cursos.length==0" class="ion-no-padding" text-center class="div-noting">
-					<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
 				<ion-label>No tienes cursos con inscritos aun..!!</ion-label>
 			</div>
 		</ion-slide>

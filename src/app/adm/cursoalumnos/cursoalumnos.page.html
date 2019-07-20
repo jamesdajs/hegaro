@@ -8,6 +8,9 @@
 </ion-header>
 
 <ion-content class="ion-no-padding">
+    <div *ngIf="alumnos.length==0" class="ion-no-padding" text-center class="div-noting">
+      <ion-label>No tienes inscritos aun..!!</ion-label>
+    </div>
      <ion-list>
 				<ion-item *ngFor="let item of alumnos" (click)="veralumno(item)">
 					<ion-avatar item-start>
