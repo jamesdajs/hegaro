@@ -20,6 +20,7 @@ export class SelecthorarioPage implements OnInit {
   dias = ["DOMINGO", 'LUNES', "MARTES", 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']
   horario = []
   seleccionados=[]
+  idtipo_horario
   constructor(private routes:Router,
     private servicioCurso:CursoService,
     private servicioUsuario:UsuarioProvider,
@@ -28,12 +29,13 @@ export class SelecthorarioPage implements OnInit {
     private route:ActivatedRoute,
     private storage:Storage) {
     //this.id=this.routes.getCurrentNavigation().extras
-    this.idcurso = this.route.snapshot.paramMap.get('idc')
-    this.curso = this.route.snapshot.paramMap.get('t')
+    this.idcurso = this.route.snapshot.paramMap.get('idcursos')
+    this.curso = this.route.snapshot.paramMap.get('titulo')
     this.idusu = this.route.snapshot.paramMap.get('idu')
+      this.idtipo_horario=this.route.snapshot.paramMap.get('idtipo_horario')
     this.tokenInstructor = this.route.snapshot.paramMap.get('token')
     console.log("id"+ this.idcurso);
-    this.recuperarhorario(this.idusu)
+    this.recuperarhorario(this.idtipo_horario)
     this.storage.get("idusuario")
       .then(id => {
         console.log(id)

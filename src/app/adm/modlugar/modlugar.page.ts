@@ -34,18 +34,18 @@ export class ModlugarPage implements OnInit {
   }
 
   ngOnInit() {
+    this.loadMap()
+
   }
   ngAfterViewInit() {
-    this.loadMap()
   }
 
 	async loadMap() {
-    let latlng = {}
-    latlng = { lat: parseFloat(this.datos.lat), lng: parseFloat(this.datos.lng) }
+    let latlng = { lat: parseFloat(this.datos.lat), lng: parseFloat(this.datos.lng) }
     let map
     map = new google.maps.Map(document.querySelector('#mapMOD'), {
       center: latlng,// this.datosins.nombregym+' '+this.datosins.ciudad+' '+this.datosins.departamento,
-      zoom: this.datos.lat!=""  ? parseInt(this.datos.zoom) : 8,
+      zoom:parseInt(this.datos.zoom),
       disableDefaultUI: true
     });
     console.log(latlng)

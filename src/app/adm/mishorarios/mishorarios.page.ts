@@ -29,7 +29,7 @@ export class MishorariosPage implements OnInit {
     private formb: FormBuilder
   ) {
     this.idtipohorario = this.arouter.snapshot.params.idtipo_horario
-    this.nombre = this.arouter.snapshot.params.nombre?this.arouter.snapshot.params.nombre:''
+    this.nombre = this.arouter.snapshot.params.nombre ? this.arouter.snapshot.params.nombre : ''
     this.storage.get('idusuario').then(id => {
       this.idusuario = id
       this.recuperarhorario(this.idtipohorario)
@@ -131,8 +131,12 @@ export class MishorariosPage implements OnInit {
               x.push(this.servicioUsuario.modificarhorario(this.horario[i].horas[h].cantidad, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin, this.horario[i].horas[h].id))
             } else {
               console.log("ingreso a adicionar");
-              console.log(this.idusuario, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin);
-              x.push(this.servicioUsuario.guardarhorario(idtipo, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin))
+              console.log(idtipo, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin);
+              if (this.idtipohorario)
+                x.push(this.servicioUsuario.guardarhorario(this.idtipohorario, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin))
+              else
+                x.push(this.servicioUsuario.guardarhorario(idtipo, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin))
+
             }
           }
         }
@@ -151,9 +155,9 @@ export class MishorariosPage implements OnInit {
         console.log(er);
       })
   }
-  modificarOinsertar(){
-    if(this.idtipohorario)
-      return this.servicioUsuario.modificarNombretipohorario(this.idtipohorario,this.myForm.value.nombre)
+  modificarOinsertar() {
+    if (this.idtipohorario)
+      return this.servicioUsuario.modificarNombretipohorario(this.idtipohorario, this.myForm.value.nombre)
     else
       return this.servicioUsuario.guardarTipohorario(this.idusuario, this.myForm.value.nombre)
   }
@@ -169,41 +173,41 @@ export class MishorariosPage implements OnInit {
 
   //FUNCION QUE RECUPERA LOS HORARIOS
   recuperarhorario(id) {
-      console.log("entro funcion" + id);
-      this.servicioUsuario.mishorarios(id).then(data => {
-        console.log(data);
-        if (data.length != 0) {
-          for (let i in this.dias) {
-            this.horario.push({
-              nombre: i,
-              horas: []
-            })
-            for (let j in data) {
-              if (data[j].dia == i) {
-                this.horario[i].horas.push(
-                  {
-                    id: data[j].idhorarios,
-                    cantidad: data[j].cantidad,
-                    inicio: data[j].hora_ini,
-                    fin: data[j].hora_fin,
-                    estado: 1
-                  })
-              }
+    console.log("entro funcion" + id);
+    this.servicioUsuario.mishorarios(id).then(data => {
+      console.log(data);
+      if (data.length != 0) {
+        for (let i in this.dias) {
+          this.horario.push({
+            nombre: i,
+            horas: []
+          })
+          for (let j in data) {
+            if (data[j].dia == i) {
+              this.horario[i].horas.push(
+                {
+                  id: data[j].idhorarios,
+                  cantidad: data[j].cantidad,
+                  inicio: data[j].hora_ini,
+                  fin: data[j].hora_fin,
+                  estado: 1
+                })
             }
           }
-        } else {
-          for (let i in this.dias) {
-            this.horario.push({
-              nombre: i,
-              horas: []
-            })
-          }
         }
-        console.log(this.horario);
+      } else {
+        for (let i in this.dias) {
+          this.horario.push({
+            nombre: i,
+            horas: []
+          })
+        }
+      }
+      console.log(this.horario);
+    })
+      .catch(err => {
+        console.log(err)
       })
-        .catch(err => {
-          console.log(err)
-        })
-    
+
   }
 }

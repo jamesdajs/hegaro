@@ -45,10 +45,10 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 
 		console.log(this.route.snapshot.params);
 		for (let key in this.datos)
-			this.datos[key] = this.route.snapshot.paramMap.get(key)=='null'? this.datos[key] : this.route.snapshot.paramMap.get(key)
+			this.datos[key] = this.route.snapshot.paramMap.get(key) == 'null' ? this.datos[key] : this.route.snapshot.paramMap.get(key)
 
 		for (let key in this.datosins)
-			this.datosins[key] = this.route.snapshot.paramMap.get(key)!='null'? this.route.snapshot.paramMap.get(key):''
+			this.datosins[key] = this.route.snapshot.paramMap.get(key) != 'null' ? this.route.snapshot.paramMap.get(key) : ''
 
 
 
@@ -72,16 +72,16 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		});
 
 		this.myFormins.setValue(this.datosins)
-		
+
 	}
 
 	ngOnInit() {
 
 	}
 	ngAfterViewInit() {
-		console.log("despues de cargar vista",this.myFormins.value)
+		console.log("despues de cargar vista", this.myFormins.value)
 
-		this.loadMap()
+		//this.loadMap()
 		//this.loadMap2()
 
 	}
@@ -93,12 +93,10 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		toast.present();
 	}
 	guardar() {
-		if (this.myForm.valid && this.myFormins.valid) {
+		if (this.myForm.valid) {
 			let loading = this.presentLoading('Guardando datos')
-			Promise.all([
-				this.user.modificardatosInstructor(this.myFormins.value, this.id),
-				this.user.actualizarusuariodatosnormales(this.myForm.value, this.id)
-			])
+			this.user.actualizarusuariodatosnormales(this.myForm.value, this.id)
+
 				.then(res => {
 					console.log(res);
 					loading.then(load => load.dismiss())
@@ -119,7 +117,7 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		// This code is necessary for browser
 		let latlng = {}
 		console.log(this.datosins)
-		if (this.datosins.lat=="" ) {
+		if (this.datosins.lat == "") {
 			let resp = await this.geolocation.getCurrentPosition()
 			latlng = { lat: resp.coords.latitude, lng: resp.coords.longitude }
 		} else {
@@ -128,13 +126,13 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 		let map
 		map = new google.maps.Map(document.querySelector('#mapMOD'), {
 			center: latlng,// this.datosins.nombregym+' '+this.datosins.ciudad+' '+this.datosins.departamento,
-			zoom: this.datosins.lat!=""  ? parseInt(this.datosins.zoom) : 12,
+			zoom: this.datosins.lat != "" ? parseInt(this.datosins.zoom) : 12,
 			disableDefaultUI: true
 		});
 		console.log(latlng)
 		var marker = new google.maps.Marker(
 			{
-				position:latlng,
+				position: latlng,
 				map: map,
 			}
 		)
@@ -144,7 +142,7 @@ export class ModPerfilPage implements OnInit, AfterViewInit {
 			marker.setPosition(event.latLng)
 			_myFormins.get("lat").setValue(marker.getPosition().lat())
 			_myFormins.get("lng").setValue(marker.getPosition().lng()),
-			_myFormins.get("zoom").setValue(map.getZoom())
+				_myFormins.get("zoom").setValue(map.getZoom())
 			geocoder.geocode({
 				'location': event.latLng
 			}, function (results, status) {

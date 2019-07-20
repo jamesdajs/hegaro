@@ -17,55 +17,91 @@
 </ion-header>
 
 <ion-content class="ion-no-padding" full-screem [scrollEvents]="true" (ionScroll)="onScroll($event)">
-  <div>
-    <ion-slides pager>
-        <ion-slide *ngFor="let f of datos.fotos">
-          <img [src]="f.url" alt="">
-        </ion-slide>
-      </ion-slides>
-    </div> 
-      <ion-card-header >
-        <div *ngIf="owner==false">
-            <ion-button *ngIf="verificacion.length==0 ; else blockelse" expand="block" color="primary" fill="outline" (click)="verHorarios(datos.idcursos,datos.idusuarios,datos.titulo)">
-                Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
-              </ion-button> 
-              <!--<ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="detallepago(datos.costo)">
-                    Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
-                </ion-button> --> 
-                <ng-template #blockelse>
-                  <ion-button expand="block" color="primary" fill="outline" (click)="gocourse(datos.idcursos,datos.idusuarios)">
-                    Ya estas suscrito!! ir curso
-                  </ion-button>
-                </ng-template>
-        </div>
-        <ion-card-title>{{datos.titulo}}</ion-card-title>
-      </ion-card-header>
-      
-      <ion-card-content >
-        {{datos.descripcion}}
-      </ion-card-content>
-      <ion-item>
-        <ion-label>Duración {{datos.semanas}} Semanas</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-label>Costo {{datos.costo}} {{datos.tipomoneda}}</ion-label>
-      </ion-item>
-      
-      <ion-item *ngIf="datos.telefono!==null">
-        <ion-label> {{datos.telefono}}</ion-label>
-        <ion-icon slot="end" name="logo-whatsapp"></ion-icon>
-      </ion-item>
-      
-     
+  <ion-list>
+    
+    <div>
+      <ion-slides pager>
+          <ion-slide *ngFor="let f of datos.fotos">
+            <img [src]="f.url" alt="">
+          </ion-slide>
+        </ion-slides>
+      </div> 
+        <ion-card-header >
+          <div *ngIf="owner==false">
+              <ion-button *ngIf="verificacion.length==0 ; else blockelse" expand="block" color="primary" fill="outline" (click)="verHorarios(datos.idcursos,datos.idusuarios,datos.titulo)">
+                  Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
+                </ion-button> 
+                <!--<ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="detallepago(datos.costo)">
+                      Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
+                  </ion-button> --> 
+                  <ng-template #blockelse>
+                    <ion-button expand="block" color="primary" fill="outline" (click)="gocourse(datos.idcursos,datos.idusuarios)">
+                      Ya estas suscrito!! ir curso
+                    </ion-button>
+                  </ng-template>
+          </div>
+          <ion-card-title>{{datos.titulo}}</ion-card-title>
+        </ion-card-header>
+        
+        <ion-card-content >
+          {{datos.descripcion}}
+        </ion-card-content>
         <ion-item>
-          <ion-label position="floating">Direccion</ion-label>
-          <ion-textarea rows="2" type="text" value="Av.Victor Paz, estensoro Nro 9898"></ion-textarea>
+          <ion-label>Duración {{datos.semanas}} Semanas</ion-label>
         </ion-item>
-      <div id="mapMOD" style="height: 200px;"></div>
-      <ion-item >
-          <ion-label>Horarios</ion-label>
-          
+        <ion-item>
+          <ion-label>Costo {{datos.costo}} {{datos.tipomoneda}}</ion-label>
         </ion-item>
+        
+        <ion-item *ngIf="datos.telefono!==null">
+          <ion-label> {{datos.telefono}}</ion-label>
+          <ion-icon slot="end" name="logo-whatsapp"></ion-icon>
+        </ion-item>
+        
+       
+          <ion-item>
+            <ion-label >Direccion: {{lugar.direccion}}</ion-label>
+            
+          </ion-item>
+          <ion-item>
+              <ion-label >Nombre: {{lugar.nombregym}}</ion-label>
+              
+            </ion-item>
+        <div id="mapMOD" style="height: 200px;"></div>
+        <ion-item >
+            <ion-label>Horarios</ion-label>
+            
+          </ion-item>
+          <div *ngFor="let h of horario">
+
+            <div *ngIf="h.horas.length!=0">
+              <ion-list-header>
+                {{dias[h.nombre]}}
+              </ion-list-header>
+
+                <div *ngFor="let p of h.horas; let i = index">
+                  <ion-row no-padding>
+                    <ion-col no-padding>
+                      <ion-item>
+                        <ion-label>Cantidad {{p.cantidad}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col no-padding>
+                      <ion-item>
+                        <ion-label>{{p.inicio}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col no-padding>
+                      <ion-item>
+                        <ion-label>{{p.fin}}</ion-label>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </div>
+              </div>
+
+            </div>
+  </ion-list>
       <!--
  <ion-item  color="primary" (click)="verHorarios(datos.idcursos,datos.idusuarios)">
         <ion-label class="ver-post"  slot="start">

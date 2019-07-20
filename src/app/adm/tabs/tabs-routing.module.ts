@@ -30,13 +30,30 @@ const routes: Routes = [
                   { 
                     path: 'crearlugar', 
                     loadChildren: '../crearlugar/crearlugar.module#CrearlugarPageModule' 
+                  },
+                  {
+                    path: 'mishorarios',
+                    loadChildren: '../mishorarios/mishorarios.module#MishorariosPageModule'
                   }
 
                 ]
               },
               {
                 path: 'cursomodificar',
-                loadChildren: '../cursomodificar/cursomodificar.module#CursomodificarPageModule'
+                children:[
+                  {
+                    path:'',
+                    loadChildren: '../cursomodificar/cursomodificar.module#CursomodificarPageModule'
+                  },
+                  { 
+                    path: 'crearlugar', 
+                    loadChildren: '../crearlugar/crearlugar.module#CrearlugarPageModule' 
+                  },
+                  {
+                    path: 'mishorarios',
+                    loadChildren: '../mishorarios/mishorarios.module#MishorariosPageModule'
+                  }
+                ]
               },
               {
                 path: 'cursosinactivos',

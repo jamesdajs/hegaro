@@ -42,59 +42,60 @@ export class CrearlugarPage implements OnInit {
   }
 
 	ngOnInit() {
+		this.loadMap()
+
 	}
 	ngAfterViewInit() {
-			this.loadMap()
+		
 		}
-	async loadMap() {
+	loadMap() {
 			let latlng = {}
-			console.log(this.datosins)
-			if (this.datosins.lat=="" ) {
-				let resp = await this.geolocation.getCurrentPosition()
+			this.geolocation.getCurrentPosition()
+			.then(resp=>{
+
 				latlng = { lat: resp.coords.latitude, lng: resp.coords.longitude }
-			} else {
-				latlng = { lat: parseFloat(this.datosins.lat), lng: parseFloat(this.datosins.lng) }
-			}
-			let map
-			map = new google.maps.Map(document.querySelector('#mapMOD'), {
-				center: latlng,// this.datosins.nombregym+' '+this.datosins.ciudad+' '+this.datosins.departamento,
-				zoom: this.datosins.lat!=""  ? parseInt(this.datosins.zoom) : 8,
-				disableDefaultUI: true
-			});
-			console.log(latlng)
-			var marker = new google.maps.Marker(
-				{
-					position:latlng,
-					map: map,
-				}
-			)
-			let geocoder = new google.maps.Geocoder;
-			let _myFormins = this.myFormins
-			map.addListener('click', function (event) {
-				marker.setPosition(event.latLng)
-				_myFormins.get("lat").setValue(marker.getPosition().lat())
-				_myFormins.get("lng").setValue(marker.getPosition().lng()),
-				_myFormins.get("zoom").setValue(map.getZoom())
-				geocoder.geocode({
-					'location': event.latLng
-				}, function (results, status) {
-					if (status === google.maps.GeocoderStatus.OK) {
-						if (results[0]) {
-
-							console.log('place id: ', results);
-							
-							_myFormins.get("direccion").setValue(results[0]['formatted_address'])
-
-
-						} else {
-							console.log('No results found');
-						}
-					} else {
-						console.log('Geocoder failed due to: ' + status);
-					}
+	
+				let map
+				map = new google.maps.Map(document.querySelector('#mapMOD'), {
+					center: latlng,// this.datosins.nombregym+' '+this.datosins.ciudad+' '+this.datosins.departamento,
+					zoom: 16,
+					disableDefaultUI: true
 				});
-				console.log(_myFormins.value)
-			});
+				//alert(JSON.stringify(latlng))
+				var marker = new google.maps.Marker(
+					{
+						position:latlng,
+						map: map,
+					}
+				)
+				let geocoder = new google.maps.Geocoder;
+				let _myFormins = this.myFormins
+				map.addListener('click', function (event) {
+					marker.setPosition(event.latLng)
+					_myFormins.get("lat").setValue(marker.getPosition().lat())
+					_myFormins.get("lng").setValue(marker.getPosition().lng()),
+					_myFormins.get("zoom").setValue(map.getZoom())
+					geocoder.geocode({
+						'location': event.latLng
+					}, function (results, status) {
+						if (status === google.maps.GeocoderStatus.OK) {
+							if (results[0]) {
+	
+								console.log('place id: ', results);
+								
+								_myFormins.get("direccion").setValue(results[0]['formatted_address'])
+	
+	
+							} else {
+								console.log('No results found');
+							}
+						} else {
+							console.log('Geocoder failed due to: ' + status);
+						}
+					});
+					console.log(_myFormins.value)
+				});
+			}).catch(err=>alert(JSON.stringify(err)))
 		}
 
 	guardar(){
