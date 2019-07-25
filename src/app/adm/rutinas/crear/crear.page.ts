@@ -88,15 +88,18 @@ export class CrearPage implements OnInit {
       .then(array=>{
         console.log(array);
         let func=[]
-        array.forEach(item=>{
-          this.ejercicios.forEach(ejer=>{
-            if(item.id_ejercicio==ejer.idejercicios){
-              ejer.sets.forEach(sets=>{
-                func.push(this.rutina.crearSetRutina_Ejer(item.idrut_ejer,sets))
-              })
-            }
-          })
-        })
+        /**
+         * 
+         array.forEach(item=>{
+           this.ejercicios.forEach(ejer=>{
+             if(item.id_ejercicio==ejer.idejercicios){
+               ejer.sets.forEach(sets=>{
+                 func.push(this.rutina.crearSetRutina_Ejer(item.idrut_ejer,sets))
+               })
+             }
+           })
+         })
+         */
         return Promise.all(func)
         //id_ejercicio,idrut_ejer
       })

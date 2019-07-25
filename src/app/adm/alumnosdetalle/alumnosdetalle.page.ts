@@ -26,10 +26,13 @@ export class AlumnosdetallePage implements OnInit {
       id: "second",
       title: "Second Slide"
     },
-    {
-      id: "third",
-      title: "Third Slide"
-    }
+    /**
+     * 
+     {
+       id: "third",
+       title: "Third Slide"
+     }
+     */
   ];
   datos
   registro=[]
@@ -128,6 +131,10 @@ export class AlumnosdetallePage implements OnInit {
         if(res.length>2) this.botonfin.disabled=true
         
         this.registro=res
+      })
+      .catch(err=>{
+        console.log(err);
+        
       })
   }
   regInicioCurso(){

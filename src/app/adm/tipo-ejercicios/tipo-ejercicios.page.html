@@ -23,9 +23,6 @@
 				</ion-item>
 			</div>
 		-->
-		<ion-item-divider>
-			<ion-label>Tipo de ejercicios creados</ion-label>
-		</ion-item-divider>
 
 		<ion-item-sliding  *ngFor="let item of tipos ; let i=index" >
 			<ion-item color="light"  (click)="verejercicios(item)">
@@ -47,5 +44,13 @@
 			</ion-item-options>
 		</ion-item-sliding>
 	</ion-list>
+	<div *ngIf="tipos.length==0" text-center class="div-noting">
+			<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
+		<ion-label>No tienes tipo de ejercicios  creadas aun..!! comienza ahora. <br>
+				<ion-button fill="outline" (click)=crear()>
+						Crear tipo ejercicio
+				</ion-button>
+		</ion-label>
+	</div>
 </ion-content>
 

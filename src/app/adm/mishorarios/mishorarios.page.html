@@ -16,7 +16,7 @@
   <ion-list  no-lines>
       <form [formGroup]="myForm">
           <ion-item>
-            <ion-label position="floating">Descripción profesional</ion-label>
+            <ion-label position="floating">Nombre</ion-label>
             <ion-input formControlName='nombre' type="text"></ion-input>
           </ion-item>
           <ion-item *ngIf="myForm.get('nombre').errors && myForm.get('nombre').dirty">

@@ -16,7 +16,7 @@ export class TipoEjerciciosPage implements OnInit {
     { nombre: "brazos" },
     { nombre: "piernas" }
   ]
-  tipos
+  tipos=[]
   constructor(
     private router: Router,
     private rutina: RutinaProvider,

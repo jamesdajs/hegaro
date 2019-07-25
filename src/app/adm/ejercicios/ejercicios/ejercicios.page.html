@@ -3,7 +3,7 @@
 		<ion-buttons slot="start">
 			<ion-back-button></ion-back-button>
 		</ion-buttons>
-		<ion-title> nombre</ion-title>
+		<ion-title> {{datos.nombre}}</ion-title>
 		<ion-buttons slot="end">
 			<ion-button (click)="crear()">
 				<ion-icon slot="icon-only" name="add"></ion-icon>
@@ -55,4 +55,12 @@
 			</ion-item>
 		</ng-template>
 	</ion-list>
+	<div *ngIf="ejercicios.length==0" text-center class="div-noting">
+			<!--<ion-img src="../../assets/imgs/ejer.png"> --> 
+		<ion-label>No tienes ejercicios creados aun..!! comienza ahora. <br>
+				<ion-button fill="outline" (click)=crear()>
+						Crear ejercicio
+				</ion-button>
+		</ion-label>
+	</div>
 </ion-content>

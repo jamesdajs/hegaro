@@ -7,7 +7,7 @@
 
 
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" fullscreen='true'>
   <div class="content-log">
     <p text-center>
         <img src="../assets/icon/icon.png"/>
@@ -16,11 +16,16 @@
         <ion-label>GOODME</ion-label>
       </p>
    
-      <ion-button expand="block" icon-left color="primary" (click)="loginWithFacebook()">
-          <ion-icon name="logo-facebook"></ion-icon>Inicia con Facebook
-        </ion-button>
+      
   </div>
    
 
    
 </ion-content>
+<ion-footer>
+    <ion-toolbar>
+        <ion-button expand="block" icon-left color="primary" (click)="loginWithFacebook()">
+            <ion-icon name="logo-facebook"></ion-icon>Inicia con Facebook
+          </ion-button>
+    </ion-toolbar>
+  </ion-footer>

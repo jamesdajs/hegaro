@@ -65,14 +65,17 @@ export class DetalleejercicioPage implements OnInit {
       .then(res => {
         console.log(res);
         this.imagenes=res 
-        return this.rutina.getSetsDefectoEjercicio(this.ejercicio.idrut_ejer)
-      })
-      .then(res=>{
-        console.log(res);
-        res.forEach(element => {
-          element['isChecked']=false
-        });
-        this.listSets=res
+        /**
+         * 
+         return this.rutina.getSetsDefectoEjercicio(this.ejercicio.idrut_ejer)
+       })
+       .then(res=>{
+         console.log(res);
+         res.forEach(element => {
+           element['isChecked']=false
+         });
+         this.listSets=res
+         */
       })
       .catch(err=>{
         console.log(err);

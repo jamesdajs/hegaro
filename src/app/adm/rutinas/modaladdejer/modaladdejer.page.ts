@@ -73,14 +73,18 @@ export class ModaladdejerPage implements OnInit {
     //console.log(ejer,o,event.detail.checked);
 
     if (ejer.estadoadd == true) {
-      const modal = await this.modalController.create({
-        component: ModalasetsPage,
-        componentProps: { ejerset: ejer }
-      });
-
-      await modal.present();
-      const { data } = await modal.onDidDismiss()
-      ejer['sets'] = data
+      /**+
+       * 
+       const modal = await this.modalController.create({
+         component: ModalasetsPage,
+         componentProps: { ejerset: ejer }
+       });
+ 
+       await modal.present();
+       const { data } = await modal.onDidDismiss()
+       */
+      //ejer['sets'] = data
+      ejer['sets']=[]
       this.ejerselec.push(ejer)
     }
     else {

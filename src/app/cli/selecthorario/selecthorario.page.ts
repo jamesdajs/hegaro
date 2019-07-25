@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { Storage } from '@ionic/storage';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 import { FcmService } from 'src/app/services/fcm/fcm.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class SelecthorarioPage implements OnInit {
   horario = []
   seleccionados=[]
   idtipo_horario
-  constructor(private routes:Router,
+  constructor(private navCtrl:NavController,
     private servicioCurso:CursoService,
     private servicioUsuario:UsuarioProvider,
     private fcm:FcmService,
@@ -61,7 +61,7 @@ export class SelecthorarioPage implements OnInit {
         return Promise.all(aux)
       })
       .then(resp=>{
-        this.routes.navigate(["/cli/mis-cursos"])
+        this.navCtrl.back()
         console.log(resp);
       }).catch(err=>{
         console.log(err);

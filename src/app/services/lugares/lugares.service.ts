@@ -39,7 +39,7 @@ export class LugaresService {
     .toPromise()
   }
 
-  listarlugares(id_usuario,estado){
+  listarlugares(estado,id_usuario){
     let sql=`select * 
     from datos_ins 
     where estado=? and idusuario=?`

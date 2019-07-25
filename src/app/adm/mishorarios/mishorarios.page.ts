@@ -26,7 +26,8 @@ export class MishorariosPage implements OnInit {
     private alertController: AlertController,
     public loadingController: LoadingController,
     public arouter: ActivatedRoute,
-    private formb: FormBuilder
+    private formb: FormBuilder,
+    public toastController: ToastController
   ) {
     this.idtipohorario = this.arouter.snapshot.params.idtipo_horario
     this.nombre = this.arouter.snapshot.params.nombre ? this.arouter.snapshot.params.nombre : ''
@@ -118,42 +119,50 @@ export class MishorariosPage implements OnInit {
 
 
   guardar() {
-    let loading = this.presentLoading('Guardando datos')
-    let x = []
-    this.modificarOinsertar()
-      .then(idtipo => {
+    if(this.myForm.valid){
 
-        for (let i in this.dias) {
-          for (let h in this.horario[i].horas) {
-            console.log("consulta" + this.horario[i].horas[h].id);
-            if (this.horario[i].horas[h].id) {
-              console.log("ingreso a modificar");
-              x.push(this.servicioUsuario.modificarhorario(this.horario[i].horas[h].cantidad, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin, this.horario[i].horas[h].id))
-            } else {
-              console.log("ingreso a adicionar");
-              console.log(idtipo, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin);
-              if (this.idtipohorario)
-                x.push(this.servicioUsuario.guardarhorario(this.idtipohorario, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin))
-              else
-                x.push(this.servicioUsuario.guardarhorario(idtipo, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin))
-
+      let loading = this.presentLoading('Guardando datos')
+      let x = []
+      this.modificarOinsertar()
+        .then(idtipo => {
+  
+          for (let i in this.dias) {
+            for (let h in this.horario[i].horas) {
+              console.log("consulta" + this.horario[i].horas[h].id);
+              if (this.horario[i].horas[h].id) {
+                console.log("ingreso a modificar");
+                x.push(this.servicioUsuario.modificarhorario(this.horario[i].horas[h].cantidad, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin, this.horario[i].horas[h].id))
+              } else {
+                console.log("ingreso a adicionar");
+                console.log(idtipo, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin);
+                if (this.idtipohorario)
+                  x.push(this.servicioUsuario.guardarhorario(this.idtipohorario, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin))
+                else
+                  x.push(this.servicioUsuario.guardarhorario(idtipo, this.horario[i].horas[h].cantidad, this.horario[i].nombre, this.horario[i].horas[h].inicio, this.horario[i].horas[h].fin))
+  
+              }
             }
           }
-        }
-        return Promise.all(x)
-      })
-      .then(resp => {
-        console.log(resp);
-        let animations: AnimationOptions = {
-          animated: true,
-          animationDirection: "back"
-        }
-        loading.then(load => load.dismiss())
-        this.navCtrl.back(animations)
-      })
-      .catch(er => {
-        console.log(er);
-      })
+          return Promise.all(x)
+        })
+        .then(resp => {
+          console.log(resp);
+          let animations: AnimationOptions = {
+            animated: true,
+            animationDirection: "back"
+          }
+          loading.then(load => load.dismiss())
+          this.presentToast('Se guardo correctamente el horario')
+          this.navCtrl.back(animations)
+        })
+        .catch(er => {
+          console.log(er);
+          loading.then(load => load.dismiss())
+
+          this.presentToast('Error al guardar el horario')
+        })
+    }
+    else this.presentToast('Debe tener un nombre el horario')
   }
   modificarOinsertar() {
     if (this.idtipohorario)
@@ -209,5 +218,12 @@ export class MishorariosPage implements OnInit {
         console.log(err)
       })
 
+  }
+  async presentToast(txt) {
+    const toast = await this.toastController.create({
+      message: txt,
+      duration: 2000
+    });
+    toast.present();
   }
 }

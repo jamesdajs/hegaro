@@ -51,31 +51,39 @@
       <ion-card-subtitle>Cursos del instructor</ion-card-subtitle>
     </ion-card-header>
     <div *ngFor="let item of cursos; let i=index ">
-        <ion-card class="ion-no-margin"> 
-            <div>
-            <ion-slides pager class="ion-no-padding">
-                <ion-slide class="ion-no-padding">
-                    <img src="../../../assets/imgs/defecto.jpeg" width="100%">
-                </ion-slide>
-            </ion-slides>
-          </div>
-          
+      <ion-card>
+
+        <div>
+          <ion-slides pager class="ion-no-padding">
+            <ion-slide class="ion-no-padding" *ngIf="item.fotos.length==0; else blockelse">
+              <img src="../../../assets/imgs/defecto.jpeg" width="100%">
+            </ion-slide>
+            <ng-template #blockelse>
+              <ion-slide class="ion-no-padding" *ngFor="let foto of item.fotos">
+                <img [src]="foto.url" width="100%">
+              </ion-slide>
+            </ng-template>
+          </ion-slides>
+        </div>
+        <div (click)="vercurso(item)">
+          <ion-item color="comprar">
+            <ion-label class="ver-post" slot="start">
+              Ver
+            </ion-label>
+            <ion-icon slot="end" name="md-arrow-dropright"></ion-icon>
+          </ion-item>
           <ion-card-header class="padding-post-detail-title">
             <ion-card-title>{{item.titulo}}</ion-card-title>
           </ion-card-header>
-          
+
           <ion-card-content class="padding-post-detail">
             {{item.descripcion}}
-          <ion-item class="ion-no-padding">
-            <ion-label>{{item.costo}} {{item.tipomoneda}} por {{item.semanas}} semanas</ion-label>
-          </ion-item>
-          <ion-item class="ion-no-padding">
-            <ion-label class="costo-post" (click)="vercurso(item)" slot="end">
-              Ver detalle
-            </ion-label> 
-          </ion-item>
-        </ion-card-content>
-        </ion-card> 
+            <ion-item class="ion-no-padding">
+              <ion-label>{{item.costo}} {{item.tipomoneda}} por {{item.semanas}} Semanas</ion-label>
+            </ion-item>
+          </ion-card-content>
+        </div>
+      </ion-card>
     </div>
     
 </ion-content>

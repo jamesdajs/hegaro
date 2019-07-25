@@ -4,9 +4,12 @@
             <ion-back-button></ion-back-button>
           </ion-buttons>
       <ion-title>{{ejercicio.nombre}}</ion-title>
-      <ion-button fill="clear" (click)="historial()" slot="end">
-              <ion-icon name="md-list-box"></ion-icon>
-          </ion-button>
+      <!--
+
+        <ion-button fill="clear" (click)="historial()" slot="end">
+                <ion-icon name="md-list-box"></ion-icon>
+            </ion-button>
+      -->
       <ion-button fill="clear" (click)="guardar()" slot="end">
           <ion-icon name="md-checkmark"></ion-icon>
       </ion-button>
@@ -44,61 +47,63 @@
     </ion-card>
     
       
-  
-          <ion-grid class="ion-padding">
-                  <ion-row >
+  <!--
+
+    <ion-grid class="ion-padding">
+            <ion-row >
+              <ion-col size="2" size-sm class="ion-align-self-center">
+                <div>
+                  Set
+                </div>
+              </ion-col>
+              <ion-col size="3" size-sm>
+                <div>
+                  Peso
+                </div>
+              </ion-col>
+              <ion-col size="2" size-sm>
+                <div>
+                  Repet.
+                </div>
+              </ion-col>
+              <ion-col size="3" size-sm>
+                <div>
+                  Tiempo
+                </div>
+              </ion-col>
+              <ion-col size="2" size-sm>
+                    <div>
+                      
+                    </div>
+                  </ion-col>
+            </ion-row>
+            <ion-row *ngFor="let set of listSets; let i=index" >
                     <ion-col size="2" size-sm class="ion-align-self-center">
-                      <div>
-                        Set
+                      <div (click)="modificarset(i,set)" >
+                        {{i+1}} set
                       </div>
                     </ion-col>
                     <ion-col size="3" size-sm>
                       <div>
-                        Peso
+                        {{set.peso}}
                       </div>
                     </ion-col>
                     <ion-col size="2" size-sm>
                       <div>
-                        Repet.
+                          {{set.repeticiones}}
                       </div>
                     </ion-col>
                     <ion-col size="3" size-sm>
                       <div>
-                        Tiempo
+                          {{set.tiempo}}
                       </div>
                     </ion-col>
                     <ion-col size="2" size-sm>
                           <div>
-                            
+                            <ion-checkbox [(ngModel)]="set.isChecked"></ion-checkbox>
                           </div>
                         </ion-col>
                   </ion-row>
-                  <ion-row *ngFor="let set of listSets; let i=index" >
-                          <ion-col size="2" size-sm class="ion-align-self-center">
-                            <div (click)="modificarset(i,set)" >
-                              {{i+1}} set
-                            </div>
-                          </ion-col>
-                          <ion-col size="3" size-sm>
-                            <div>
-                              {{set.peso}}
-                            </div>
-                          </ion-col>
-                          <ion-col size="2" size-sm>
-                            <div>
-                                {{set.repeticiones}}
-                            </div>
-                          </ion-col>
-                          <ion-col size="3" size-sm>
-                            <div>
-                                {{set.tiempo}}
-                            </div>
-                          </ion-col>
-                          <ion-col size="2" size-sm>
-                                <div>
-                                  <ion-checkbox [(ngModel)]="set.isChecked"></ion-checkbox>
-                                </div>
-                              </ion-col>
-                        </ion-row>
-          </ion-grid>
+    </ion-grid>
+  -->
 </ion-content>

@@ -36,17 +36,7 @@ export class VercursoPage implements OnInit {
     private usuario:UsuarioProvider
      ) { 
       this.datos=this.routes.getCurrentNavigation().extras
-      this.storage.get("idusuario")
-      .then(id => {
-        console.log(this.datos,id);
-        if(id=this.datos.idusuario){
-          this.owner=true
-          this.servicioCurso.verificarsuscripcion(this.datos.idcursos,id).then(resp=>{
-            this.verificacion=resp;
-            console.log("nuemro de cursos"+this.verificacion.length);
-          })
-        }
-      })
+      
   }
   showToolbar = false;
   onScroll($event: CustomEvent<ScrollDetail>) {
@@ -57,6 +47,23 @@ export class VercursoPage implements OnInit {
     }
 
   ngOnInit() {
+    
+  }
+  ionViewWillEnter() {
+    this.storage.get("idusuario")
+    .then(id => {
+      //console.log(this.datos,id);
+        return this.servicioCurso.verificarsuscripcion(this.datos.idcursos,id)
+
+    })
+    .then(resp=>{
+      this.verificacion=resp;
+      //console.log("nuemro de cursos"+this.verificacion.length);
+    })
+    .catch(err=>{
+      console.log(err);
+      
+    })
     this.lugares.listarlUnlugar(this.datos.iddatos_ins)
     .then(lugares=>{
       console.log(lugares[0]);
@@ -71,9 +78,6 @@ export class VercursoPage implements OnInit {
       this.loadMap()
     })
     .catch(err=>console.log(err))
-  }
-  ionViewWillEnter() {
-
   }
  
 

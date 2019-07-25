@@ -11,7 +11,7 @@ import { CursoService } from 'src/app/services/curso/curso.service';
 export class VerInstructorPage implements OnInit {
 
   id
-  datos
+  datos=[]
   cursos=[]
   genero='Hombre'
   constructor(private router:Router,
@@ -31,7 +31,17 @@ export class VerInstructorPage implements OnInit {
 
   //FUNCION LISTAR CURSOS
   listarcursos() {
-    this.servicesCurso.miscursospublicados(1,this.id).subscribe(data=>this.cursos=data)
+    this.servicesCurso.miscursospublicados(1,this.id).subscribe(data=>{
+      data.forEach(item=>{
+        item.idcursos
+        item['fotos']=[]
+        this.servicesCurso.listarfotos(item.idcursos)
+        .then(res=>{
+          item['fotos']=res
+        })
+      })
+      this.cursos=data
+    })
   }
 
   //FUNCION PARA VER DETALLES DEL CURSO
@@ -43,7 +53,7 @@ export class VerInstructorPage implements OnInit {
   //
   datosInstructor(){
     console.log("id facebook ver"+this.id);
-    this.datos=this.servicioUsuario.verUsuarioIDdbinstructor(this.id) 
+    this.servicioUsuario.verUsuarioIDdbinstructor(this.id) 
     .then(datos => {
       console.log("resp",datos)
       this.genero = datos[0].genero != 'h' ? 'Mujer' : 'Hombre'
