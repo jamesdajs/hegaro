@@ -15,7 +15,7 @@ export class CursosPage implements OnInit {
 
     console.log(this.route.snapshot.paramMap)
    }
-
+   selectANumber(){}
   ngOnInit() {
   }
   

@@ -9,9 +9,17 @@ import { CursoService } from 'src/app/services/curso/curso.service';
   styleUrls: ['./ver-instructor.page.scss'],
 })
 export class VerInstructorPage implements OnInit {
-
+  foto
   id
-  datos=[]
+  datos={
+    foto:'',
+    fechanac:'',
+    fullname:'',
+    altura:'',
+    telefono:'',
+    correo:''
+  }
+  verdatos=false
   cursos=[]
   genero='Hombre'
   constructor(private router:Router,

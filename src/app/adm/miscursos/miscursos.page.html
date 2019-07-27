@@ -1,5 +1,5 @@
-<ion-header>
-    <ion-toolbar>
+<ion-header >
+    <ion-toolbar [myScrollVanish]="scrollArea">
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
           </ion-buttons>
@@ -13,18 +13,18 @@
               <ion-icon slot="start" name="information-circle"></ion-icon>
             </ion-button>
           </ion-buttons>
-      </ion-toolbar>
-      <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
-        <ion-segment-button value="first">
-            <ion-icon name="ios-list"></ion-icon>
-          </ion-segment-button>
-          <ion-segment-button value="second">
-              <ion-icon name="ios-apps"></ion-icon>
-          </ion-segment-button>
-        </ion-segment>
-</ion-header>
+        </ion-toolbar>
+        <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
+          <ion-segment-button value="first">
+              <ion-icon name="ios-list"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="second">
+                <ion-icon name="ios-apps"></ion-icon>
+            </ion-segment-button>
+          </ion-segment>
+      </ion-header>
 
-<ion-content no-padding>
+<ion-content no-padding #scrollArea scrollEvents="true">
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content
           pullingIcon="arrow-dropdown"
@@ -37,9 +37,9 @@
         <ion-fab-button><ion-icon  name="add"></ion-icon></ion-fab-button>
       </ion-fab>
     <ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
-        <ion-slide value="first" id="myFixZone">
+        <ion-slide value="first" id="myFixZone" >
             
-                <div *ngIf="cursos.length==0" class="ion-no-padding" text-center class="div-noting">
+                <div *ngIf="cursos.length==0" class="ion-no-padding" text-center class="div-noting" >
                   <ion-label>No tienes cursos publicados aun..!! <br> Comienza ahora..!!</ion-label>
                 </div>
                 <ion-card *ngFor="let item of cursos; let i=index">

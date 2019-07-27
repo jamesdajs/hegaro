@@ -14,9 +14,9 @@ ion-content {
 }
 .content-log{
     width: 100% !important;
+    height: 100% !important;
 }
-ion-toolbar {
-    height: 150px !important;
-    --background: transparent;
-    --ion-color-base: transparent !important;
-    }
+
+.icon{
+    margin-top: 50px
+}

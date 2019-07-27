@@ -44,7 +44,6 @@ import { IonicStorageModule } from '@ionic/storage';
 //import { Firebase } from '@ionic-native/firebase/ngx';
 
 @NgModule({
-  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
@@ -56,8 +55,9 @@ import { IonicStorageModule } from '@ionic/storage';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    HttpClientModule
+    HttpClientModule,
   ],
+  declarations: [AppComponent],
   providers: [
     StatusBar,
     SplashScreen,

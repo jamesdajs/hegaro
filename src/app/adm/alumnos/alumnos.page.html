@@ -1,5 +1,5 @@
 <ion-header>
-	<ion-toolbar>
+	<ion-toolbar [myScrollVanish]="scrollArea">
 		<ion-title>Mis Alumnos</ion-title>
 	</ion-toolbar>
 	<ion-segment  [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
@@ -13,7 +13,7 @@
 		</ion-segment-button>
 	</ion-segment>
 </ion-header>
-<ion-content class="ion-no-padding">
+<ion-content class="ion-no-padding" #scrollArea scrollEvents="true">
 	<ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
 		<ion-slide value="first" id="myFixZone">
 			<ion-list>

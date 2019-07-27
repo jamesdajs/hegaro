@@ -81,7 +81,9 @@ export class CursomodificarPage implements OnInit {
       load.dismiss()
     })
   }
- 
+  selectDuracion(){
+    
+  }
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Curso modificado',

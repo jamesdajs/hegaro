@@ -26,10 +26,12 @@ export class VermicursoPage implements OnInit {
       id: "second",
       title: "Second Slide"
     },
+    /*+
     {
       id: "third",
       title: "Thrid Slide"
     }
+    */
   ];
   constructor(private router:Router,
     private rutina: RutinaProvider,) {
