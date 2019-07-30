@@ -174,20 +174,16 @@ verSitienenDatos() {
     return this.db.collection(`dietas_dieta`).add(data)
   }
   datosCliente(id){
-    
     return this.db
     .doc<Cliente>(`${firebaseConfig.cliente_endpoint}/${id}`)
     .valueChanges()
     //this.db.collection('cliente').doc("OwURqGHpPggxLbTlKp0L").valueChanges()
-    
   }
   leerOtrosdatos(datos){
-    
     return this.db
     .doc<Cliente>(`${firebaseConfig.cliente_endpoint}/${datos}`)
     .valueChanges()
     //this.db.collection('cliente').doc("OwURqGHpPggxLbTlKp0L").valueChanges()
-    
   }
   creardatosInstructor(datos){
     return this.db.collection(`${firebaseConfig.cliente_endpoint}/${this.authfb.auth.currentUser.uid}/instructor`)
@@ -213,7 +209,6 @@ verSitienenDatos() {
     
   }
   leermisdatosPromesa():Promise<Cliente>{
-    
     return new Promise((res,rej)=>{
       this.db
       .doc<Cliente>(`${firebaseConfig.cliente_endpoint}/${this.authfb.auth.currentUser.uid}`)
@@ -222,7 +217,7 @@ verSitienenDatos() {
         res(datos)
       },rej)
     })
-    
+  
     //this.db.collection('cliente').doc("OwURqGHpPggxLbTlKp0L").valueChanges()
     
   }
@@ -254,6 +249,18 @@ verSitienenDatos() {
       })
     })
   }*/
+
+  //FIREBASE ALMACENA NUMERO DE NOTIFICACIONES
+  guardarfirebase(keycli,datos){
+    console.log("servicio");
+    console.log(keycli);
+    console.log(datos);
+    return this.db.collection('usuarios').doc(keycli).set(datos)
+  }
+
+  //END FIREBASE
+
+
   urlInsert = Configurl.url + "usuarios"
   urlSelect = Configurl.url + "usuarios/select"
   urlUpdate = Configurl.url + "usuarios/modificar"
@@ -318,7 +325,6 @@ verSitienenDatos() {
     console.log('actualizar usuario AQUI ',sql,values,JSON.stringify(Datos));
     return this.http.post(this.urlUpdate, { sql: sql, values: values }, { headers: this.headers })
       .toPromise()
-    
   }
   actualizarusuariodatosnormales(Datos, id) {
     let sql = "update usuarios set fechanac = ?,peso = ?,altura=?,genero=?,telefono=?,correo=? where idusuarios = ?"

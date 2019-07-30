@@ -1,24 +1,26 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar >
       <ion-buttons slot="start">
           <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-item (click)="verinstructor(datos.idusuarios)" *ngIf="owner==false">
-          <ion-avatar item-start>
+            <ion-avatar item-start>
               <img [src]="datos.foto">
             </ion-avatar>
             <ion-label class="name-instructor">  
               instructor <br>
               {{datos.fullname}}  
             </ion-label>
-            <ion-icon slot="end" name="md-arrow-dropright"></ion-icon>
       </ion-item>
+      <ion-button slot="end" fill="clear" (click)="guardarfirebase()">
+          <ion-icon  name="ios-chatbubbles"></ion-icon>
+      </ion-button>
+       
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding" full-screem [scrollEvents]="true" (ionScroll)="onScroll($event)">
+<ion-content class="ion-no-padding" full-screem  [scrollEvents]="true" (ionScroll)="onScroll($event)"  >
   <ion-list>
-    
     <div>
       <ion-slides pager>
           <ion-slide *ngFor="let f of datos.fotos">
@@ -52,7 +54,6 @@
         <ion-item>
           <ion-label>Costo {{datos.costo}} {{datos.tipomoneda}}</ion-label>
         </ion-item>
-        
         <ion-item *ngIf="datos.telefono!==null">
           <ion-label> {{datos.telefono}}</ion-label>
           <ion-icon slot="end" name="logo-whatsapp"></ion-icon>
@@ -67,7 +68,8 @@
               <ion-label >Nombre: {{lugar.nombregym}}</ion-label>
               
             </ion-item>
-        <div id="mapMOD" style="height: 200px;"></div>
+        <div id="mapMOD" style="height: 350px;">
+        </div>
         <ion-item >
             <ion-label>Horarios</ion-label>
             
@@ -78,16 +80,15 @@
               <ion-list-header>
                 {{dias[h.nombre]}}
               </ion-list-header>
-
                 <div *ngFor="let p of h.horas; let i = index">
                   <ion-row no-padding>
                     <ion-col no-padding>
-                      <ion-item>
+                      <ion-item lines="none">
                         <ion-label>Cantidad {{p.cantidad}}</ion-label>
                       </ion-item>
                     </ion-col>
                     <ion-col no-padding>
-                      <ion-item>
+                      <ion-item lines="none">
                         <ion-label>{{p.inicio}}</ion-label>
                       </ion-item>
                     </ion-col>
@@ -101,13 +102,5 @@
               </div>
 
             </div>
-  </ion-list>
-      <!--
- <ion-item  color="primary" (click)="verHorarios(datos.idcursos,datos.idusuarios)">
-        <ion-label class="ver-post"  slot="start">
-          Seleccionar horario
-        </ion-label>
-      </ion-item>
-      -->
-     
+  </ion-list>     
 </ion-content>

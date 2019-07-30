@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
 import { Router } from '@angular/router';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
@@ -15,7 +16,8 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private fcm: FCM,
-    private router:Router
+    private router:Router,
+    private notificaciones:LocalNotifications
   ) {
     this.initializeApp();
   }
@@ -28,16 +30,20 @@ export class AppComponent {
       this.fcm.onNotification().subscribe(data => {
         console.log(data);
         if (data.wasTapped) {
-          //alert('Received in background');
           this.router.navigate([data.landing_page]);
         } else {
-          //alert('Received in foreground');
+          this.notificaciones.schedule({
+            id: 1,
+            title: data.title,
+            text: data.body,
+            sound: 'default',
+            data: { secret: data.idusu }
+          });
           this.router.navigate([data.landing_page]);
         }
       }
       ,err=>{
         console.log(err);
-        
       })
 
       this.fcm.onTokenRefresh()

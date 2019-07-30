@@ -41,6 +41,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { IonicStorageModule } from '@ionic/storage';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 //import { Firebase } from '@ionic-native/firebase/ngx';
 
 @NgModule({
@@ -74,7 +75,8 @@ import { IonicStorageModule } from '@ionic/storage';
     SocialSharing,
     AuthGuardService,
     Clipboard,
-    WheelSelector
+    WheelSelector,
+    LocalNotifications
   ],
   bootstrap: [AppComponent]
 })

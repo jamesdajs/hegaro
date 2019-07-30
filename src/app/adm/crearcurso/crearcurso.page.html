@@ -73,9 +73,10 @@
       </ion-item>
       <ion-item class="ion-no-padding">
           <ion-label>Horario:</ion-label>
-          <ion-select cancelText="Cancelar" class="ion-no-padding" formControlName='horario' interface="action-sheet" placeholder="Horario:">
-            <ion-select-option *ngFor="let item of horarios" [value]="item.idtipo_horario" >{{item.nombre}}</ion-select-option>
+          <ion-select cancelText="Cancelar"  okText="Okay!" class="ion-no-padding" formControlName='horario' interface="action-sheet" placeholder="Horario:">
+            <ion-select-option *ngFor="let item of horarios" [value]="item.idtipo_horario" ><ion-icon name="md-add"></ion-icon>{{item.nombre}}</ion-select-option>
           </ion-select>
+          <ion-icon name="md-add"></ion-icon>
       </ion-item>
       <ion-button (click)="adicionarhorario()" shape="round" fill="clear" class="ion-no-padding" text-left>
         <ion-icon name="md-add"></ion-icon> Adicionar nuevo horario
