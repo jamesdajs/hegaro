@@ -14,12 +14,14 @@ declare var google: any;
   styleUrls: ['./vercurso.page.scss'],
 })
 export class VercursoPage implements OnInit {
+  public tests = new Array(20);
   dias = ["DOMINGO", 'LUNES', "MARTES", 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO']
   owner=false
   direccion
   datos
   comision
   verificacion=[]
+  idusu
  lugar={
    lat:'',
    lng:'',
@@ -38,6 +40,7 @@ export class VercursoPage implements OnInit {
       this.datos=this.routes.getCurrentNavigation().extras
       this.storage.get("idusuario")
       .then(id => {
+        this.idusu=id
         console.log(this.datos,id);
         if(id=this.datos.idusuario){
           this.owner=true
@@ -181,5 +184,10 @@ armarhorario(data){
           }
         } 
         console.log(this.horario);
+}
+
+guardarfirebase(){
+  var data={"notificacion":2,"idproceso":"nuevo_alumno"}
+  this.usuario.guardarfirebase(this.idusu,data)
 }
 }

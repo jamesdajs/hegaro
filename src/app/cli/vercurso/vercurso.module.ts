@@ -9,6 +9,7 @@ import { VercursoPage } from './vercurso.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 
+
 const routes: Routes = [
   {
     path: '',

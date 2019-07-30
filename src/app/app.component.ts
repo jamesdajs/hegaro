@@ -30,7 +30,6 @@ export class AppComponent {
       this.fcm.onNotification().subscribe(data => {
         console.log(data);
         if (data.wasTapped) {
-         
           this.router.navigate([data.landing_page]);
         } else {
           this.notificaciones.schedule({
@@ -45,7 +44,6 @@ export class AppComponent {
       }
       ,err=>{
         console.log(err);
-        
       })
 
       this.fcm.onTokenRefresh()
