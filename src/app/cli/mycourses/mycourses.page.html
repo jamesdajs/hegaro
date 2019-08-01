@@ -23,6 +23,7 @@
             <br>
             <h5>Insctructor: {{item.instructor}}</h5>
           </ion-label>
+          <ion-badge color="primary" slot="end" [hidden]='item.badged==0'>{{item.badged}}</ion-badge>
         </ion-item>
     </div>
   </ion-list>

@@ -8,6 +8,7 @@
     <ion-tab-button tab="mis-cursos">
       <ion-icon name="ios-list"></ion-icon>
       <ion-label>Mis Cursos</ion-label>
+      <ion-badge color="danger" [hidden]="cont==0">{{cont}}</ion-badge>
     </ion-tab-button>
 
     <ion-tab-button tab="miperfil">

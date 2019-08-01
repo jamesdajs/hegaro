@@ -100,31 +100,10 @@ export class LoginPage implements OnInit {
         .then(data => {
           //alert(JSON.stringify(data))
           _data = data
-            return this.user.verUsuarioIDfb(data.id)
-        })
-        .then(userFb => {
-          //alert(JSON.stringify(userFb))
-
-          if (userFb.length > 0) {
-
-          _idusu = userFb[0].idusuarios
-            //this.storage.set('token',this.fcm.getToken())
-            if (_data.token)
-              return this.user.actualizarusuario(_data, _idusu)
-            else
-              return this.user.actualizarusuariosintoken(_data, _idusu)
-          } else {
-            if (_data.token)
-              return this.user.guardarusuario(_data)
-            else
-              return this.user.guardarusuariosintoken(_data)
-          }
+            return this.guardardatos(data)
         })
         .then(idnewusu => {
-          if (_idusu)
-            this.storage.set('idusuario', _idusu);
-          else
-            this.storage.set('idusuario', idnewusu);
+          this.user.guardaridlocal()
           this.storage.set('rol', "alumno");
           //alert("e creo el usuario")
           resolve('datos resueltos correctos')
@@ -136,7 +115,32 @@ export class LoginPage implements OnInit {
     })
   }
  
- 
+  loginWithGoodle(){
+    this.auth.googleLogin()
+    .then(data=>{
+     console.log(data);
+     return this.guardardatos(data)
+      
+    })
+    .then(newuser=>{
+      this.user.guardaridlocal()
+      this.storage.set('rol', "alumno");
+    })
+    .then(()=>{
+      this.navCtrl.navigateRoot(['/adm/cursos', { hola: 'holamundo' }])
+        return this.fcmservice.suscribeTopic("goodme")
+    })
+    .then(()=>{
+      console.log('se subcribio al topin goodme');
+      
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+  salirGoogle(){
+    this.auth.signOut()
+  }
  
  
  
@@ -147,6 +151,30 @@ export class LoginPage implements OnInit {
       position: 'middle'
     });
     toast.present();
+  }
+  guardardatos(data){
+    return this.user.verUsuarioIDfb(data.id)
+ 
+          .then(userFb => {
+            //alert(JSON.stringify(userFb))
+  
+            if (userFb.length > 0) {
+  
+            let _idusu = userFb[0].idusuarios
+              //this.storage.set('token',this.fcm.getToken())
+              if (data.token)
+                return this.user.actualizarusuario(data, _idusu)
+              else
+                return this.user.actualizarusuariosintoken(data, _idusu)
+            } else {
+                //modificar para ver badges
+              if (data.token)
+                return this.user.guardarusuario(data)
+              else
+                return this.user.guardarusuariosintoken(data)
+              
+            }
+          })
   }
 }
 

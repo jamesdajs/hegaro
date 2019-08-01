@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { RutinaProvider } from 'src/app/services/rutina/rutina';
 import { ActivatedRoute } from '@angular/router';
 import { FcmService } from 'src/app/services/fcm/fcm.service';
+import { CursoService } from 'src/app/services/curso/curso.service';
 
 @Component({
   selector: 'app-crear',
@@ -24,6 +25,7 @@ export class CrearPage implements OnInit {
   tokencli
   curso
   idusu_cur
+  fbitemusuario
   constructor(
     private formb: FormBuilder,
     public modalController: ModalController,
@@ -33,7 +35,8 @@ export class CrearPage implements OnInit {
     public navCtrl:NavController,
     private arouter:ActivatedRoute,
     private fcm : FcmService,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private cursoservice:CursoService
   ) {
     this.myForm = this.formb.group({
       nombre: ['', [Validators.required, Validators.maxLength(50)]],
@@ -49,6 +52,11 @@ export class CrearPage implements OnInit {
   }
 
   ngOnInit() {
+    this.cursoservice.versubcripcion(this.idalumno,this.idcurso)
+    .subscribe(item=>{
+      console.log(item);
+      this.fbitemusuario=item
+    })
   }
   async addEjercicio() {
     const modal = await this.modalController.create({
@@ -127,6 +135,7 @@ export class CrearPage implements OnInit {
       return this.rutina.crearRut_Usu(this.idalumno,_idrut,this.idusu_cur,this.personal)
       .then(res=>{
         console.log(res);
+        this.cursoservice.modsubcripcion(this.idalumno,this.idcurso,{rutinasnew:this.fbitemusuario.rutinasnew+1})
         return this.fcm.notificacionforToken(
           'Rutina asignada',
           'Tienen una nueva rutina en el curso '+this.curso,

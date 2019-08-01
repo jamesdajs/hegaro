@@ -4,6 +4,7 @@ import { RutinaProvider } from 'src/app/services/rutina/rutina';
 import { ModalController, ToastController, LoadingController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FcmService } from 'src/app/services/fcm/fcm.service';
+import { CursoService } from 'src/app/services/curso/curso.service';
 
 @Component({
   selector: 'app-modalrutdef',
@@ -19,6 +20,7 @@ export class ModalrutdefPage implements OnInit {
   @Input() titulo
   @Input() token
   @Input() idusu_cur
+  @Input() id_curso
   constructor(
     private storage: Storage,
     private rutina: RutinaProvider,
@@ -26,18 +28,24 @@ export class ModalrutdefPage implements OnInit {
     public toastController: ToastController,
     private formb: FormBuilder,
     private fcm : FcmService,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private cursoservice:CursoService
   ) {
     this.myForm = this.formb.group({
       fechaini: ['', [Validators.required]],
       fechafin: ['', [Validators.required]]
     });
   }
-
+  fbitemusuario
   ngOnInit() {
     console.log(this.idusuarios);
 
     this.cargardatos()
+    this.cursoservice.versubcripcion(this.idusuarios,this.id_curso)
+    .subscribe(item=>{
+      console.log(item);
+      this.fbitemusuario=item
+    })
   }
   cargardatos() {
     this.storage.get('idusuario')
@@ -59,6 +67,7 @@ export class ModalrutdefPage implements OnInit {
       let loading=this.presentLoading()
       this.rutina.crearRut_Usu(this.idusuarios, this.idselect,this.idusu_cur, this.myForm.value)
         .then(res=>{
+          this.cursoservice.modsubcripcion(this.idusuarios,this.id_curso,{rutinasnew:this.fbitemusuario.rutinasnew+1})
           return this.fcm.notificacionforToken(
             'Rutina asignada',
           'Tienen una nueva rutina en el curso '+this.titulo,

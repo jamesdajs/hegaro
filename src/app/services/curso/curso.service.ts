@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 import { Configurl} from '../config'
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +21,11 @@ export class CursoService {
     'Authorization':"token"
   })
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,
+
+    private db: AngularFirestore ,
+    private authfb: AngularFireAuth,
+    ) { }
 
      //tipo ejercicios
      crearcurso(datos,fecha,hora,semanas){
@@ -92,7 +100,11 @@ export class CursoService {
 
       //listar cursos
     miscursospublicados(estado,idusu){
-      let sql="select c.*,u.idusuarios, u.fullname, u.foto, u.telefono from cursos c,usu_cur uc,usuarios u where c.estado=? and uc.id_usuario=? and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos and uc.tipo='c' order by c.fecha desc limit 3"
+      let sql=`select c.*,u.idusuarios, u.fullname, u.foto, u.telefono 
+              from cursos c,usu_cur uc,usuarios u 
+              where c.estado=? and uc.id_usuario=? 
+              and u.idusuarios=uc.id_usuario and uc.id_curso=c.idcursos 
+              and uc.tipo='c' order by c.fecha desc limit 3`
       let values=[estado,idusu]
       return this.http.post<any>(this.urlSelect,{sql:sql,values:values},{headers:this.headers})
     }
@@ -200,5 +212,42 @@ export class CursoService {
         WHERE uc.id_curso=? and u.idusuarios=uc.id_usuario and uc.tipo='i'`
         let values=[idcurso]
         return this.http.post<[]>(this.urlSelect,{sql:sql,values:values},{headers:this.headers}).toPromise()
+      }
+
+
+      //firebase consultas
+      private getcollArrayconkey(coll,query?):Observable<any>{
+        return this.db.collection(coll,query)
+        .snapshotChanges().pipe(map(change=>{
+          return change.map(c=>({key:c.payload.doc.id, ...c.payload.doc.data()}))
+        }))
+      }
+      //ver badged inscritos
+      verAlumnosinscritosCursos(idusu):Observable<any>{
+    
+        let query=res=>res.where("estado","==",true)
+        return this.getcollArrayconkey(`usuarios/${idusu}/cursos`,query)
+      }
+      veriduser(){
+        return this.authfb.auth.currentUser.uid
+      }
+      modalumnosinscritos(idins,idcur,data){
+        return this.db.collection(`usuarios/${idins}/cursos`).doc(idcur+'').set(data,{ merge: true })
+      }
+      veralumnosinscritos(idins,idcur):Observable<any>{
+        return this.db.collection<any>(`usuarios/${idins}/cursos`).doc(idcur+'').valueChanges()
+      }
+
+      //ver badged rutinas
+      versubcripcionall(idusu):Observable<any>{
+    
+        let query=res=>res.where("estado","==",true)
+        return this.getcollArrayconkey(`usuarios/${idusu}/subscrito`,query)
+      }
+      modsubcripcion(idcli,idcur,data){
+        return this.db.collection(`usuarios/${idcli}/subscrito`).doc(idcur+'').set(data,{ merge: true })
+      }
+      versubcripcion(idcli,idcur):Observable<any>{
+        return this.db.collection<any>(`usuarios/${idcli}/subscrito`).doc(idcur+'').valueChanges()
       }
 }

@@ -6,6 +6,7 @@ import { WheelSelector } from '@ionic-native/wheel-selector/ngx';
 import { AuthFacebookProvider } from 'src/app/services/authfacebok/authfacebok';
 
 
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',

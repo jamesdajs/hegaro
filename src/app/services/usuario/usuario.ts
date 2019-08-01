@@ -15,6 +15,7 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import { map } from "rxjs/operators";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Configurl } from '../config';
+import { Storage } from '@ionic/storage';
 
 //import * as firebase from "firebase";
 /*
@@ -32,7 +33,8 @@ export class UsuarioProvider {
     private db: AngularFirestore,
     private store: AngularFireStorage,
     private authfb: AngularFireAuth,
-    private http: HttpClient
+    private http: HttpClient,
+    private storage:Storage
   ) {
     console.log('Hello UsuarioProvider Provider');
     this.cliente = db.collection<Cliente>(firebaseConfig.cliente_endpoint);
@@ -61,12 +63,7 @@ export class UsuarioProvider {
   modusuario(data){
     return this.db.collection("cliente").doc(this.authfb.auth.currentUser.uid).set(data,{ merge: true })
   }
-  private getcollArrayconkey(coll,query?):Observable<any>{
-    return this.db.collection(coll,query)
-    .snapshotChanges().pipe(map(change=>{
-      return change.map(c=>({key:c.payload.doc.id, ...c.payload.doc.data()}))
-    }))
-  }
+  
   
   buscarinstuctor(buscar){
     let query=res=>res.where("instructor","==",true)
@@ -97,9 +94,7 @@ export class UsuarioProvider {
     this.clientedoc.update(update);
  
  }
- veriduser(){
-  return Promise.resolve(this.authfb.auth.currentUser.uid)
-}
+ 
 guardarSolicitud(data){
   return this.db.collection("instructor_cliente").add(data)
 }
@@ -254,6 +249,9 @@ verSitienenDatos() {
       })
     })
   }*/
+  //Firebase
+  
+  //mysql
   urlInsert = Configurl.url + "usuarios"
   urlSelect = Configurl.url + "usuarios/select"
   urlUpdate = Configurl.url + "usuarios/modificar"
@@ -263,15 +261,17 @@ verSitienenDatos() {
     headers = new HttpHeaders({
       "Content-Type": "application/json"
     })
-  
+  guardaridlocal(){
+    this.storage.set('idusuario', this.authfb.auth.currentUser.uid);
+  }
   guardarusuario(Datos) {
     let sql = '', values = []
     if (Datos.correo) {
-      sql = "INSERT into  usuarios (idfacebook,fullname,foto,correo,token) VALUES (?,?,?,?,?)"
-      values = [Datos.id, Datos.name, Datos.foto, Datos.email,Datos.token]
+      sql = "INSERT into  usuarios (idusuarios,idfacebook,fullname,foto,correo,token) VALUES (?,?,?,?,?,?)"
+      values = [this.authfb.auth.currentUser.uid,Datos.id, Datos.name, Datos.foto, Datos.email,Datos.token]
     } else {
-      sql = "INSERT into  usuarios (idfacebook,fullname,foto,token) VALUES (?,?,?,?)"
-      values = [Datos.id, Datos.name, Datos.foto,Datos.token]
+      sql = "INSERT into  usuarios (idusuarios,idfacebook,fullname,foto,token) VALUES (?,?,?,?,?)"
+      values = [this.authfb.auth.currentUser.uid,Datos.id, Datos.name, Datos.foto,Datos.token]
     }
 
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers})
@@ -295,11 +295,11 @@ verSitienenDatos() {
   guardarusuariosintoken(Datos) {
     let sql = '', values = []
     if (Datos.email) {
-      sql = "INSERT into  usuarios (idfacebook,fullname,foto,correo) VALUES (?,?,?,?)"
-      values = [Datos.id, Datos.name, Datos.foto, Datos.email]
+      sql = "INSERT into  usuarios (idusuarios,idfacebook,fullname,foto,correo) VALUES (?,?,?,?,?)"
+      values = [this.authfb.auth.currentUser.uid,Datos.id, Datos.name, Datos.foto, Datos.email]
     } else {
-      sql = "INSERT into  usuarios (idfacebook,fullname,foto) VALUES (?,?,?)"
-      values = [Datos.id, Datos.name, Datos.foto]
+      sql = "INSERT into  usuarios (idusuarios,idfacebook,fullname,foto) VALUES (?,?,?,?)"
+      values = [this.authfb.auth.currentUser.uid,Datos.id, Datos.name, Datos.foto]
     }
 
     return this.http.post(this.urlInsert, { sql: sql, values: values }, { headers: this.headers})

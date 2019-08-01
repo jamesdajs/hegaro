@@ -226,6 +226,7 @@ export class CrearcursoPage implements OnInit {
 
         .then(res => {
           _idcurso = res
+          //firebase
           return this.storage.get('idusuario')
         })
         .then(idusu => {
@@ -258,6 +259,9 @@ export class CrearcursoPage implements OnInit {
           return Promise.all(aux)
         })
         .then(res=>{
+
+          this.curso.modalumnosinscritos(this.idusuario,_idcurso+'',{inscritos:0,estado:true})
+          .then(()=>console.log("cursocreado"))
           loading.then(load => load.dismiss())
           this.router.navigate(['/adm/cursos'])
         })
@@ -267,7 +271,6 @@ export class CrearcursoPage implements OnInit {
         })
     }
   }
-
   //mesage loading
   async presentLoading(text) {
     const loading = await this.loadingController.create({

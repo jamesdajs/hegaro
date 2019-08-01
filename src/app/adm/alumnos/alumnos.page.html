@@ -24,7 +24,7 @@
 					<ion-label class="label-alumnos">{{item.fullname}}
 						<p>Curso: {{item.titulo}}</p>
 					</ion-label>
-					<ion-button ng-if="item.estado==1" color="secondary" fill="outline">Ver</ion-button>
+					<ion-button *ngIf="item.estado==0" color="secondary" fill="outline">nuevo</ion-button>
 				</ion-item>
 
 			</ion-list>
@@ -39,6 +39,7 @@
 						<ion-label class="label-alumnos">{{item.titulo}}
 							<p> {{item.inscritos}} inscritos</p>
 						</ion-label>
+						<ion-badge color="primary" [hidden]='!item.badged || item.badged==0'>{{item.badged}}</ion-badge>
 						<ion-button color="primary" fill="clear">
 								<ion-icon name="md-arrow-dropright"></ion-icon>
 						</ion-button>

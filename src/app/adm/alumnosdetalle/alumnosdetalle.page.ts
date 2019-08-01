@@ -63,9 +63,11 @@ export class AlumnosdetallePage implements OnInit {
       })
   }
   //--------------end funciones tab slide--------------*/
-
-  ngOnInit() {
+  ionViewWillEnter(){
     this.cargarRutinas()
+
+  }
+  ngOnInit() {
     
   }
 

@@ -42,6 +42,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 //import { Firebase } from '@ionic-native/firebase/ngx';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 @NgModule({
   entryComponents: [],
@@ -74,7 +75,8 @@ import { IonicStorageModule } from '@ionic/storage';
     SocialSharing,
     AuthGuardService,
     Clipboard,
-    WheelSelector
+    WheelSelector,
+    GooglePlus
   ],
   bootstrap: [AppComponent]
 })

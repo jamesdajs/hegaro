@@ -3,10 +3,10 @@ import { ScrollDetail } from '@ionic/core';
 import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { Storage } from '@ionic/storage';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { LugaresService } from 'src/app/services/lugares/lugares.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
-
+import * as moment from 'moment';
+moment.locale('es')
 declare var google: any;
 @Component({
   selector: 'app-vercurso',
@@ -30,7 +30,6 @@ export class VercursoPage implements OnInit {
  horario=[]
   constructor(private routes:Router,
     private servicioCurso:CursoService,
-    private geolocation: Geolocation,
     private storage:Storage,
     private lugares:LugaresService,
     private usuario:UsuarioProvider
@@ -127,13 +126,31 @@ export class VercursoPage implements OnInit {
 			zoom: this.lugar.zoom,
 			disableDefaultUI: true
 		});
-		console.log(latlng)
+    console.log(latlng)
+    var contentString =`
+    <div id="contentmap">
+    <h5>${this.lugar.nombregym}</h5>
+    <div >
+    <p>${this.lugar.direccion}</p>
+    </div>
+    </div>
+    ` 
+
+let infowindow = new google.maps.InfoWindow({
+  content: contentString
+});
+
 		var marker = new google.maps.Marker(
 			{
 				position:latlng,
-				map: map,
+        title:"hola",
+        map: map,
 			}
     )
+    infowindow.open(map, marker);
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
     /**
      * 
      let geocoder = new google.maps.Geocoder;
@@ -163,6 +180,7 @@ export class VercursoPage implements OnInit {
      */
   }
 armarhorario(data){
+  this.horario=[]
   console.log(data);
         if (data.length != 0) {
           for (let i in this.dias) {
@@ -175,9 +193,9 @@ armarhorario(data){
                 this.horario[i].horas.push(
                   {
                     id: data[j].idhorarios,
-                    cantidad: data[j].cantidad,
-                    inicio: data[j].hora_ini,
-                    fin: data[j].hora_fin,
+                    cantidad: data[j].cantidad-data[j].contador,
+                    inicio: data[j].hora_ini.substring(0,5),
+                    fin: data[j].hora_fin.substring(0,5),
                     estado: 1
                   })
               }
@@ -186,4 +204,5 @@ armarhorario(data){
         } 
         console.log(this.horario);
 }
+
 }

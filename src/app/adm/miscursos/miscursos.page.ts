@@ -39,18 +39,22 @@ export class MiscursosPage implements OnInit {
     private alertController:AlertController
   ) { }
   ngOnInit() {
-    this.listarcursos()
   }
   ionViewWillEnter() {
+
+    this.listarcursos()
   }
   //-------------lista mis cursos----------------
   //FUNCION LISTAR CURSOS
   listarcursos() {
     this.storage.get("idusuario")
     .then(id => {
+
       this.idusu = id
-      this.servicesCurso.miscursospublicados(1,parseInt(this.idusu))
+      console.log('id usuario '+this.idusu);
+      this.servicesCurso.miscursospublicados(1,this.idusu)
       .subscribe(data=>{
+        console.log(data);
         data.forEach(item=>{
           item.idcursos
           item['fotos']=[]
@@ -59,10 +63,11 @@ export class MiscursosPage implements OnInit {
             item['fotos']=res
           })
         })
+        
+        
         this.cursos=data
       })
     })
-    console.log('id usuario'+this.idusu);
   }
 
   //----------------funciones tab slide------------------
@@ -204,7 +209,7 @@ doRefresh(event) {
   this.storage.get("idusuario")
 .then(id => {
   this.idusu = id
-  this.servicesCurso.miscursospublicados(1,parseInt(this.idusu))
+  this.servicesCurso.miscursospublicados(1,this.idusu)
   .subscribe(data=>{
     data.forEach(item=>{
       item.idcursos
@@ -212,11 +217,11 @@ doRefresh(event) {
       this.servicesCurso.listarfotos(item.idcursos)
       .then(res=>{
         item['fotos']=res
-        event.target.complete()
+        
       })
     })
     this.cursos=data
-  
+    event.target.complete()
   })
 })
 }

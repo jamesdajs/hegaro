@@ -18,10 +18,11 @@
       </ion-list-header>
     <ion-radio-group [(ngModel)]="h.selec">
         <ion-item class="ion-no-padding" *ngFor="let p of h.horas;">
-            <ion-radio mode="ios" slot="start" color="primary" [value]="p.id"></ion-radio>
+            <ion-radio mode="ios" slot="start" color="primary" [value]="p.id" [disabled]="p.cantidad==0"></ion-radio>
             <ion-label >{{p.inicio}} - {{p.fin}} </ion-label>
-            <ion-label slot="end">Nro Alumnos {{p.cantidad}} </ion-label>
+            <ion-label slot="end">cupo {{p.cantidad}} </ion-label>
         </ion-item>
     </ion-radio-group>
   </ion-list>
+
 </ion-content>

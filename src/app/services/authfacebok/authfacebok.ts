@@ -9,11 +9,15 @@ import { Platform, AlertController } from '@ionic/angular';
 import { auth } from 'firebase';
 import { Observable } from "rxjs/Observable";
 import { FcmService } from '../fcm/fcm.service';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+
+import * as firebase from 'firebase/app';
 @Injectable()
 export class AuthFacebookProvider {
     constructor(private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform,
         public alertController: AlertController,
-        private fcmservice: FcmService
+        private fcmservice: FcmService,
+        private gplus:GooglePlus
     ) {
 
     }
@@ -61,10 +65,13 @@ export class AuthFacebookProvider {
     }
     logout() {
         this.afAuth.auth.signOut();
-        this.fb.logout()
-            .then(() => {
-                console.log("cerrando sesion de ios")
-            })
+
+        if (this.platform.is('cordova')) 
+            this.gplus.logout()
+            this.fb.logout()
+                .then(() => {
+                    console.log("cerrando sesion de ios")
+                })
     }
     veriduser() {
         return Promise.resolve(this.afAuth.auth.currentUser.uid)
@@ -97,4 +104,56 @@ export class AuthFacebookProvider {
 
         await alert.present();
     }
+    async nativeGoogleLogin() {
+        try {
+      
+          const gplusUser = await this.gplus.login({
+            'webClientId': '150980917345-dr0chrt7hclso6i7gib3n1buecrjlf3v.apps.googleusercontent.com',
+            'offline': true,
+            'scopes': 'profile email'
+          })
+      
+          return await this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken))
+      
+        } catch(err) {
+          console.log(err)
+        }
+      }
+      async webGoogleLogin() {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          return await this.afAuth.auth.signInWithPopup(provider);
+      
+        } catch(err) {
+          console.log(err)
+        }
+      
+      }
+      googleLogin() {
+        if (this.platform.is('cordova')) {
+          return this.nativeGoogleLogin()
+            .then(user => {
+                this.datosusario = user.user
+                this.datosusario["foto"] = user.user.photoURL
+                return this.fcmservice.getToken()
+            })
+            .then(token => {
+                this.datosusario["token"] = token
+                return this.datosusario
+          })
+        } else {
+           return this.webGoogleLogin()
+           .then(user => {
+            this.datosusario = user.additionalUserInfo.profile
+            this.datosusario["foto"] = user.user.photoURL
+            return this.datosusario
+      })
+        }
+      }
+      
+      signOut() {
+        this.afAuth.auth.signOut();
+        if (this.platform.is('cordova')) 
+            this.gplus.logout()
+      }
 }

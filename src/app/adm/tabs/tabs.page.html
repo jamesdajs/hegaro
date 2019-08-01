@@ -1,13 +1,14 @@
-<ion-tabs>
+<ion-tabs #tabadm>
 
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="cursos">
+    <ion-tab-button tab="cursos" >
       <ion-icon name="md-home"></ion-icon>
       <ion-label>Mis cursos</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="misalumnos">
       <ion-icon name="ios-people"></ion-icon>
+      <ion-badge color="danger" [hidden]="cont==0">{{cont}}</ion-badge>
       <ion-label>Alumnos</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="rutinas">

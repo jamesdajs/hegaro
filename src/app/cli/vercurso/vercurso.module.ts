@@ -6,7 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { VercursoPage } from './vercurso.page';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { DirectiveModule } from 'src/app/directives/directive.module';
 
 
 const routes: Routes = [
@@ -21,11 +21,12 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    DirectiveModule
   ],
   providers:[
-    FormBuilder,
-    Geolocation
+    FormBuilder
+
   ],
   declarations: [VercursoPage]
 })

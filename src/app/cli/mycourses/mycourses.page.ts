@@ -14,13 +14,26 @@ export class MycoursesPage implements OnInit {
   datos=[]
   constructor(private routes:Router,
     private servicioCurso:CursoService,
-    private storage:Storage) { 
+    private storage:Storage,
+    private curso:CursoService
+    ) {
+    }
+    
+    ngOnInit() {
       this.storage.get("idusuario")
       .then(id => {
         this.id=id
         this.servicioCurso.listarmiscursos(id).then(resp=>{
-         
+        this.curso.versubcripcionall(id)
+        .subscribe(rutnew=>{
+          console.log(rutnew);
+          
           resp.forEach(item=>{
+            rutnew.forEach(rut => {
+              if(item.idcursos==rut.key)
+              item['badged']=rut.rutinasnew
+            });
+
             item.idcursos
             item['foto']=[]
             this.servicioCurso.listarfotoCurso(item.idcursos)
@@ -30,15 +43,15 @@ export class MycoursesPage implements OnInit {
           })
           this.datos=resp
           console.log(resp);
+        })
+         
         
         })
       })
-    }
-
-  ngOnInit() {
   }
 
   vermicurso(item){
+    this.curso.modsubcripcion(this.id,item.idcursos,{rutinasnew:0,estado:true})
     this.routes.navigate(['/cli/mis-cursos/vermicurso'],item)
   }
 
