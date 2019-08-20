@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CursoService } from 'src/app/services/curso/curso.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-inicio',
@@ -37,6 +37,7 @@ export class InicioPage implements OnInit {
     }
     @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
+    @ViewChild ('scrollArea') cont :IonContent
 
     
 
@@ -194,5 +195,8 @@ export class InicioPage implements OnInit {
       console.log(err);
       //event.target.cancel()
     })
+  }
+  ngAfterViewInit() {
+    this.cont.scrollToBottom(2000) 
   }
 }

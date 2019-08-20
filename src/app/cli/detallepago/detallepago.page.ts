@@ -25,5 +25,8 @@ export class DetallepagoPage implements OnInit {
   ngOnInit() {
     
   }
+  pagartargeta(){
+    this.routes.navigate(['/cli/inicio/vercurso/detallepago/pagosnet'])
 
+  }
 }

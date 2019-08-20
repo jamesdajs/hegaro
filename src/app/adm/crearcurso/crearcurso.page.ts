@@ -237,7 +237,7 @@ export class CrearcursoPage implements OnInit {
           _idusucur=idusucur
           let aux=[]
           for(let i in this.imagenes)
-            aux.push(this.fotos.subirimagen(this.imagenes[i].blob,'cursos',i))
+            aux.push(this.fotos.subirimagen(this.imagenes[i].blob2,'cursos',i))
           return Promise.all(aux)
         })
         .then(array => {

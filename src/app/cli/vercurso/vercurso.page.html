@@ -28,8 +28,14 @@
       </div> 
         <ion-card-header >
           <div *ngIf="owner==false">
-              <ion-button *ngIf="verificacion.length==0 ; else blockelse" expand="block" color="primary" fill="outline" (click)="verHorarios(datos.idcursos,datos.idusuarios,datos.titulo)">
+            <!--
+
+              <ion-button expand="block" color="primary" fill="outline" (click)="detallepago(datos.costo)">
                   Suscribirme | {{datos.costo}} {{datos.tipomoneda}}
+                </ion-button> 
+            -->
+                <ion-button *ngIf="verificacion.length==0 ; else blockelse" expand="block" color="primary" fill="outline" (click)="verHorarios(datos.idcursos,datos.idusuarios,datos.titulo)">
+                  Horarios | {{datos.costo}} {{datos.tipomoneda}}
                 </ion-button> 
                 <!--<ion-button *ngIf="verificacion.length==0" expand="block" color="primary" fill="outline" (click)="detallepago(datos.costo)">
                       Suscribirme | {{datos.costo}} {{datos.tipomoneda}}

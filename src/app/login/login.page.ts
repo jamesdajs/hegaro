@@ -29,11 +29,11 @@ export class LoginPage implements OnInit {
     private user: UsuarioProvider,
     private splashscreen: SplashScreen,
     private storage: Storage,
-    private loadCtrl: LoadingController,
     private router: Router,
     private fcmservice: FcmService,
     private navCtrl: NavController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public loadingController: LoadingController
   ) {
   }
   token
@@ -54,18 +54,15 @@ export class LoginPage implements OnInit {
   }
 
   async loginWithFacebook() {
-
-    const cargar = await this.loadCtrl.create({
-      message: "Cargando datos..."
-
-    })
-    await cargar.present()
+    let load=this.presentLoading()
     this.conectarFacebook()
+
       .then(res => {
         console.log(res)
         //cli
         this.navCtrl.navigateRoot(['/adm/cursos', { hola: 'holamundo' }])
-        cargar.dismiss()
+        
+        
         /**
          * 
          this.fcm.getToken().then(token=>{
@@ -80,12 +77,13 @@ export class LoginPage implements OnInit {
       })
       .then(()=>{
         console.log('se subcribio al topin goodme');
+        load.then(l=>l.dismiss())
         
       })
       .catch(err => {
         console.log(err)
         //alert(JSON.stringify(err) + ' aqui')
-        cargar.dismiss()
+        load.then(l=>l.dismiss())
       })
 
   }
@@ -116,9 +114,9 @@ export class LoginPage implements OnInit {
   }
  
   loginWithGoodle(){
+    let load=this.presentLoading()
     this.auth.googleLogin()
     .then(data=>{
-     console.log(data);
      return this.guardardatos(data)
       
     })
@@ -132,10 +130,11 @@ export class LoginPage implements OnInit {
     })
     .then(()=>{
       console.log('se subcribio al topin goodme');
-      
+      load.then(l=>l.dismiss())
     })
     .catch(err => {
-      console.log(err)
+      alert(JSON.stringify(err))
+      load.then(l=>l.dismiss())
     })
   }
   salirGoogle(){
@@ -175,6 +174,14 @@ export class LoginPage implements OnInit {
               
             }
           })
+  }
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Iniciando Sesion...',
+      duration: 2000
+    });
+    await loading.present();
+    return loading
   }
 }
 

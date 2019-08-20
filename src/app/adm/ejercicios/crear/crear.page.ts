@@ -6,7 +6,6 @@ import { finalize } from 'rxjs/operators';
 import { RutinaProvider } from 'src/app/services/rutina/rutina';
 import { ActivatedRoute } from '@angular/router';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
-import { promise } from 'protractor';
 declare var cordova: any;
 @Component({
   selector: 'app-crear',
@@ -38,6 +37,10 @@ export class CrearPage implements OnInit {
 
   ngOnInit() {
   }
+  video(){
+    this.fotos.escogerVideo()
+    
+  }
   blobthumbnail
   seleccionarImagenes() {
     this.fotos.escogerImagenes(5)
@@ -66,7 +69,7 @@ export class CrearPage implements OnInit {
           _idejer=idejer
           let aux=[]
           for(let i in this.imgCropUrl)
-            aux.push(this.fotos.subirimagen(this.imgCropUrl[i].blob,'ejercicios',i))
+            aux.push(this.fotos.subirimagen(this.imgCropUrl[i].blob2,'ejercicios',i))
           return Promise.all(aux)
         })
         .then((array)=>{
@@ -100,7 +103,7 @@ export class CrearPage implements OnInit {
         .catch(async err => {
           await loadding.then(load=>load.dismiss())
           this.presentToast('Ocurio un error al guardar el ejercicio')
-          console.log(err)
+          alert(JSON.stringify(err))
         })
 
     }
@@ -126,6 +129,17 @@ export class CrearPage implements OnInit {
   }
   cargandoImagenejem(file){
     this.fotos.subirimagen(file[0],'ejercicios','0')
+    .then(res=>{
+      console.log(res);
+      
+    })
+    .catch(err=>{
+      console.log(err);
+      
+    })
+  }
+  cargandovideo(file){
+    this.fotos.subirGdrive(file[0],1)
     .then(res=>{
       console.log(res);
       

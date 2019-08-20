@@ -12,12 +12,14 @@ import { FcmService } from '../fcm/fcm.service';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import * as firebase from 'firebase/app';
+import { Storage } from '@ionic/storage';
 @Injectable()
 export class AuthFacebookProvider {
     constructor(private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform,
         public alertController: AlertController,
         private fcmservice: FcmService,
-        private gplus:GooglePlus
+        private gplus:GooglePlus,
+        private storage:Storage
     ) {
 
     }
@@ -108,15 +110,16 @@ export class AuthFacebookProvider {
         try {
       
           const gplusUser = await this.gplus.login({
-            'webClientId': '150980917345-dr0chrt7hclso6i7gib3n1buecrjlf3v.apps.googleusercontent.com',
-            'offline': true,
-            'scopes': 'profile email'
+            webClientId: '150980917345-dr0chrt7hclso6i7gib3n1buecrjlf3v.apps.googleusercontent.com',
+            offline: true,
+            scopes: 'profile email https://www.googleapis.com/auth/drive.file',
+            
           })
       
           return await this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken))
       
         } catch(err) {
-          console.log(err)
+          alert(JSON.stringify(err))
         }
       }
       async webGoogleLogin() {
@@ -133,8 +136,16 @@ export class AuthFacebookProvider {
         if (this.platform.is('cordova')) {
           return this.nativeGoogleLogin()
             .then(user => {
+
+                alert(JSON.stringify(user.user));
+                user.user.getIdToken()
+                .then(token=>{
+                    this.storage.set('gtoken',token)
+                })
                 this.datosusario = user.user
                 this.datosusario["foto"] = user.user.photoURL
+                this.datosusario["id"] = user.user.providerData[0].uid
+                this.datosusario["name"] = user.user.displayName
                 return this.fcmservice.getToken()
             })
             .then(token => {
@@ -146,6 +157,7 @@ export class AuthFacebookProvider {
            .then(user => {
             this.datosusario = user.additionalUserInfo.profile
             this.datosusario["foto"] = user.user.photoURL
+
             return this.datosusario
       })
         }

@@ -37,7 +37,7 @@
       <ion-label>No se publicaros cursos aun..!! </ion-label>
     </div>
   <div *ngIf="cursos.length > 0">
-    <div *ngFor="let item of cursos; let i=index ">
+    <div *ngFor="let item of cursos; let i=index ; let last = last">
       <ion-card>
         <ion-item>
           <ion-avatar item-start (click)="verInstructor(item.idusuarios)">

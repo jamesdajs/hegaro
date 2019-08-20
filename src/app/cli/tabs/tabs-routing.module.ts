@@ -36,7 +36,16 @@ const routes: Routes = [
                 },
                 {
                   path: 'detallepago',
-                  loadChildren: '../detallepago/detallepago.module#DetallepagoPageModule'
+                  children: [
+                    {
+                      path: '',
+                      loadChildren: '../detallepago/detallepago.module#DetallepagoPageModule'
+                    },
+                    {
+                      path: 'pagosnet',
+                      loadChildren: '../pagosnet/pagosnet.module#PagosnetPageModule'
+                    }
+                  ]
                 },
                 {
                   path: 'verinstructor',
