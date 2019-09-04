@@ -112,7 +112,8 @@ export class LoginPage implements OnInit {
         })
     })
   }
- 
+ /**
+  * 
   loginWithGoodle(){
     let load=this.presentLoading()
     this.auth.googleLogin()
@@ -137,8 +138,9 @@ export class LoginPage implements OnInit {
       load.then(l=>l.dismiss())
     })
   }
+  */
   salirGoogle(){
-    this.auth.signOut()
+    //this.auth.signOut()
   }
  
  

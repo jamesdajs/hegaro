@@ -6,12 +6,24 @@
         <ion-title>{{curso.titulo}}</ion-title>
       </ion-toolbar>
       <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="onSegmentChanged($event)">
-        <ion-segment-button value="first">
-            Mis datos
-          </ion-segment-button>
-          <ion-segment-button value="second">
-              Mis Rutinas
-          </ion-segment-button>
+
+          
+          <ion-segment-button value="first" no-lines>
+              <ion-item >
+                  <ion-label >
+                    Mis datos
+                  </ion-label>
+                </ion-item>
+            </ion-segment-button>
+            <ion-segment-button value="second" >
+              <ion-item >
+              <ion-label >
+                Mis cursos
+              </ion-label>
+              <ion-badge color="primary"  slot="end"  [hidden]='rutnew==0'>{{rutnew}}</ion-badge>
+            </ion-item>
+            </ion-segment-button>
+  
           <!--
 
             <ion-segment-button value="third">
@@ -24,6 +36,8 @@
 <ion-content no-padding>
     <ion-slides #mySlider (ionSlideDidChange)="onSlideChanged($event)">
         <ion-slide value="first" class="ion-no-padding"> 
+          <div >
+
             <ion-list >
               <div *ngFor="let item of regcurso">
 
@@ -46,6 +60,53 @@
                 </ion-item>
               </div>
               </ion-list>
+              <!--
+
+                <ion-list *ngFor="let chat of chats">
+                    <ion-item *ngIf="chat.rol!='instructor';else blobchat" color="light">
+                      <ion-label>{{chat.text}}</ion-label>
+                    </ion-item>
+                    <ng-template #blobchat>
+                        <ion-item color="medium">
+                            <ion-label>{{chat.text}} </ion-label>
+                          </ion-item>
+                    </ng-template>
+                    
+                  </ion-list>
+                                      <div class="right txt" *ngIf="chat.rol!='instructor';else blobchat">
+                        <div class="right ">{{chat.text}}</div>
+                    </div>
+                    <ng-template #blobchat>
+                        <div class="left txt" >
+                            {{chat.text}}
+                        </div>
+                    </ng-template>
+                    <div class="chat">
+    
+                      <div *ngFor="let chat of chats"  >
+                          <div class='message right' *ngIf="chat.rol!='instructor';else blobchat">
+                              {{chat.text}}
+                              <span class="metadata"><span class="time">14:00 PM</span></span>
+                          </div>
+                          <ng-template #blobchat>
+                              <div class='message left' >
+                                  {{chat.text}}
+                                  <span class="metadata"><span class="time">14:00 PM</span></span>
+                              </div>
+                          </ng-template>
+                      </div>
+                    </div>
+    
+    
+                      <ion-item>
+                          <ion-input type="text" [(ngModel)]="mensage" placeholder="Mensage"></ion-input>
+                          <ion-button (click)="sendMSM()">
+                            <ion-icon slot="icon-only" name="send"></ion-icon>
+                          </ion-button>
+                        </ion-item>
+              -->
+             
+          </div>
         </ion-slide>
         <ion-slide value="second" class="ion-no-padding">
           <ion-list id='sidenav'>

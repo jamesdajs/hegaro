@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { LugaresService } from 'src/app/services/lugares/lugares.service';
 import { UsuarioProvider } from 'src/app/services/usuario/usuario';
 import * as moment from 'moment';
+import { InAppBrowser,InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 moment.locale('es')
 declare var google: any;
 @Component({
@@ -32,7 +33,8 @@ export class VercursoPage implements OnInit {
     private servicioCurso:CursoService,
     private storage:Storage,
     private lugares:LugaresService,
-    private usuario:UsuarioProvider
+    private usuario:UsuarioProvider,
+    private iab: InAppBrowser
      ) { 
       this.datos=this.routes.getCurrentNavigation().extras
       
@@ -204,5 +206,17 @@ armarhorario(data){
         } 
         console.log(this.horario);
 }
-
+abrirpagina(){
+  const option:InAppBrowserOptions={
+    location:'yes',
+    
+  }
+  let browser = this.iab.create('https://web.sintesis.com.bo/payment/#/pay?entidad=4&ref=20100926000001&red=http://www.abc.com', '_blank', option);
+  browser.on('loadstart').subscribe(()=>{
+    alert('load start');
+  }
+  ,err=>console.log(JSON.stringify(err))
+  );
+//browser.show()
+}
 }

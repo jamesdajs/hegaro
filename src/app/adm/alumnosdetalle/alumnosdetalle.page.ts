@@ -3,6 +3,9 @@ import { IonSegment, IonSlides, ToastController, ModalController, ActionSheetCon
 import { Router } from '@angular/router';
 import { RutinaProvider } from 'src/app/services/rutina/rutina';
 import { ModalrutdefPage } from '../modalrutdef/modalrutdef.page';
+import { CursoService } from 'src/app/services/curso/curso.service';
+import { Storage } from '@ionic/storage';
+import { Subscribable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-alumnosdetalle',
@@ -36,11 +39,16 @@ export class AlumnosdetallePage implements OnInit {
   ];
   datos
   registro=[]
+  mensage=''
+  chats=[]
+  id
   constructor(public toastCtrl: ToastController,
     private router: Router,
     private rutina: RutinaProvider,
     public modalController: ModalController,
-    private actionSheetController: ActionSheetController
+    private actionSheetController: ActionSheetController,
+    private cursoservice:CursoService,
+    private storage:Storage
   ) {
     this.datos = this.router.getCurrentNavigation().extras
     console.log(this.datos);
@@ -56,6 +64,7 @@ export class AlumnosdetallePage implements OnInit {
   }
 
   onSlideChanged(event) {
+    
 
     this.slider.getActiveIndex()
       .then(num => {
@@ -67,8 +76,21 @@ export class AlumnosdetallePage implements OnInit {
     this.cargarRutinas()
 
   }
+  chatSubscrive:Subscription
   ngOnInit() {
-    
+    this.storage.get('idusuario')
+    .then(id=>{
+      this.id=id
+    })
+    this.chatSubscrive=this.cursoservice.verchat(this.datos.idusuarios,this.datos.id_curso)
+        .subscribe(chats=>{
+          this.chats=chats
+        })
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.chatSubscrive.unsubscribe()
   }
 
   //-------------funcion para mostrar toast ----------
@@ -223,5 +245,14 @@ export class AlumnosdetallePage implements OnInit {
   verEjercicio(item){
     this.router.navigate(['adm/misalumnos/alumnodetalle/detalleejer',item])
   }
+  sendMSM(){
+    this.cursoservice.guardarchat(this.datos.idusuarios,this.datos.id_curso,{
+      text:this.mensage,
+      id:this.id,
+      fecha:new Date(),
+      rol:'instructor'
 
+    })
+    this.mensage=''
+  }
 }

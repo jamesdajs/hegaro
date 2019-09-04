@@ -237,12 +237,22 @@ export class CursoService {
       veralumnosinscritos(idins,idcur):Observable<any>{
         return this.db.collection<any>(`usuarios/${idins}/cursos`).doc(idcur+'').valueChanges()
       }
-
+      //chat
+      guardarchat(idcli,idcur,data){
+        return this.db.collection(`usuarios/${idcli}/subscrito/${idcur}/chat`).add(data)
+      }
+      verchat(idcli,idcur){
+        let query=res=>res.orderBy('fecha')
+        return this.getcollArrayconkey(`usuarios/${idcli}/subscrito/${idcur}/chat`,query) 
+      }
       //ver badged rutinas
       versubcripcionall(idusu):Observable<any>{
     
         let query=res=>res.where("estado","==",true)
         return this.getcollArrayconkey(`usuarios/${idusu}/subscrito`,query)
+      }
+      versubcripcionallCurso(idusu,idcur):Observable<any>{
+        return this.db.collection<any>(`usuarios/${idusu}/subscrito`).doc(idcur+'').valueChanges()
       }
       modsubcripcion(idcli,idcur,data){
         return this.db.collection(`usuarios/${idcli}/subscrito`).doc(idcur+'').set(data,{ merge: true })

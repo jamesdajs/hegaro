@@ -42,7 +42,7 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { IonicStorageModule } from '@ionic/storage';
 //import { Firebase } from '@ionic-native/firebase/ngx';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
+//import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
 import { VideoEditor } from '@ionic-native/video-editor/ngx';
 
@@ -78,7 +78,7 @@ import { VideoEditor } from '@ionic-native/video-editor/ngx';
     AuthGuardService,
     Clipboard,
     WheelSelector,
-    GooglePlus,
+    //GooglePlus,
     Camera,
     VideoEditor
   ],

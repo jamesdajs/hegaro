@@ -11,5 +11,7 @@ export class PagosnetPage implements OnInit {
 
   ngOnInit() {
   }
-
+  backofwindow(){
+    console.log("desdeIframe")
+  }
 }

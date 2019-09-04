@@ -18,7 +18,7 @@ export class MycoursesPage implements OnInit {
     private curso:CursoService
     ) {
     }
-    
+    rutnew
     ngOnInit() {
       this.storage.get("idusuario")
       .then(id => {
@@ -49,9 +49,32 @@ export class MycoursesPage implements OnInit {
         })
       })
   }
+  ionViewWillEnter() {
+    console.log(this.id);
+    
+    if(this.id && this.rutnew)
+    {this.servicioCurso.listarmiscursos(this.id).then(resp=>{
+        resp.forEach(item=>{
+          this.rutnew.forEach(rut => {
+            if(item.idcursos==rut.key)
+            item['badged']=rut.rutinasnew
+          });
+
+          item.idcursos
+          item['foto']=[]
+          this.servicioCurso.listarfotoCurso(item.idcursos)
+          .then(res=>{
+            item['foto']=res[0].thumb
+          })
+        })
+        this.datos=resp
+        console.log(resp);
+      })}
+       
+  }
 
   vermicurso(item){
-    this.curso.modsubcripcion(this.id,item.idcursos,{rutinasnew:0,estado:true})
+    //this.curso.modsubcripcion(this.id,item.idcursos,{rutinasnew:0,estado:true})
     this.routes.navigate(['/cli/mis-cursos/vermicurso'],item)
   }
 

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { VercursoPage } from './vercurso.page';
 import { DirectiveModule } from 'src/app/directives/directive.module';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 
 const routes: Routes = [
@@ -22,11 +23,12 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    DirectiveModule
+    DirectiveModule,
   ],
   providers:[
-    FormBuilder
+    FormBuilder,
 
+    InAppBrowser
   ],
   declarations: [VercursoPage]
 })

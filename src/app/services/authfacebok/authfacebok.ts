@@ -9,7 +9,7 @@ import { Platform, AlertController } from '@ionic/angular';
 import { auth } from 'firebase';
 import { Observable } from "rxjs/Observable";
 import { FcmService } from '../fcm/fcm.service';
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
+//import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 import * as firebase from 'firebase/app';
 import { Storage } from '@ionic/storage';
@@ -18,7 +18,7 @@ export class AuthFacebookProvider {
     constructor(private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform,
         public alertController: AlertController,
         private fcmservice: FcmService,
-        private gplus:GooglePlus,
+       // private gplus:GooglePlus,
         private storage:Storage
     ) {
 
@@ -69,7 +69,7 @@ export class AuthFacebookProvider {
         this.afAuth.auth.signOut();
 
         if (this.platform.is('cordova')) 
-            this.gplus.logout()
+            //this.gplus.logout()
             this.fb.logout()
                 .then(() => {
                     console.log("cerrando sesion de ios")
@@ -106,66 +106,69 @@ export class AuthFacebookProvider {
 
         await alert.present();
     }
-    async nativeGoogleLogin() {
-        try {
-      
-          const gplusUser = await this.gplus.login({
-            webClientId: '150980917345-dr0chrt7hclso6i7gib3n1buecrjlf3v.apps.googleusercontent.com',
-            offline: true,
-            scopes: 'profile email https://www.googleapis.com/auth/drive.file',
-            
-          })
-      
-          return await this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken))
-      
-        } catch(err) {
-          alert(JSON.stringify(err))
-        }
-      }
-      async webGoogleLogin() {
-        try {
-          const provider = new firebase.auth.GoogleAuthProvider();
-          return await this.afAuth.auth.signInWithPopup(provider);
-      
-        } catch(err) {
-          console.log(err)
-        }
-      
-      }
-      googleLogin() {
-        if (this.platform.is('cordova')) {
-          return this.nativeGoogleLogin()
+    /**
+     * 
+     async nativeGoogleLogin() {
+         try {
+       
+           const gplusUser = await this.gplus.login({
+             webClientId: '150980917345-dr0chrt7hclso6i7gib3n1buecrjlf3v.apps.googleusercontent.com',
+             offline: true,
+             scopes: 'profile email https://www.googleapis.com/auth/drive.file',
+             
+           })
+       
+           return await this.afAuth.auth.signInWithCredential(firebase.auth.GoogleAuthProvider.credential(gplusUser.idToken))
+       
+         } catch(err) {
+           alert(JSON.stringify(err))
+         }
+       }
+       async webGoogleLogin() {
+         try {
+           const provider = new firebase.auth.GoogleAuthProvider();
+           return await this.afAuth.auth.signInWithPopup(provider);
+       
+         } catch(err) {
+           console.log(err)
+         }
+       
+       }
+       googleLogin() {
+         if (this.platform.is('cordova')) {
+           return this.nativeGoogleLogin()
+             .then(user => {
+ 
+                 alert(JSON.stringify(user.user));
+                 user.user.getIdToken()
+                 .then(token=>{
+                     this.storage.set('gtoken',token)
+                 })
+                 this.datosusario = user.user
+                 this.datosusario["foto"] = user.user.photoURL
+                 this.datosusario["id"] = user.user.providerData[0].uid
+                 this.datosusario["name"] = user.user.displayName
+                 return this.fcmservice.getToken()
+             })
+             .then(token => {
+                 this.datosusario["token"] = token
+                 return this.datosusario
+           })
+         } else {
+            return this.webGoogleLogin()
             .then(user => {
-
-                alert(JSON.stringify(user.user));
-                user.user.getIdToken()
-                .then(token=>{
-                    this.storage.set('gtoken',token)
-                })
-                this.datosusario = user.user
-                this.datosusario["foto"] = user.user.photoURL
-                this.datosusario["id"] = user.user.providerData[0].uid
-                this.datosusario["name"] = user.user.displayName
-                return this.fcmservice.getToken()
-            })
-            .then(token => {
-                this.datosusario["token"] = token
-                return this.datosusario
-          })
-        } else {
-           return this.webGoogleLogin()
-           .then(user => {
-            this.datosusario = user.additionalUserInfo.profile
-            this.datosusario["foto"] = user.user.photoURL
-
-            return this.datosusario
-      })
-        }
-      }
-      
-      signOut() {
-        this.afAuth.auth.signOut();
-        if (this.platform.is('cordova')) 
-            this.gplus.logout()
-      }
+             this.datosusario = user.additionalUserInfo.profile
+             this.datosusario["foto"] = user.user.photoURL
+ 
+             return this.datosusario
+       })
+         }
+       }
+       
+       signOut() {
+         this.afAuth.auth.signOut();
+         if (this.platform.is('cordova')) 
+             this.gplus.logout()
+       }
+     */
 }

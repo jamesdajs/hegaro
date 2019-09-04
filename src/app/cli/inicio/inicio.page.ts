@@ -197,6 +197,6 @@ export class InicioPage implements OnInit {
     })
   }
   ngAfterViewInit() {
-    this.cont.scrollToBottom(2000) 
+    //this.cont.scrollToBottom(2000) 
   }
 }
