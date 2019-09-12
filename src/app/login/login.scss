@@ -1,22 +1,30 @@
-
-img{
-    width: 20%;
-} 
-
 ion-content {
-    --background: url('../../assets/imgs/fondo1.png') no-repeat 100% 100%;
+    --ion-background-color: rgb(217, 217, 217) !important;
+    //--background: url('../../assets/imgs/fondo01.png') no-repeat center center / cover;
+    //--ion-background-color: transparent !important;
+    
 }
 
-.titulo-app{
-    margin-bottom: 80%;
-    color: aliceblue;
-    font-size: 30px
+.shadow-red{
+    --ion-button-round-border-radius: 40px;
+    --ion-button-border-radius: 5px;
+    --ion-border-radius: 5px;
+    --border-radius: 40px;
 }
-.content-log{
-    width: 100% !important;
-    height: 100% !important;
+.my-label{
+    
+    font-size: 0.7em !important;
+}
+.no-padding{
+    padding-bottom: 0% !important;
+    text-align: center !important;
+    padding-top: 20px !important;
 }
 
-.icon{
-    margin-top: 50px
+.contenedor{
+    padding-top: 150px !important;
 }
+ion-item {
+    --highlight-color-valid: medium !important;
+    --highlight-color-invalid: medium !important;
+  }

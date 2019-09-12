@@ -1,32 +1,57 @@
-<!--
-  Generated template for the LoginPage page.
+<ion-content class="ion-padding bg-class">
+  <form>
+    <ion-grid>
+      <ion-row justify-content-center class="contenedor">
+        <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+          <div text-center>
+            <h3>GoodMe</h3>
+          </div>
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
+          <div class="ion-padding">
+            <ion-item>
+                <ion-input name="email" type="email" placeholder="Correo Electrónico" ngModel required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-input name="password" type="password" placeholder="Contraseña" ngModel required></ion-input>
+            </ion-item>
+          </div>
 
+          <div>
+              <ion-button mode="ios" class="shadow-red" color="medium" size="default" type="submit" expand="block">Iniciar Sección</ion-button>
+          </div>
+          
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                  <ion-item-divider>
+                  </ion-item-divider>
+              </ion-col>  
+              <ion-col class="no-padding">
+                 <label class="my-label">o regístrate con</label>
+              </ion-col>
+              <ion-col>
+                  <ion-item-divider>
+                  </ion-item-divider>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
 
-
-<ion-content class="ion-padding" fullscreen='true'>
-  <div class="content-log">
-    <p text-center class="icon">
-      <img src="../assets/icon/icon.png" />
-    </p>
-    <p text-center class="titulo-app">
-      <ion-label>GOODME</ion-label>
-    </p>
-
-    <ion-button expand="block" icon-left color="primary" (click)="loginWithFacebook()">
-      <ion-icon name="logo-facebook"></ion-icon>Inicia con Facebook
-    </ion-button>
-    <!--
-      <ion-button expand="block" icon-left color="danger" (click)="loginWithGoodle()">
-        <ion-icon name="logo-google"></ion-icon>Inicia con Google
-      </ion-button>
-
-        -->
-  </div>
-
-
-
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                  <div>
+                    <ion-button mode="ios" class="shadow-red"  size="default" expand="block" (click)="loginWithFacebook()"><ion-icon name="logo-facebook"></ion-icon>&nbsp;Facebook</ion-button>
+                  </div>
+              </ion-col>
+              <ion-col>
+                  <div>
+                      <ion-button mode="ios" class="shadow-red" color="danger"  size="default" expand="block" (click)="loginWithFacebook()"><ion-icon name="logo-google"></ion-icon>&nbsp;Google</ion-button>
+                  </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>        
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>
