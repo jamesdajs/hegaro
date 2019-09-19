@@ -17,6 +17,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Configurl } from '../config';
 import { Storage } from '@ionic/storage';
 
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
 //import * as firebase from "firebase";
 /*
   Generated class for the UsuarioProvider provider.
@@ -34,7 +36,8 @@ export class UsuarioProvider {
     private store: AngularFireStorage,
     private authfb: AngularFireAuth,
     private http: HttpClient,
-    private storage:Storage
+    private storage:Storage,
+    private apollo: Apollo
   ) {
     console.log('Hello UsuarioProvider Provider');
     this.cliente = db.collection<Cliente>(firebaseConfig.cliente_endpoint);
@@ -440,5 +443,21 @@ verSitienenDatos() {
   }
 
   //guardar token fcm
-
+  consulausuario(){
+    return this.apollo
+      .watchQuery<any>({
+        query: gql`
+        {
+          usersauth(first:2,page:1){
+            data {
+              id
+              email
+              name
+            }
+          }
+        }
+      `,
+      })
+      .valueChanges
+  }
 }
