@@ -49,8 +49,27 @@ export class LoginPage implements OnInit {
       .then(id => {
         if (id) this.navCtrl.navigateRoot(['/adm/cursos', { hola: 'holamundo' }])
       })
-
-
+/**
+ * 
+ */
+    let sub =this.user.consulausuario()
+    .subscribe(res=>{
+      console.log(res);
+      sub.unsubscribe()
+      
+    })
+  }
+  iniciarSesion(){
+    let sub =this.user.login("myemail@email.com","123456789qq")
+    .subscribe(res=>{
+      let datos=res.data.login
+      console.log(res);
+      localStorage.setItem("tokenAuth",`${datos.token_type} ${datos.access_token}`)
+      sub.unsubscribe()
+    },err=>{
+      console.log(err);
+      
+    })
   }
 
   async loginWithFacebook() {

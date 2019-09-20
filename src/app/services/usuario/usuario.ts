@@ -443,12 +443,27 @@ verSitienenDatos() {
   }
 
   //guardar token fcm
-  consulausuario(){
+  // graphql respuesta 'variable'.data.'nombreFuncion'.
+  private queryGQL(query,variables?){
     return this.apollo
       .watchQuery<any>({
-        query: gql`
-        {
-          usersauth(first:2,page:1){
+        query:query,
+        variables:variables
+      })
+      .valueChanges
+  }
+  private mutacionGQL(query,variables?){
+    return this.apollo
+      .mutate<any>({
+        mutation:query,
+        variables:variables
+      })
+  }
+  //graphql
+  consulausuario(){
+      let   query= gql`
+        query ($num:Int!){
+          usersauth(first:$num){
             data {
               id
               email
@@ -456,8 +471,31 @@ verSitienenDatos() {
             }
           }
         }
-      `,
-      })
-      .valueChanges
+      `
+      return this.queryGQL(query,{num:2})
+      
+  }
+  login(username:String,password:String){
+    let query=gql`
+      mutation ($log:String!,$pass:String!) {
+        login(input: {
+          username: $log,
+          password: $pass
+        }) {
+          access_token
+          token_type
+          user {
+            id
+            email
+            name
+          }
+        }
+      }
+    `;
+    let variables={
+      log:username,
+      pass:password
+    }
+    return this.mutacionGQL(query,variables)
   }
 }
